@@ -1,4 +1,4 @@
-<template>
+npm<template>
   <div class="home">
     <h1>hello world!</h1>
     <section>
@@ -6,7 +6,7 @@
         <li v-for="item in infomation">{{item.label}}</li>
       </ul>
     </section>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -22,10 +22,10 @@ export default {
     }
   },
   components: {
-    
+
   },
   created(){
-    
+
   },
   methods : {
       async get_info(params){
