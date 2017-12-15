@@ -24,3 +24,15 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+Vue.directive('lfocus', function(el, pra, a) {
+
+    let oInput = el.querySelector('input');
+    oInput.onfocus = function() {
+        //创建focus的事件
+    };
+
+    oInput.onblur = function() {
+        //同时创建blur事件
+   alert(111)
+    };
+})

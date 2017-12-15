@@ -11,14 +11,41 @@
       <mt-tab-container v-model="selected" swipeable>
           <mt-tab-container-item id="1">
 
-                  <div class="form"><mt-field label="姓名" placeholder="请输入姓名"  v-model="userName"></mt-field>
-                      <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard"></mt-field>
+                  <div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName" ></mt-field>
+                      <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard" ></mt-field>
                       <mt-field label="社保卡号" placeholder="请输入社保卡号" type="text" v-model="cardNum"><div class="example" @click="example1">示例</div></mt-field>
                       <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="password"  :class="{pwd_invisible:isActive1}" v-model="pwd_invisible"><img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt="" @click="input_visible"></mt-field>
                       <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="text" :class="{pwd_visible:isActive2}" v-model="pwd_visible"><img class="visibility_off" src="../../static/img/ic_visibility.png" alt="" @click="input_invisible"></mt-field>
                       <mt-field label="社保卡SID" placeholder="请输入社保卡SID" type="text"  v-model="sid"><div class="example" @click="example2">示例</div></mt-field>
-                     </div>
-              <div class="activation" @click="">立即激活</div>
+                  </div>
+<!--<div class="form">
+    <div class="userName">
+        <label for="userName">姓名</label>
+        <input type="text" placeholder="请输入姓名"  id="userName" maxlength="8" onchange="change(this.value)" class="required">
+    </div>
+    <div class="idCard">
+        <label for="idCard">身份证号</label>
+        <input type="text" id="idCard" placeholder="请输入身份证号" class="required"  maxlength="11">
+    </div>
+    <div class="card">
+        <label for="cardNum">社保卡号</label>
+        <input type="text" id="cardNum" placeholder="请输入社保卡号" class="required"  maxlength="11">
+    </div>
+    <div class="password">
+        <label for="pwd_invisible">社保卡密码</label>
+        <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required"  maxlength="11">
+    </div>
+   &lt;!&ndash; <div>
+        <label for="pwd_visible">社保卡密码</label>
+        <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" onchange="chadnge2(this.value)" maxlength="11">
+    </div>&ndash;&gt;
+    <div class="sid">
+        <label for="sid">社保卡SID</label>
+        <input type="text" id="sid" placeholder="请输入社保卡SID" class="required"  maxlength="11">
+    </div>
+
+</div>-->
+              <div class="activation" @click="activation" :class="{activation1:isActive3}">立即激活</div>
           </mt-tab-container-item>
           <mt-tab-container-item id="2">
              <ul class="historyCell" v-if="list.length">
@@ -56,6 +83,7 @@
 
 <script>
     import header from '../../src/components/header'
+
     export default{
         components:{
             'myHeader':header
@@ -68,6 +96,7 @@
                 popupVisible2:false,
                 isActive1:false,
                 isActive2:true,
+                isActive3:false,
                 pwd_invisible:'',
                 pwd_visible:'',
                 userName:'',
@@ -76,7 +105,7 @@
                 sid:'',
                 list:[
                     {
-                       num:1,
+                        num:1,
                         status:'已激活',
                         name:'付',
                         id:1234,
@@ -91,7 +120,19 @@
                 ]
             }
         },
+        created:function(){
+            /*if(this.userName.length==0||this.idCard.length==0||this.cardNum.length==0||this.sid.length==0){
+                alert(1111)
+            }else{
+                this.isActive3=true
+            }*/
+        },
+        watch:{
+            userName:function(){
+                this.isActive3=true;
+            }
 
+        },
         methods:{
 
             example1:function(){
@@ -109,12 +150,14 @@
                 this.isActive1=false;
                 this.isActive2=true;
                 this.pwd_invisible=this.pwd_visible
-            }
+            },
+            activation:function(){
+
+            },
+
         }
     }
-
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
     *{
@@ -134,6 +177,32 @@
         padding: 20px;
         display: block;
     }*/
+  //form表单
+   /* .form{
+        height:220px;
+        background:white;
+    }
+    .form input{
+        border:0;
+        height:43px;
+    }
+    .form div{
+        border-bottom:1px solid #E5E5E5;
+        margin-left:15px;
+        text-align:left;
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
     .home{
         background:#E5E5E5;
         height:100%
@@ -220,6 +289,9 @@ display:none;
         margin:0 auto;
         margin-top:25px;
         opacity: 0.4;
+    }
+    .activation1{
+        opacity: 1;
     }
 
     .mint-navbar{

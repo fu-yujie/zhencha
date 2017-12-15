@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <title>js验证表单,如果表单都不为空,则按钮颜色自变,某为空时恢复原本背景色</title>
+    <script language="javascript" type="text/javascript">
+        var a = '';
+        var b = '';
+        function chadnge(e) {
+            a = e;
+            if(a != '' && b != '') {
+                document.getElementById('btn').style.background="red";
+            }else{
+                document.getElementById('btn').style.background="#d0d0d0";
+            }
+        }
+
+        function chadnge2(e) {
+            b = e;
+            if(a != '' && b != '') {
+                document.getElementById('btn').style.background="red";
+            }else{
+                document.getElementById('btn').style.background="#d0d0d0";
+            }
+        }
+    </script>
+</head>
+
+<body>
+<label for="name">名字</label>
+<input type="text" id="name" maxlength="8" onchange="chadnge(this.value)" class="required">
+<label for="phone">手机号</label>
+<input type="text" id="phone" class="required" onchange="chadnge2(this.value)" maxlength="11">
+<input type="button" value="注册" id="btn">
+</body>
+</html>

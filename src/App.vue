@@ -66,6 +66,7 @@ export default {
     loading
   }
 }
+
 </script>
 
 <style>
