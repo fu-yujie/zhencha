@@ -81,11 +81,15 @@ export default {
   text-align: center;
   color: #000000;
   font-size: 16px;
+    height:100%
 }
-
+html{
+    height:100%;
+}
 body {
   overflow-x: hidden;
   min-width: 320px;
+    height:100%;
 }
 
 body,

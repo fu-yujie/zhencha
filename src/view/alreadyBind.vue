@@ -1,0 +1,62 @@
+<template>
+    <div>
+    <my-header></my-header>
+    <div class="success">
+        <img src="../../static/img/success.png" alt="" class="successImg">
+        <div class="successText">激活成功</div>
+        <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构</div>
+        <div class="return">返回医保大厅</div>
+    </div>
+    </div>
+</template>
+
+<script>
+    import header from '../../src/components/header'
+    export default {
+        name: "success",
+        components:{
+            'myHeader':header
+        },
+        data(){
+            return{
+
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    *{
+        font-family: PingFangSC-Regular;
+    }
+.successImg{
+    height:125px;
+    width:85px;
+    margin-top:43px;
+}
+    .successText{
+        font-size:20px;
+        margin-top:14px;
+        color: #333333;
+
+    }
+    .successPrompt{
+        width:266px;
+        color:#666666;
+        opacity: 0.77;
+        font-size:14px;
+        margin:0 auto;
+        margin-top:8px;
+    }
+    .return{
+        height:47px;
+        width:335px;
+        background: #00AE66;
+        border: 2px solid rgba(5,5,5,0.08);
+        border-radius: 10px;
+        color:white;
+        line-height:47px;
+        margin:0 auto;
+        margin-top:25px;
+    }
+</style>
