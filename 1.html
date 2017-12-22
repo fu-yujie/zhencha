@@ -1,34 +1,67 @@
 <!DOCTYPE html>
 <head>
     <title>js验证表单,如果表单都不为空,则按钮颜色自变,某为空时恢复原本背景色</title>
-    <script language="javascript" type="text/javascript">
-        var a = '';
-        var b = '';
-        function chadnge(e) {
-            a = e;
-            if(a != '' && b != '') {
-                document.getElementById('btn').style.background="red";
-            }else{
-                document.getElementById('btn').style.background="#d0d0d0";
-            }
-        }
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
 
-        function chadnge2(e) {
-            b = e;
-            if(a != '' && b != '') {
-                document.getElementById('btn').style.background="red";
-            }else{
-                document.getElementById('btn').style.background="#d0d0d0";
-            }
-        }
+        $(function () {
+
+            //遮罩层，鼠标移动上去高度变化，变清晰
+
+            var $site_li = $(".site-tag li");
+
+            $site_li.hover(function () {
+
+                var indexs = $site_li.index(this);
+
+                $(this).css("height", "90").find(".tag-tit").css("top", "30").css("color", "#fff");
+
+                //获取当前点击li元素在全部li元素中的索引
+
+                //alert(indexs+1);
+
+                $(this).prev().css("height", "30");
+
+                $(this).next().css("height", "30");
+
+            }, function () {
+
+                $site_li.css("height", "50");
+
+            });
+
+        });
+
     </script>
 </head>
 
 <body>
-<label for="name">名字</label>
-<input type="text" id="name" maxlength="8" onchange="chadnge(this.value)" class="required">
-<label for="phone">手机号</label>
-<input type="text" id="phone" class="required" onchange="chadnge2(this.value)" maxlength="11">
-<input type="button" value="注册" id="btn">
+<ul class="site-tag fl">
+
+    <li><a data-title="科学" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">科学</span> </a></li>
+
+    <li><a data-title="动漫" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">动漫</span> </a></li>
+
+    <li><a data-title="生活" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">生活</span> </a></li>
+
+    <li><a data-title="插画" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">插画</span> </a></li>
+
+    <li><a data-title="音乐" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">音乐</span> </a></li>
+
+    <li><a data-title="自然" href="#"><i style="background-image: url(static/img/SID.png)">
+
+    </i><span class="tag-tit">自然</span> </a></li>
+
+</ul>
 </body>
 </html>

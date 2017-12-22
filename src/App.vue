@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+      <my-header></my-header>
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
       <router-view></router-view>
@@ -14,9 +15,11 @@ import util from './util/util.js'
 import api from './model/api.js'
 import appConfigs from './configs'
 import { mapMutations } from 'vuex'
+import header from 'src/components/header'
 
 export default {
   name: 'app',
+
   data() {
     return {
       showLoading: false,
@@ -63,13 +66,15 @@ export default {
     }
   },
   components: {
-    loading
+    loading,
+      'myHeader':header
   }
 }
 
 </script>
 
 <style>
+
 /*.router-fade-enter-active, .router-fade-leave-active {
       transition: opacity .1s;
 }

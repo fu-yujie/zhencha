@@ -1,6 +1,6 @@
 <template>
-    <div>
-    <my-header></my-header>
+    <div class="alreadyBind">
+    <!--<my-header></my-header>-->
     <div class="success">
         <img src="../../static/img/success.png" alt="" class="successImg">
         <div class="successText">激活成功</div>
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-    import header from '../../src/components/header'
+    /*import header from '../../src/components/header'*/
     export default {
         name: "success",
-        components:{
+        /*components:{
             'myHeader':header
-        },
+        },*/
         data(){
             return{
 
@@ -28,6 +28,10 @@
 <style scoped>
     *{
         font-family: PingFangSC-Regular;
+    }
+    .alreadyBind{
+        height:100%;
+        background:white
     }
 .successImg{
     height:125px;

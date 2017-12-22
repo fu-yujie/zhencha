@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <my-header></my-header>
+    <div class="noBind">
+        <!--<my-header></my-header>-->
         <div class="success">
             <img src="../../static/img/success.png" alt="" class="successImg">
             <div class="successText">激活成功</div>
-            <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构</div>
+            <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构就医时尽快修改社保卡密码</div>
             <div class="bind">绑定社保卡</div>
             <div class="return">返回医保大厅</div>
         </div>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-    import header from '../../src/components/header'
+    /*import header from '../../src/components/header'*/
     export default {
-        components:{
+       /* components:{
             'myHeader':header
-        },
+        },*/
         data(){
             return{
 
@@ -28,6 +28,10 @@
 <style scoped>
     *{
         font-family: PingFangSC-Regular;
+    }
+    .noBind{
+        height:100%;
+        background:white;
     }
     .successImg{
         height:125px;
