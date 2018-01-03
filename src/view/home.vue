@@ -1,4 +1,4 @@
-<script src="../../static/js/hammer.min.js"></script>npm<template>
+<template>
   <div class="home">
       <!--<my-header></my-header>-->
       <mt-navbar v-model="selected">
@@ -12,7 +12,7 @@
           <mt-tab-container-item id="1">
 <div class="warning">
     <img src="../../static/img/warning.png" alt="">
-    <div>为快速激活，减少审核步骤，推荐您使用待激活社保卡的申领账户或缴费账户进行激活</div>
+    <div>为快速激活，减少审核步骤，推荐您使用待激活社保卡的申请或缴费账户进行激活</div>
 </div>
                   <!--<div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName"  @keyup="change()"></mt-field>
                       <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard"  @keyup="change()"></mt-field>
@@ -63,42 +63,44 @@
     </div>
 
 </div>
-              <div class="activation" @click="activation" :class="{activation1:isActive3}">立即激活</div>
+              <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
               <div class="prompt">
                   <div class="title">温馨提示</div>
                   <ul>
                       <li>
                           <img src="../../static/img/Group1.png" alt="">
-                          <div>社保卡线上激活</div>
+                          <div>社保卡线上激活功能目前只支持<strong style="color:#333333">城乡居民</strong>医保参保用户，<strong style="color:#333333">城镇职工</strong>参保用户请持卡至医保定点医疗机构、定点药店进行激活。
+
+                          </div>
                       </li>
                       <li>
                           <img src="../../static/img/Group2.png" alt="">
-                          <div>社保卡初始密码</div>
+                          <div>社保卡初始密码为：123456，为了您的账户安全，请您在医保定点医疗机构就诊时修改密码。</div>
                       </li>
                       <li>
                           <img src="../../static/img/Group3.png" alt="">
-                          <div>如您在社保卡激活过程</div>
+                          <div>社保卡金融账户是您后期医疗费用报销时的收款账户，请您在填写时仔细核对。</div>
                       </li>
                       <li>
                           <img src="../../static/img/Group4.png" alt="">
-                          <div>如您在社保卡激活过程</div>
+                          <div>如您在社保卡激活过程中有任何疑问或问题，请及时联系客服人员，客服电话：0316-5900201。</div>
                       </li>
                   </ul>
               </div>
           </mt-tab-container-item>
-          <mt-tab-container-item id="2">
+          <mt-tab-container-item id="2" >
              <ul class="historyCell" v-if="list.length">
                  <li v-for="item in list">
                      <div class="top">
-                         <div class="num">{{item.num}}</div>
-                         <div class="status">{{item.status}}</div>
+                         <div class="num">处理进度</div>
+                         <div class="status">{{item.StatusName}}</div>
                      </div>
                      <div class="under">
-                         <div class="name"><span>参保人</span>{{item.name}}</div>
-                         <div class="idCard"><span>社保卡号</span>{{item.id}}</div>
-                         <div class="data"><span>社会保障卡</span>{{item.data}}</div>
+                         <div class="name"><span>参保人</span>{{item.RealName}}</div>
+                         <div class="idCard"><span>社保卡号</span>{{item.SINCardId}}</div>
+                         <div class="data"><span>社会保障卡</span>{{item.IdentityCard}}</div>
                      </div>
-                     <div class="detail">查看详情</div>
+                     <div class="detail" @click.prevent="detail(item.ID,item.StatusValue)">查看详情</div>
 
                  </li>
              </ul>
@@ -131,7 +133,11 @@
 </template>
 
 <script>
+    import Bus from '../util/bus'
+    import {Toast} from 'mint-ui'
     /*import header from '../../src/components/header'*/
+import {activation,getHistoryList,getCardInfo,getConfig} from '../api/index'
+    import config from '../api/config'
 
     export default{
         /*components:{
@@ -139,15 +145,16 @@
         },*/
         data(){
             return{
+                list:[],
                 actions:[
-                    {name:'请选择金融账户开户行'},
-                    {name:'中国银行',method:this.bank1},
-                    {name:'中国工商银行',method:this.bank2},
-                    {name:'中国农业银行',method:this.bank3},
-                    {name:'中国建设银行',method:this.bank4},
+                    /*{name:'请选择金融账户开户行'},*/
+                    {name:'',CashAccountCode:'',method:this.bank1},
+                    {name:'',CashAccountCode:'',method:this.bank2},
+                    {name:'',CashAccountCode:'',method:this.bank3},
+                    {name:'',CashAccountCode:'',method:this.bank4},
                 ],
                 sheetVisible:false,
-                selected:'1',
+                selected:this.$route.query.tab || '1',
                 active:'tab-container1',
                 popupVisible1:false,
                 popupVisible2:false,
@@ -163,45 +170,67 @@
                 sid:'',
                 bank:'',
                 account:'',
+                AccountCode:'',
+                isBinding:'',
+                showMsgbox1:'',
 
-                list:[
-                    {
-                        num:1,
-                        status:'已激活',
-                        name:'付',
-                        id:1234,
-                        data:2017
-                    },{
-                        num:1,
-                        status:'已激活',
-                        name:'付',
-                        id:1234,
-                        data:2017
-                    },
-                    {
-                        num:1,
-                        status:'已激活',
-                        name:'付',
-                        id:1234,
-                        data:2017
-                    },
-                    {
-                        num:1,
-                        status:'已激活',
-                        name:'付',
-                        id:1234,
-                        data:2017
-                    }
-                ]
             }
         },
+mounted:function(){
+   /* alert(this.$parent.a)*/
+},
         created:function(){
+
+            var _this=this;
+            getHistoryList({passwordId:100}).then(function(res){
+                //var _this=this;
+                console.log(111)
+                console.log(res)
+                console.log(res.data.Data.SINCardActiveRecordList)
+                _this.list=res.data.Data.SINCardActiveRecordList
+            })
+            getCardInfo({passwordId:100}).then(function(res){
+                console.log(res);
+                _this.isBinding=res.data.Data.SINCardIsBinding
+                if(res.data.IsSuccess){
+                if(res.data.Data.SINCardIsBinding){
+                    _this.userName=res.data.Data.RealName;
+                    _this.idCard=res.data.Data.IdentityCard;
+                    _this.cardNum=res.data.Data.SINCardId;
+                    _this.sid=res.data.Data.SINCardSid;
+                }
+                }
+            })
+
+            this.actions.forEach(function(item,index){
+                console.log(item.name);
+                getConfig().then(function(res){
+                    var _this=this;
+                    console.log(res);
+                    console.log(res.data.Data.ConfigItems[2][index].ConfigName)
+                    item.name=res.data.Data.ConfigItems[2][index].ConfigName;
+                    item.CashAccountCode=res.data.Data.ConfigItems[2][index].ConfigNumber
+                })
+            })
+
             /*if(this.userName.length==0||this.idCard.length==0||this.cardNum.length==0||this.sid.length==0){
                 alert(1111)
             }else{
                 this.isActive3=true
             }*/
-this.showMsgbox()
+           /* window.localStorage.setItem('showMsgbox',  this.showMsgbox());
+            this.showMsgbox1=localStorage.getItem('showMsgbox')
+            if(this.showMsgbox1){
+
+            }else{
+                this.showMsgbox()
+            }*/
+
+           if(!window.localStorage.getItem('box')){
+               window.localStorage.setItem('box',111)
+               this.showMsgbox()
+           }
+         /*this.showMsgbox()*/
 
         },
         /*watch:{
@@ -217,20 +246,21 @@ this.showMsgbox()
 
             },
             bank1:function(){
-                console.log(this.actions[1].name)
-                this.bank=this.actions[1].name
+                this.bank=this.actions[0].name;
+                this.AccountCode=this.actions[0].CashAccountCode;
             },
             bank2:function(){
-                console.log(this.actions[1].name)
-                this.bank=this.actions[2].name
+                this.bank=this.actions[1].name;
+               this.AccountCode=this.actions[1].CashAccountCode
             },
             bank3:function(){
-                console.log(this.actions[1].name)
-                this.bank=this.actions[3].name
+                this.bank=this.actions[2].name
+                this.AccountCode=this.actions[2].CashAccountCode
             },
             bank4:function(){
-                console.log(this.actions[1].name)
-                this.bank=this.actions[4].name
+                this.bank=this.actions[3].name
+                this.AccountCode=this.actions[3].CashAccountCode
+
             },
             example1:function(){
                 this. popupVisible1=true;
@@ -257,20 +287,70 @@ this.showMsgbox()
                 this.isActive2=true;
                 this.pwd_invisible=this.pwd_visible
             },
-            activation:function(){
+            detail:function(id,value){
+
+                this.$router.push({name:'success',params:{ID:id}})
+
+            },
+            activation:function(event){
+                var _this=this;
+
                 if(this.userName.length!==0&&this.idCard.length!==0&&this.cardNum.length!==0&&this.pwd_invisible.length!==0&&this.sid.length!==0&&this.bank.length!==0&&this.account.length!==0){
-                    alert(11);
+
                 }else if(this.userName.length!==0&&this.idCard.length!==0&&this.cardNum.length!==0&&this.pwd_visible.length!==0&&this.sid.length!==0&&this.bank.length!==0&&this.account.length!==0){
-                    alert(11)
+
                 }else{
-                    return false
+                    //return false
                 }
+                var data={};
+                data.RealName=_this.userName;
+                data.IdentityCard=_this.idCard;
+                data.SinCard=_this.cardNum;
+                data.SinPwd=_this.pwd_invisible||_this.pwd_visible;
+                data.SinSid=_this.sid;
+                data.CashAccount=_this.account;
+                data.CashAccountName=_this.bank;
+                data.CashAccountCode=_this.AccountCode;
+                data.PasswordId=100;
+                this.$parent.form=data;
+                console.log(444444);
+                console.log(this.$parent.form)
+
+               //console.log(_this.userName)
+                activation(data).then(function(res){
+                    console.log(2222)
+                    console.log(res)
+
+                    Toast({
+                        message: res.data.Message,
+                        position: 'bottom',
+                        duration: 2000
+                    });
+                    if(res.data.Code==-1008){
+                        _this.$router.push('/selectPaperwork')
+                    }
+                    if(res.data.Code==-3002){
+                        if(_this.isBinding){
+                            _this.$router.push('/alreadyBind')
+                        }else{
+                            _this.$router.push('/noBind')
+                        }
+                    }
+
+
+                });
+                Bus.$emit('getTarget', data);
+
+
             },
            change:function(){
                 if(this.userName.length!==0&&this.idCard.length!==0&&this.cardNum.length!==0&&this.pwd_invisible.length!==0&&this.sid.length!==0&&this.bank.length!==0&&this.account.length!==0){
                     this.isActive3=true;
                 }else if(this.userName.length!==0&&this.idCard.length!==0&&this.cardNum.length!==0&&this.pwd_visible.length!==0&&this.sid.length!==0&&this.bank.length!==0&&this.account.length!==0){
                     this.isActive3=true;
+                }
+                else{
+                    this.isActive3=false
                 }
            }
         }
@@ -301,6 +381,9 @@ this.showMsgbox()
    /* body{
         background:#E5E5E5;
     }*/
+    #2{
+        height:100%
+    }
     .warning{
         background:#FFF7EB;
         height:53px;
@@ -315,7 +398,7 @@ this.showMsgbox()
     .warning div{
         display:inline-block;
         font-size:12px;
-        width:330px;
+        width:27.5rem;
         text-align:left;
         color:#FBB640
     }
@@ -328,7 +411,7 @@ this.showMsgbox()
         border:0;
         height:43px;
         font-size:16px;
-        width:220px;
+        width:18.5rem;
     }
     .form>div{
         border-bottom:1px solid #E5E5E5;
@@ -337,14 +420,14 @@ this.showMsgbox()
     }
     .form div div{
         display:inline-block;
-        width:85px;
+        width:7.1rem;
     }
     .form .card,.form .sid{
 position:relative;
     }
     .form .example{
         position:absolute;
-        width:62px;
+        width:5.2rem;
         right:0;
         text-align:center
     }
@@ -383,10 +466,12 @@ position:relative;
         height:14px;
         width:14px;
         margin-right:9px;
+        margin-top:4px;
     }
     .prompt li{
         list-style: none;
         margin-top:15px;
+        display:flex;
     }
     .prompt li div{
         display:inline-block;
@@ -402,7 +487,7 @@ display:none;
     }
     .historyNone{
         height:100%;
-        background:white;
+        /*background:white;*/
     }
     .historyNone div{
         color:#999999;
@@ -420,9 +505,10 @@ display:none;
     }
 
     .historyCell li{
-        margin-top:15px;
+        margin-top:35px;
        /* height:176px;*/
-        margin-bottom:20px;
+        list-style:none;
+        /*margin-bottom:20px;*/
         background:white;
     }
     .historyCell li .top{

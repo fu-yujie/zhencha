@@ -5,13 +5,16 @@
             <img src="../../static/img/success.png" alt="" class="successImg">
             <div class="successText">激活成功</div>
             <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构就医时尽快修改社保卡密码</div>
-            <div class="bind">绑定社保卡</div>
+            <div class="bind" @click="bind" :class="{grey:isActive} ">绑定社保卡</div>
             <div class="return">返回医保大厅</div>
         </div>
     </div>
 </template>
 
 <script>
+    import {Toast} from 'mint-ui'
+    import {Indicator} from 'mint-ui'
+    import {cardBind} from '../api/index'
     /*import header from '../../src/components/header'*/
     export default {
        /* components:{
@@ -19,7 +22,30 @@
         },*/
         data(){
             return{
+                isActive:false
+            }
+        },
+        methods:{
+            bind:function(){
+                var _this=this;
+                Indicator.open({
+                    text:'绑卡中，请稍等...',
+                    spinnerType:'fading-circle'
+                });
+                cardBind().then(function(res){
+                    console.log(res)
+                    Indicator.close();
+                    if(res.data.IsSuccess){
+                        _this.isActive=true;
 
+                        Toast({
+                            message: '绑卡成功',
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }
+
+                })
             }
         }
     }
@@ -37,6 +63,11 @@
         height:125px;
         width:85px;
         margin-top:43px;
+    }
+    .grey{
+        opacity:0.4;
+        pointer-events: none;
+        cursor: default;
     }
     .successText{
         font-size:20px;

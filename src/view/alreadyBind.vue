@@ -11,6 +11,7 @@
 </template>
 
 <script>
+    import Bus from '../util/bus'
     /*import header from '../../src/components/header'*/
     export default {
         name: "success",
@@ -21,7 +22,8 @@
             return{
 
             }
-        }
+        },
+
     }
 </script>
 

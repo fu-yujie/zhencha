@@ -2,6 +2,9 @@
     /*margin-bottom:15px;*/
     height:47px;
 }
+/*.mint-tab-container-wrap{
+    background:#E5E5E5
+}*/
 .mint-popup{
     height:173px;
     border-radius:10px;
@@ -9,6 +12,7 @@
 .mint-cell{
     min-height:44px;
 }
+
 .mint-navbar .mint-tab-item.is-selected{
     color:#00AE66 !important;
     border-bottom:2px solid #00AE66 !important;

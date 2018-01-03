@@ -2,66 +2,38 @@
 <head>
     <title>js验证表单,如果表单都不为空,则按钮颜色自变,某为空时恢复原本背景色</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-
-        $(function () {
-
-            //遮罩层，鼠标移动上去高度变化，变清晰
-
-            var $site_li = $(".site-tag li");
-
-            $site_li.hover(function () {
-
-                var indexs = $site_li.index(this);
-
-                $(this).css("height", "90").find(".tag-tit").css("top", "30").css("color", "#fff");
-
-                //获取当前点击li元素在全部li元素中的索引
-
-                //alert(indexs+1);
-
-                $(this).prev().css("height", "30");
-
-                $(this).next().css("height", "30");
-
-            }, function () {
-
-                $site_li.css("height", "50");
-
-            });
-
-        });
-
-    </script>
+    <script type="text/javascript"></script>
+    <style>
+        .img1{
+            width:300px;
+            position:absolute;
+            top:10px
+        }
+        div{
+            position:relative;
+        }
+    </style>
 </head>
 
 <body>
-<ul class="site-tag fl">
-
-    <li><a data-title="科学" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">科学</span> </a></li>
-
-    <li><a data-title="动漫" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">动漫</span> </a></li>
-
-    <li><a data-title="生活" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">生活</span> </a></li>
-
-    <li><a data-title="插画" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">插画</span> </a></li>
-
-    <li><a data-title="音乐" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">音乐</span> </a></li>
-
-    <li><a data-title="自然" href="#"><i style="background-image: url(static/img/SID.png)">
-
-    </i><span class="tag-tit">自然</span> </a></li>
-
-</ul>
+<div>
+    <img src="static/img/account.png" alt="" class="img" >
+    <img src="" alt="">
+    <img src="" alt="">
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+/*var img=document.getElementsByClassName('img');
+img.onclick=function(){
+    img.toggleClass('img1')
+}
+img.toggleClass('img1')*/
+/*function img(){
+    $('.img').toggleClass('img1')
+}*/
+$('.img').click(function(){
+    $('.img').toggleClass('img1')
+})
+</script>
 </body>
 </html>

@@ -2,7 +2,7 @@
     <div class="selectPaperwork">
         <div class="warning">
             <img src="../../static/img/safeWarning.png" alt="">
-            <div>当前登录账号与待激活社保卡的申领账号/缴费账号不符，为保证社保卡账户安全，激活前需要您上传相关证件照片进行审核，感谢您的理解与配合！</div>
+            <div>当前登录账号与待激活社保卡的申请/缴费账号不符，为保证社保卡账户安全，激活前需要您上传相关证件照片进行审核，感谢您的理解与配合！</div>
         </div>
         <div class="form">
             <div class="paperwork">
@@ -17,15 +17,16 @@
                </div>
             <div class="phoneNum">
                  <div><label for="phoneNum">手机号码</label></div>
-                 <input type="text" id="phoneNum" placeholder="填写参保人/监护人手机号码"  maxlength="11" v-model="phoneNum" @keyup="change()">
+                 <input type="text" id="phoneNum" placeholder="填写参保人/监护人手机号码" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  maxlength="11" v-model="phoneNum" @keyup="change()">
             </div>
             <div class="verificationCode">
                  <div><label for="verificationCode">验证码</label></div>
                  <input type="text" id="verificationCode" placeholder="输入验证码"  maxlength="" v-model="verificationCode" @keyup="change()">
-                <div class="send" @click="example1" >发送验证码</div>
+                <div v-show="show" class="send" @click="send" >发送验证码</div>
+                <div v-show="!show" class="send">{{count}}s</div>
             </div>
         </div>
-        <div class="next" :class="{next1:isActive}">下一步</div>
+        <div class="next" :class="{next1:isActive}" @click="next">下一步</div>
          <mt-actionsheet
                    :actions="actions1"
                    v-model="sheetVisible1">
@@ -38,10 +39,16 @@
 </template>
 
 <script>
+    import {Toast} from 'mint-ui'
+    import Bus from '../util/bus'
+    import {getConfig,getinfoCode,checkCode} from '../api/index'
     export default {
         name: "select-paperwork",
         data(){
             return{
+                show: true,
+                count: '',
+                timer: null,
                  sheetVisible1:false,
                 sheetVisible2:false,
                 paperwork:'',
@@ -49,39 +56,75 @@
                 phoneNum:'',
                   verificationCode:'',
                 isActive:false,
+                paperWorkType:'',
+                //form:'',
                   actions1:[
                       {
-                          name:'身份证',method:this.paperwork1
+                          name:'',type:'',method:this.paperwork1
                       },
                       {
-                         name:'户口本',method:this.paperwork2
+                         name:'',type:'',method:this.paperwork2
                       }
                   ] ,
                 actions2:[
                     {
-                        name:'本人',method:this.relation1
+                        name:'',method:this.relation1
                     },
                     {
-                        name:'亲属',method:this.relation2
+                        name:'',method:this.relation2
                     },
                     {
-                        name:'朋友',method:this.relation3
+                        name:'',method:this.relation3
                     },
                     {
-                        name:'其他',method:this.relation4
+                        name:'',method:this.relation4
                     }
                 ]
             }
         },
+        created:function(){
+            this.actions1.forEach(function(item,index){
+                console.log(item.name);
+                getConfig().then(function(res){
+                    var _this=this;
+                    console.log(res);
+                    console.log(111111)
+                    item.name=res.data.Data.ConfigItems[1][index].ConfigName;
+                    item.type=res.data.Data.ConfigItems[1][index].ConfigNumber;
+                })
+            })
+            this.actions2.forEach(function(item,index){
+                console.log(item.name);
+                getConfig().then(function(res){
+                    var _this=this;
+
+                    item.name=res.data.Data.ConfigItems[3][index].ConfigName;
+
+                })
+            })
+
+              /*  Bus.$on('getTarget', function(res) {
+                    console.log(11)
+                    console.log(res);
+                    var data={};
+                    data=res;
+                    console.log(33)
+                    console.log(data)
+                    Bus.$emit('upload', data);
+                });*/
+
+        },
         methods:{
             selectPaperwork:function(){
-                this.sheetVisible1=true
+                this.sheetVisible1=true;
             },
             paperwork1:function(){
                 this.paperwork=this.actions1[0].name
+                this.paperWorkType=this.actions1[0].type
             } ,
             paperwork2:function(){
                  this.paperwork=this.actions1[1].name
+                this.paperWorkType=this.actions1[1].type
             },
             selectRelation:function(){
                this.sheetVisible2=true
@@ -98,9 +141,79 @@
             relation4: function(){
                    this.relation=this.actions2[3].name
             } ,
+            next:function(){
+                var _this=this;
+               console.log(5555);
+               console.log(this.form);
+                if(this.paperwork.length!==0&&this.relation.length!==0&&this.phoneNum.length!==0&&this.verificationCode.length!==0){
+
+                }else{
+                    return false
+                }
+               var data={};
+                data.Mobile=this.phoneNum;
+                data.InsuredRelation=this.relation;
+                data.CardType=this.paperwork;
+                this.$parent.form1=data;
+                console.log(44444);
+                console.log(this.$parent.form1)
+                checkCode({phone:this.phoneNum,validateContent:this.verificationCode}).then(function(res){
+                    console.log('fff')
+                    console.log(res);
+                    if(res.data.Data){
+                        if(_this.paperWorkType==1){
+                            _this.$router.push('/uploadIdcard')
+                        }else if(_this.paperWorkType==2){
+                            _this.$router.push('/uploadAccount')
+                        }
+                    }else{
+                        Toast({
+                            message: '验证码输入错误',
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }
+                })
+            },
+            send:function(){
+var _this=this
+                getinfoCode({phone:this.phoneNum,templateCode:'VerificationCode'}).then(function(res){
+                       console.log(res)
+                    if(res.data.IsSuccess){
+                        Toast({
+                            message: '验证码发送成功',
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                        const TIME_COUNT = 60;
+                        if (!_this.timer) {
+                            _this.count = TIME_COUNT;
+                            _this.show = false;
+                            _this.timer = setInterval(() => {
+                                if (_this.count > 0 && _this.count <= TIME_COUNT) {
+                                    _this.count--;
+                                } else {
+                                    _this.show = true;
+                                    clearInterval(_this.timer);
+                                    _this.timer = null;
+                                }
+                            }, 1000)
+                        }
+                    }else{
+                        Toast({
+                            message: '验证码发送失败',
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }
+
+                })
+            },
              change:function(){
                             if(this.paperwork.length!==0&&this.relation.length!==0&&this.phoneNum.length!==0&&this.verificationCode.length!==0){
                                 this.isActive=true;
+                            }else{
+                                this.isActive=false
                             }
 
                             }

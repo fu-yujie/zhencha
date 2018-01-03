@@ -23,10 +23,10 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 9988,
+    port: 8800,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',//访问的路径 
+    assetsPublicPath: '/Help/',//访问的路径
     proxyTable: {//反向代理
         /*'/api': {
             target: 'http://api.xxxxxxxx.com',

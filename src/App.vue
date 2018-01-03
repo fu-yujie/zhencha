@@ -16,12 +16,25 @@ import api from './model/api.js'
 import appConfigs from './configs'
 import { mapMutations } from 'vuex'
 import header from 'src/components/header'
+import {getCardInfo} from "./api/index";
+import config from './api/config'
 
 export default {
   name: 'app',
 
   data() {
     return {
+        a:100,
+      /*  RealName:'',
+        IdentityCard:'',
+        SinCard:'',
+        SinPwd:'',
+        SinSid:'',
+        CashAccount:'',
+        CashAccountName:'',
+        CashAccountCode:'',*/
+        form:'',
+        form1:'',
       showLoading: false,
       titlename: {
         'home': '你的标题'
@@ -32,6 +45,7 @@ export default {
     //拦截路由
     router.beforeEach((to, from, next) => {
       next();
+
       //初始化滚动事件监听
       document.body.scrollTop = 0;
       $(document).unbind('scroll');
@@ -46,7 +60,14 @@ export default {
       this.showLoading = false;
     });
     //首次进入页面设置标题
-    this.firstitle()
+    this.firstitle();
+
+      getCardInfo({passwordId:100}).then(function(res){
+          /*console.log(res)*/
+      })
+      .catch(function(err){
+              window.location = config.getPassPortUrl + 'm/Account/NewLogin?returnUrl=' + encodeURIComponent(window.location.href )
+          });
   },
   methods: {
     //第一次进入页面也判断标题
