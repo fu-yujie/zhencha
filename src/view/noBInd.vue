@@ -32,14 +32,28 @@
                     text:'绑卡中，请稍等...',
                     spinnerType:'fading-circle'
                 });
-                cardBind().then(function(res){
+                var obj={};
+                obj.RealName=this.$parent.form.RealName;;
+                obj.IdentityCard=this.$parent.form.IdentityCard;
+                obj.SinCardId=this.$parent.form.SinCard;
+                obj.SinCardPwd=this.$parent.form.SinPwd;
+                obj.SinCardSid=this.$parent.form.SinSid;
+                obj.Account=this.$parent.form.CashAccount;
+                cardBind(obj).then(function(res){
+                    console.log(2222)
                     console.log(res)
                     Indicator.close();
                     if(res.data.IsSuccess){
                         _this.isActive=true;
 
                         Toast({
-                            message: '绑卡成功',
+                            message: res.data.Message,
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }else{
+                        Toast({
+                            message: res.data.Message,
                             position: 'bottom',
                             duration: 2000
                         });

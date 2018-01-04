@@ -5,7 +5,7 @@
     <div class="uploadIdcard">
         <ul>
             <li class="image1">
-                <div class="title">1.{{list[0].ConfigName}}</div>
+                <div class="title">1.参保人手持本人户籍单页及社保卡照片</div>
                 <!--<div class="cover" v-if="image1.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -23,7 +23,7 @@
 
             </li>
             <li class="image2">
-                <div class="title">2.{{list[1].ConfigName}}</div>
+                <div class="title">2.参保人本人户籍单页照片</div>
                <!-- <div class="cover" v-if="image2.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -40,7 +40,7 @@
                 </div>
             </li>
             <li class="image3">
-                <div class="title">3.{{list[2].ConfigName}}</div>
+                <div class="title">3.待激活社保卡正面照片</div>
                 <!--<div class="cover" v-if="image3.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
             </li>
             <li class="image4">
-                <div class="title">4.{{list[3].ConfigName}}</div>
+                <div class="title">4.参保人所属监护人户籍单页照片</div>
                 <!--<div class="cover" v-if="image4.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -128,7 +128,6 @@
         },
         data(){
             return{
-                list:[],
                 actions:[
                     {name:'拍照'},
                     {name:'相册',method:this.inputFile}
@@ -152,14 +151,7 @@
             }
         },
         created:function(){
-            var _this=this;
-            getConfig().then(function(res){
 
-                console.log(res);
-                _this.list=res.data.Data.ConfigItems[5];
-
-                console.log(_this.list)
-            })
 
         },
         watch:{

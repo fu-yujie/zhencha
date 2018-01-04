@@ -5,7 +5,7 @@
     <div class="uploadIdcard">
         <ul>
             <li class="image1">
-                <div class="title">1.{{list[0].ConfigName}}</div>
+                <div class="title">1.参保人手持身份证及社保卡照片</div>
                 <!--<div class="cover" v-if="image1.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -22,7 +22,7 @@
                 </div>
             </li>
             <li class="image2">
-                <div class="title">2.{{list[1].ConfigName}}</div>
+                <div class="title">2.参保人身份证正面照片</div>
                 <!--<div class="cover" v-if="image2.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -39,7 +39,7 @@
                 </div>
             </li>
             <li class="image3">
-                <div class="title">3.{{list[2].ConfigName}}</div>
+                <div class="title">3.参保人待激活社保卡正面照片</div>
                 <!--<div class="cover" v-if="image3.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
@@ -47,7 +47,7 @@
                 <img :src="image3" alt="" class="img">-->
                 <upload @upimg="upimg3" style="display:inline-block" ></upload>
                 <div class="example">
-                <img src="../../static/img/idcard_example3.png" alt="" class="idcard_example">
+                <img src="../../static/img/account_example3.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge3">
                         <img src="../../static/img/enlarge.png" alt="">
                         <div>示例</div>
@@ -89,7 +89,7 @@
         </mt-popup>
         <mt-popup
             v-model="popupVisible3">
-            <img src="../../static/img/idcard_exampleEn3.png" alt="" class="enlarge" >
+            <img src="../../static/img/account_exampleEn3.png" alt="" class="enlarge" >
         </mt-popup>
     </div>
         <!-- <input type="file" v-show="false" id="file">-->
@@ -144,14 +144,14 @@
         },
         created:function(){
 
-            var _this=this;
+            /*var _this=this;
             getConfig().then(function(res){
 
                 console.log(res);
                 _this.list=res.data.Data.ConfigItems[4];
 
                 console.log(_this.list)
-            })
+            })*/
 
         },
         watch:{

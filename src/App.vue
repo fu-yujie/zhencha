@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <my-header></my-header>
+      <web-header></web-header>
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
       <router-view></router-view>
@@ -88,7 +88,7 @@ export default {
   },
   components: {
     loading,
-      'myHeader':header
+      'webHeader':header
   }
 }
 

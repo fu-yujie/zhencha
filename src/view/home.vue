@@ -318,7 +318,7 @@ mounted:function(){
 
                //console.log(_this.userName)
                 activation(data).then(function(res){
-                    console.log(2222)
+                    /*console.log(2222)*/
                     console.log(res)
 
                     Toast({

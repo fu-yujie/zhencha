@@ -12,7 +12,13 @@
 .mint-cell{
     min-height:44px;
 }
-
+.mint-tab-item{
+    max-width:100px;
+}
+.mint-navbar{
+    display:flex;
+    justify-content: space-around;
+}
 .mint-navbar .mint-tab-item.is-selected{
     color:#00AE66 !important;
     border-bottom:2px solid #00AE66 !important;

@@ -39,7 +39,7 @@ export const checkCode=(data)=>{
     return axios.get(config.checkCode,{params:data})
 }
 export const cardBind=(data)=>{
-    return axios.get(config.cardBind,{params:data})
+    return axios.post(config.cardBind,createPostParams(data))
 }
 
 

@@ -162,19 +162,22 @@
 
 
         <div class="again" v-if="content.StatusValue==2" @click="reupload">重新上传证件照片</div>
-        <div class="bind" v-if="content.StatusValue==3">绑定社保卡</div>
+        <div class="bind" v-if="content.StatusValue==3" @click="bind" :class="{grey:isActive}">绑定社保卡</div>
         <div class="return" v-if="content.StatusValue==3" @click="returnHome">返回医保大厅</div>
     </div>
 </template>
 
 <script>
-    import {getHistoryDetail} from '../api/index'
+    import {getHistoryDetail,cardBind} from '../api/index'
+    import {Indicator,Toast} from 'mint-ui'
     export default {
         name: "under-review",
         data(){
             return{
                 content:{},
-                future:''
+                future:'',
+                isActive:false,
+
             }
         },
         created:function () {
@@ -198,6 +201,11 @@
                     /*alert(future);*/
                     /*return future*/
                 }
+                if(res.data.Data.StatusValue==3){
+                    if(res.data.Data.IsBindingCard){
+                       /* _this.isActive=true*/
+                    }
+                }
             })
         },
         methods:{
@@ -206,6 +214,38 @@
             },
             reupload:function(){
                 this.$router.push('/selectPaperwork')
+            },
+            bind:function(){
+                var _this=this;
+                var obj={};
+                Indicator.open({
+                    text:'绑卡中，请稍等...',
+                    spinnerType:'fading-circle'
+                });
+                obj.RealName=this.content.RealName;;
+                obj.IdentityCard=this.content.IdentityCard;
+                obj.SinCardId=this.content.SINCardId;
+                obj.SinCardPwd=this.content.SINCardPsd;
+                obj.SinCardSid=this.content.SINCardSid;
+                obj.Account=this.content.CashAccount;
+                cardBind(obj).then(function(res){
+                    console.log(res)
+                    Indicator.close();
+                    if(res.data.IsSuccess){
+                        _this.isActive=true;
+                        Toast({
+                            message: res.data.Message,
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }else{
+                        Toast({
+                            message: res.data.Message,
+                            position: 'bottom',
+                            duration: 2000
+                        });
+                    }
+                })
             }
         }
     }
@@ -225,6 +265,11 @@
         margin:0 auto;
         margin-top:25px;
         /*opacity: 0.4;*/
+    }
+    .grey{
+        opacity:0.4;
+        pointer-events: none;
+        cursor: default;
     }
     .return{
         background:#F8F8F8;
