@@ -15,9 +15,9 @@
         <div class="under">
             <div class="name"><span>参保人</span>{{content.RealName}}</div>
             <div class="idCard"><span>社保卡号</span>{{content.SINCardId }}</div>
-            <div class="data"><span>身份证号</span>{{content.IdentityCard}}</div>
+            <div class="data"><span>身份证号</span>{{idcard}}</div>
             <div class="bank"><span>开户行</span>{{content.CashAccountName}}</div>
-            <div class="account"><span>社保卡金融账户</span>{{content.CashAccount}}</div>
+            <div class="account"><span>社保卡金融账户</span>{{account}}</div>
         </div>
 
         <div class="progress">
@@ -177,17 +177,22 @@
                 content:{},
                 future:'',
                 isActive:false,
+                idcard:'',
+                account:''
 
             }
         },
         created:function () {
             var _this=this
+           /* this.$parent.backRouter='/?tab=2'*/
             var id=_this.$route.params.ID;
             console.log(id)
             getHistoryDetail({ID:id}).then(function(res){
                 console.log(3333);
                 console.log(res);
                 _this.content=res.data.Data;
+                _this.idcard=_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2")
+                _this.account=_this.content.CashAccount.replace(/(\d{6})\d{9}(\d{4})/, "$1*******$2")
                 if(res.data.Data.StatusValue==0){
                     var data=res.data.Data.CreateTime;
                     var d=new Date(data);
@@ -196,21 +201,19 @@
                     d.setMonth(d.getMonth(data));
                     var hour=d.getHours(data);
                     var minute=d.getMinutes(data)
-                    /*var future=m+'-'+day;*/
                     _this.content.future=d.getMonth()+1+'-'+d.getDate()+' '+hour+':'+minute;
-                    /*alert(future);*/
-                    /*return future*/
+
                 }
                 if(res.data.Data.StatusValue==3){
                     if(res.data.Data.IsBindingCard){
-                       /* _this.isActive=true*/
+                        _this.isActive=true
                     }
                 }
             })
         },
         methods:{
             returnHome:function(){
-
+                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
             },
             reupload:function(){
                 this.$router.push('/selectPaperwork')
@@ -265,6 +268,9 @@
         margin:0 auto;
         margin-top:25px;
         /*opacity: 0.4;*/
+    }
+    .again{
+        margin-bottom:18px;
     }
     .grey{
         opacity:0.4;
@@ -386,7 +392,7 @@
         margin-right:14px;
     }
     .prompt_right{
-        width:265px;
+        width:20.8rem;
         color:#333333;
         font-size:14px;
         text-align:right

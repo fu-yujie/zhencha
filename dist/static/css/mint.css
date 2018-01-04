@@ -1,0 +1,70 @@
+.mint-navbar{
+    /*margin-bottom:15px;*/
+    height:47px;
+}
+/*.mint-tab-container-wrap{
+    background:#E5E5E5
+}*/
+.mint-popup{
+    height:173px;
+    border-radius:10px;
+}
+.mint-cell{
+    min-height:44px;
+}
+.mint-tab-item{
+    max-width:100px;
+}
+.mint-navbar{
+    display:flex;
+    justify-content: space-around;
+}
+.mint-navbar .mint-tab-item.is-selected{
+    color:#00AE66 !important;
+    border-bottom:2px solid #00AE66 !important;
+}
+.mint-tab-item-label{
+    font-size:14px !important;
+    display:inline-block ;
+
+}
+.mint-tab-container{
+    background:#E5E5E5;
+}
+.mint-navbar .mint-tab-item{
+    padding:14px 0 !important;
+    height:47px;
+}
+.mint-cell-wrapper{
+    padding:0 !important;
+    margin-left:15px;
+    border-bottom:1px solid #E5E5E5
+}
+.mint-cell-title{
+    text-align:left;
+    flex:none;
+}
+.mint-cell-text{
+    font-size:16px;
+    color:#333333
+}
+.mint-msgbox-message{
+    font-size: 14px !important;
+    color: #666666 !important;
+    margin: 0;
+    text-align: left !important;
+    width: 242px !important;
+    line-height: 20px !important;
+}
+.mint-msgbox{
+    width:280px !important;
+    height:192px !important;
+}
+.mint-msgbox-confirm{
+    height:50px !important;
+}
+.mint-msgbox-confirm{
+    color:#00AE66 !important;
+    font-size:18px !important;
+}
+

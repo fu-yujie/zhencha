@@ -1,7 +1,7 @@
 <template>
     <div>
         <mt-header title="居民社保卡激活">
-            <router-link to="/" slot="left">
+            <router-link :to="routera" slot="left">
                 <mt-button icon="back">返回</mt-button>
             </router-link>
            <!-- <mt-button icon="more" slot="right"></mt-button>-->
@@ -11,7 +11,18 @@
 
 <script>
     export default {
-        name: "header"
+        name: "header",
+        data(){
+            return{
+             /*  routera:'/'*/
+            }
+        },
+        props:{
+            routera: {
+                type:String,
+                default:''
+            }
+        }
     }
 </script>
 

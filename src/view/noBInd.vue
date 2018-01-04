@@ -6,7 +6,7 @@
             <div class="successText">激活成功</div>
             <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构就医时尽快修改社保卡密码</div>
             <div class="bind" @click="bind" :class="{grey:isActive} ">绑定社保卡</div>
-            <div class="return">返回医保大厅</div>
+            <div class="return" @click="back">返回医保大厅</div>
         </div>
     </div>
 </template>
@@ -24,6 +24,9 @@
             return{
                 isActive:false
             }
+        },
+        created:function(){
+            /*this.$parent.backRouter='/'*/
         },
         methods:{
             bind:function(){
@@ -60,6 +63,9 @@
                     }
 
                 })
+            },
+            back:function(){
+                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
             }
         }
     }

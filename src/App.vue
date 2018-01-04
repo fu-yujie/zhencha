@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <web-header></web-header>
+      <web-header :routera="backRouter"></web-header>
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
       <router-view></router-view>
@@ -25,16 +25,9 @@ export default {
   data() {
     return {
         a:100,
-      /*  RealName:'',
-        IdentityCard:'',
-        SinCard:'',
-        SinPwd:'',
-        SinSid:'',
-        CashAccount:'',
-        CashAccountName:'',
-        CashAccountCode:'',*/
         form:'',
         form1:'',
+        backRouter:'/',
       showLoading: false,
       titlename: {
         'home': '你的标题'

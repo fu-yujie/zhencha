@@ -224,7 +224,7 @@ this.popupVisible2=true
                     if(res.data.IsSuccess){
                         _this.$router.push('/activeSuccess')
                     }else{
-
+                        
                     }
                     /*if(_this.img1.length!==0&&_this.img2.length!==0&&_this.img3.length!==0&&_this.img4.length!==0){
 

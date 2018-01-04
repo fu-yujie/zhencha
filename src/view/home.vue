@@ -213,32 +213,16 @@ mounted:function(){
                 })
             })
 
-            /*if(this.userName.length==0||this.idCard.length==0||this.cardNum.length==0||this.sid.length==0){
-                alert(1111)
-            }else{
-                this.isActive3=true
-            }*/
-           /* window.localStorage.setItem('showMsgbox',  this.showMsgbox());
-            this.showMsgbox1=localStorage.getItem('showMsgbox')
-            if(this.showMsgbox1){
 
-            }else{
-                this.showMsgbox()
-            }*/
 
            if(!window.localStorage.getItem('box')){
                window.localStorage.setItem('box',111)
                this.showMsgbox()
            }
-         /*this.showMsgbox()*/
+
 
         },
-        /*watch:{
-            userName:function(){
-                this.isActive3=true;
-            }
 
-        },*/
         methods:{
             showMsgbox() {
               var _this=this;
@@ -398,7 +382,7 @@ mounted:function(){
     .warning div{
         display:inline-block;
         font-size:12px;
-        width:27.5rem;
+        width:25.5rem;
         text-align:left;
         color:#FBB640
     }
