@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a395750f-1f13-4c36-89c7-d100778ae2ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/view/home.vue" afterPath="$PROJECT_DIR$/src/view/home.vue" />
-    </list>
+    <list default="true" id="a395750f-1f13-4c36-89c7-d100778ae2ec" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -52,17 +50,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="home.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/view/home.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="455" column="20" lean-forward="true" selection-start-line="455" selection-start-column="20" selection-end-line="455" selection-end-column="20" />
+            <state relative-caret-position="176">
+              <caret line="454" column="5" lean-forward="false" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#7;n#div#1;n#mt-tab-container-item#0;n#mt-tab-container#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="e#7004#7033#0" expanded="true" />
                 <element signature="e#7125#7201#0" expanded="true" />
                 <element signature="e#14942#15529#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mint.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/css/mint.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="29" column="1" lean-forward="false" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -112,20 +120,10 @@
         <entry file="file://$PROJECT_DIR$/src/view/success.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="76">
-              <caret line="138" column="73" lean-forward="true" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
+              <caret line="138" column="73" lean-forward="false" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
               <folding>
                 <element signature="e#6456#6510#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activeSuccess.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/view/activeSuccess.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="58" lean-forward="false" selection-start-line="8" selection-start-column="58" selection-end-line="8" selection-end-column="58" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -144,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mint-navbar</find>
       <find>actions</find>
       <find>bind</find>
       <find>again</find>
@@ -174,6 +171,7 @@
       <find>warning</find>
       <find>审核中</find>
       <find>prompt_left</find>
+      <find>5.2</find>
     </findStrings>
     <replaceStrings>
       <replace>100</replace>
@@ -231,8 +229,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="225" />
-    <option name="y" value="6" />
+    <option name="x" value="166" />
+    <option name="y" value="9" />
     <option name="width" value="1187" />
     <option name="height" value="785" />
   </component>
@@ -273,6 +271,12 @@
               <item name="zhencha" type="b2602c69:ProjectViewProjectNode" />
               <item name="zhencha" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zhencha" type="b2602c69:ProjectViewProjectNode" />
+              <item name="zhencha" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -352,10 +356,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="316525000" />
+    <option name="totallyTimeSpent" value="316756000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="225" y="6" width="1187" height="785" extended-state="0" />
+    <frame x="166" y="9" width="1187" height="785" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2523934" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -607,13 +611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/mint.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/view/underReview.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-167">
@@ -782,7 +779,7 @@
     <entry file="file://$PROJECT_DIR$/src/view/success.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
-          <caret line="138" column="73" lean-forward="true" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
+          <caret line="138" column="73" lean-forward="false" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
           <folding>
             <element signature="e#6456#6510#0" expanded="true" />
           </folding>
@@ -791,14 +788,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/home.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="455" column="20" lean-forward="true" selection-start-line="455" selection-start-column="20" selection-end-line="455" selection-end-column="20" />
+        <state relative-caret-position="176">
+          <caret line="454" column="5" lean-forward="false" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
           <folding>
             <element signature="n#style#0;n#input#0;n#div#7;n#div#1;n#mt-tab-container-item#0;n#mt-tab-container#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="e#7004#7033#0" expanded="true" />
             <element signature="e#7125#7201#0" expanded="true" />
             <element signature="e#14942#15529#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/mint.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="29" column="1" lean-forward="false" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
