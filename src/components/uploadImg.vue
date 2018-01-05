@@ -53,7 +53,7 @@
             console.log('this.$refs.file',this.$refs.file)
           this.$refs.file.click();
         },
-        upload(e, type){
+        upload(e){
             Indicator.open({
                 spinnerType: 'fading-circle'
             });
@@ -64,6 +64,7 @@
           }
             let files = this.$refs.file.files;
             if (files[0].type.indexOf("image") < 0) {
+
                 Toast({
                     message: '上传了非图片',
                     position: 'middle',
@@ -80,16 +81,65 @@
                 return;
             }
 
-
           var reader=new FileReader();
           reader.readAsDataURL(this.$refs.file.files[0]);
           reader.onload=function () {
-             console.log('_this.src',_this.src);
+          console.log('_this.src',_this.src);
             _this.src=this.result;
             _this.$emit('upimg', this.result)
+              Indicator.close();
           };
 
 
+
+            //图片压缩
+           /* function compress(event, callback) {
+                //var inputID="file";
+                console.log(_this.$refs.file.files[0]);
+                var file = _this.$refs.file.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // var image = $("<img />");
+                    var image =document.createElement("img");
+                    image.onload = function() {
+                        var canvas = document.createElement("canvas");
+                        var x = this.width;
+                        var y = this.height;
+                        this.width = 375 * 2;
+                        this.height = this.width / x * y;
+                        var width = this.width;
+                        var height = this.height;
+
+                        canvas.width = this.width;
+                        canvas.height = this.height;
+
+                        var context = canvas.getContext("2d");
+                        context.clearRect(0, 0, width, height);
+
+                        context.drawImage(this, 0, 0, this.width, this.height);
+                        var quality = 0.9; //可以理解为压缩程度
+                        //quality :图片质量。0 到 1 之间的数字，并且只在格式为 image/jpeg 或 image/webp 时才有效，如果参数值格式不合法，将会被忽略并使用默认值
+                        var data;
+                        var result;
+                        var length;
+                        //处理图片过大问题
+                        //控制图片上传的大小，注意若图片过大 ajax上传的时候会出现参数为null的错误
+                        //这里如果图片过大会将图片压缩程度放大
+                        do {
+                            data = canvas.toDataURL("image/jpeg", quality); //压缩图片
+                            length = data.length;
+                            result = (length / 4 * 3 + 1023) / 1024; //计算压缩后图片的大小（单位：KB）
+                            console.log("result:" + result);
+                            quality -= 0.05;
+                        } while (result > 450);
+                        //data：base64
+                        callback(data, _this.$refs.file.files[0]); //回调函数
+                    };
+                    // image.attr("src", e.target.result);
+                    image.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }*/
         }
 
       },

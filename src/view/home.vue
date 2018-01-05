@@ -190,6 +190,7 @@ mounted:function(){
                 _this.list=res.data.Data.SINCardActiveRecordList
             })
             getCardInfo({passwordId:100}).then(function(res){
+                console.log(333);
                 console.log(res);
                 _this.isBinding=res.data.Data.SINCardIsBinding
                 if(res.data.IsSuccess){
@@ -372,6 +373,7 @@ mounted:function(){
         background:#FFF7EB;
         height:53px;
         padding:10px 10px 10px 15px;
+        text-align:left;
     }
     .warning img{
         height:13px;
@@ -404,7 +406,7 @@ mounted:function(){
     }
     .form div div{
         display:inline-block;
-        width:7.1rem;
+        width:8.1rem;
     }
     .form .card,.form .sid{
 position:relative;

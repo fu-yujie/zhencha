@@ -197,7 +197,7 @@
                     var data=res.data.Data.CreateTime;
                     var d=new Date(data);
                     //var m=d.getMonth(data)+1;
-                    d.setDate(d.getDate()+3);
+                    d.setDate(d.getDate()+7);
                     d.setMonth(d.getMonth(data));
                     var hour=d.getHours(data);
                     var minute=d.getMinutes(data)

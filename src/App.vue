@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <web-header :routera="backRouter"></web-header>
+      <!--<web-header :routera="backRouter"></web-header>-->
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
       <router-view></router-view>
