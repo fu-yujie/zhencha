@@ -53,7 +53,7 @@
     <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
     <div class="bank">
         <div><label for="bank">开户行</label></div>
-        <input type="text" @click="selectBank" id="bank" placeholder="请选择社保卡金融账户开户行" class="required"  maxlength=""  v-model="bank" @keyup="change()">
+        <input type="text" disabled="disabled" style="background:white"  @click="" id="bank" placeholder="请选择社保卡金融账户开户行" class="required"  maxlength=""  v-model="bank" @keyup="change()">
         <img src="../../static/img/Chevron.png" alt="" @click="selectBank" class="right_arrow">
     </div>
     <div class="account">
@@ -152,6 +152,10 @@ import {activation,getHistoryList,getCardInfo,getConfig} from '../api/index'
                     {name:'',CashAccountCode:'',method:this.bank2},
                     {name:'',CashAccountCode:'',method:this.bank3},
                     {name:'',CashAccountCode:'',method:this.bank4},
+                    {name:'',CashAccountCode:'',method:this.bank5},
+                    {name:'',CashAccountCode:'',method:this.bank6},
+                    {name:'',CashAccountCode:'',method:this.bank7},
+
                 ],
                 sheetVisible:false,
                 selected:this.$route.query.tab || '1',
@@ -182,14 +186,14 @@ mounted:function(){
         created:function(){
 
             var _this=this;
-            getHistoryList({passwordId:100}).then(function(res){
+            getHistoryList({passwordId:0}).then(function(res){
                 //var _this=this;
                 console.log(111)
                 console.log(res)
                 console.log(res.data.Data.SINCardActiveRecordList)
                 _this.list=res.data.Data.SINCardActiveRecordList
             })
-            getCardInfo({passwordId:100}).then(function(res){
+            getCardInfo({passwordId:0}).then(function(res){
                 console.log(333);
                 console.log(res);
                 _this.isBinding=res.data.Data.SINCardIsBinding
@@ -247,6 +251,21 @@ mounted:function(){
                 this.AccountCode=this.actions[3].CashAccountCode
 
             },
+            bank5:function(){
+                this.bank=this.actions[4].name
+                this.AccountCode=this.actions[4].CashAccountCode
+
+            },
+            bank6:function(){
+                this.bank=this.actions[5].name
+                this.AccountCode=this.actions[5].CashAccountCode
+
+            },
+            bank7:function(){
+                this.bank=this.actions[6].name
+                this.AccountCode=this.actions[6].CashAccountCode
+
+            },
             example1:function(){
                 this. popupVisible1=true;
             },
@@ -285,8 +304,22 @@ mounted:function(){
                 }else if(this.userName.length!==0&&this.idCard.length!==0&&this.cardNum.length!==0&&this.pwd_visible.length!==0&&this.sid.length!==0&&this.bank.length!==0&&this.account.length!==0){
 
                 }else{
-                    //return false
+                    return false
                 }
+                //身份证验证
+                var c=this.idCard;
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if(reg.test(c) === false)
+                {
+                    Toast({
+                        message: '身份证输入不合法',
+                        position: 'bottom',
+                        duration: 2000
+                    });
+                    return  false;
+                }
+
+
                 var data={};
                 data.RealName=_this.userName;
                 data.IdentityCard=_this.idCard;
@@ -296,15 +329,15 @@ mounted:function(){
                 data.CashAccount=_this.account;
                 data.CashAccountName=_this.bank;
                 data.CashAccountCode=_this.AccountCode;
-                data.PasswordId=100;
+                data.PasswordId=0;
                 this.$parent.form=data;
                 console.log(444444);
-                console.log(this.$parent.form)
+                console.log(this.$parent.form);
 
                //console.log(_this.userName)
                 activation(data).then(function(res){
                     /*console.log(2222)*/
-                    console.log(res)
+                    console.log(res);
 
                     Toast({
                         message: res.data.Message,
@@ -314,7 +347,7 @@ mounted:function(){
                     if(res.data.Code==-1008){
                         _this.$router.push('/selectPaperwork')
                     }
-                    if(res.data.Code==-3002){
+                    if(res.data.IsSuccess){
                         if(_this.isBinding){
                             _this.$router.push('/alreadyBind')
                         }else{
@@ -374,6 +407,7 @@ mounted:function(){
         height:53px;
         padding:10px 10px 10px 15px;
         text-align:left;
+        display:flex;
     }
     .warning img{
         height:13px;
@@ -384,7 +418,7 @@ mounted:function(){
     .warning div{
         display:inline-block;
         font-size:12px;
-        width:25.5rem;
+        margin-left:6px;
         text-align:left;
         color:#FBB640
     }
@@ -397,18 +431,20 @@ mounted:function(){
         border:0;
         height:43px;
         font-size:16px;
-        width:18.5rem;
+        width:75%;
     }
     .form>div{
         border-bottom:1px solid #E5E5E5;
         margin-left:15px;
         text-align:left;
+        font-size:0;
     }
     .form div div{
         display:inline-block;
-        width:8.1rem;
+        width:25%;
+        font-size:16px;
     }
-    .form .card,.form .sid{
+    .form .card,.form .sid,.form .account{
 position:relative;
     }
     .form .example{

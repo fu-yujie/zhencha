@@ -55,7 +55,7 @@ export default {
     //首次进入页面设置标题
     this.firstitle();
 
-      getCardInfo({passwordId:100}).then(function(res){
+      getCardInfo({passwordId:0}).then(function(res){
           /*console.log(res)*/
       })
       .catch(function(err){

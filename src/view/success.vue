@@ -74,7 +74,7 @@
                 <div class="progress3">
                     <div class="left"><img src="../../static/img/active_grey.png" alt="">
                         <div class="name forecast">激活成功</div></div>
-                    <div class="time" >预计{{content.future}}前</div>
+                    <div class="time" >预计{{content.PlanActiveTime}}前</div>
                 </div>
 
 
@@ -175,7 +175,7 @@
         data(){
             return{
                 content:{},
-                future:'',
+                /*future:'',*/
                 isActive:false,
                 idcard:'',
                 account:''
@@ -191,9 +191,9 @@
                 console.log(3333);
                 console.log(res);
                 _this.content=res.data.Data;
-                _this.idcard=_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2")
+               _this.idcard=_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2")
                 _this.account=_this.content.CashAccount.replace(/(\d{6})\d{9}(\d{4})/, "$1*******$2")
-                if(res.data.Data.StatusValue==0){
+               /* if(res.data.Data.StatusValue==0){
                     var data=res.data.Data.CreateTime;
                     var d=new Date(data);
                     //var m=d.getMonth(data)+1;
@@ -203,7 +203,7 @@
                     var minute=d.getMinutes(data)
                     _this.content.future=d.getMonth()+1+'-'+d.getDate()+' '+hour+':'+minute;
 
-                }
+                }*/
                 if(res.data.Data.StatusValue==3){
                     if(res.data.Data.IsBindingCard){
                         _this.isActive=true
@@ -390,9 +390,10 @@
         color:#888888;
         font-size:14px;
         margin-right:14px;
+        width:25%;
     }
     .prompt_right{
-        width:20.8rem;
+        width:75%;
         color:#333333;
         font-size:14px;
         text-align:right
