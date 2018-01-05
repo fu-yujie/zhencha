@@ -449,7 +449,7 @@ position:relative;
     }
     .form .example{
         position:absolute;
-        width:5.2rem;
+        width:62px;
         right:0;
         text-align:center
     }
