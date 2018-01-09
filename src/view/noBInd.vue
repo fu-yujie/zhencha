@@ -41,7 +41,7 @@
                 obj.SinCardId=this.$parent.form.SinCard;
                 obj.SinCardPwd=this.$parent.form.SinPwd;
                 obj.SinCardSid=this.$parent.form.SinSid;
-                obj.Account=this.$parent.form.CashAccount;
+                obj.Account=0;
                 cardBind(obj).then(function(res){
                     console.log(2222)
                     console.log(res)
@@ -105,7 +105,7 @@
     }
     .bind,.return{
         height:47px;
-        width:335px;
+        width:90%;
         background: #00AE66;
         border: 1px solid rgba(5,5,5,0.08);
         border-radius: 5px;

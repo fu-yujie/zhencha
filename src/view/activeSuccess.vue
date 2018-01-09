@@ -63,7 +63,7 @@
     }
     .bind,.return{
         height:47px;
-        width:335px;
+        width:90%;
         background: #00AE66;
         border: 1px solid rgba(5,5,5,0.08);
         border-radius: 5px;

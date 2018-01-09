@@ -34,9 +34,20 @@ export default {
       }
     }
   },
+    beforeCreate(){
+
+        getCardInfo({passwordId:0}).then(function(res){
+            /*console.log(res)*/
+        })
+            .catch(function(err){
+                window.location = config.getPassPortUrl + 'm/Account/NewLogin?returnUrl=' + encodeURIComponent(window.location.href )
+            });
+
+    },
   created() {
     //拦截路由
     router.beforeEach((to, from, next) => {
+
       next();
 
       //初始化滚动事件监听
@@ -55,12 +66,7 @@ export default {
     //首次进入页面设置标题
     this.firstitle();
 
-      getCardInfo({passwordId:0}).then(function(res){
-          /*console.log(res)*/
-      })
-      .catch(function(err){
-              window.location = config.getPassPortUrl + 'm/Account/NewLogin?returnUrl=' + encodeURIComponent(window.location.href )
-          });
+
   },
   methods: {
     //第一次进入页面也判断标题

@@ -162,7 +162,7 @@
 
 
         <div class="again" v-if="content.StatusValue==2" @click="reupload">重新上传证件照片</div>
-        <div class="bind" v-if="content.StatusValue==3" @click="bind" :class="{grey:isActive}">绑定社保卡</div>
+        <div class="bind" v-if="content.StatusValue==3" @click="bind" :class="{grey:isActive,none:isActive1}" ref="text">绑定社保卡</div>
         <div class="return" v-if="content.StatusValue==3" @click="returnHome">返回医保大厅</div>
     </div>
 </template>
@@ -177,6 +177,7 @@
                 content:{},
                 /*future:'',*/
                 isActive:false,
+                isActive1:false,
                 idcard:'',
                 account:''
 
@@ -206,7 +207,7 @@
                 }*/
                 if(res.data.Data.StatusValue==3){
                     if(res.data.Data.IsBindingCard){
-                        _this.isActive=true
+                        _this.isActive1=true
                     }
                 }
             })
@@ -225,16 +226,17 @@
                     text:'绑卡中，请稍等...',
                     spinnerType:'fading-circle'
                 });
-                obj.RealName=this.content.RealName;;
+                obj.RealName=this.content.RealName;
                 obj.IdentityCard=this.content.IdentityCard;
                 obj.SinCardId=this.content.SINCardId;
                 obj.SinCardPwd=this.content.SINCardPsd;
                 obj.SinCardSid=this.content.SINCardSid;
-                obj.Account=this.content.CashAccount;
+                obj.Account=0;
                 cardBind(obj).then(function(res){
                     console.log(res)
                     Indicator.close();
                     if(res.data.IsSuccess){
+                        _this.$refs.text.innerText='社保卡已绑定'
                         _this.isActive=true;
                         Toast({
                             message: res.data.Message,
@@ -242,6 +244,8 @@
                             duration: 2000
                         });
                     }else{
+                        /*$('.bind').innerHTML='社保卡已绑定';*/
+                        console.log(222)
                         Toast({
                             message: res.data.Message,
                             position: 'bottom',
@@ -259,12 +263,12 @@
         background:white;
     }
     .again,.bind,.return{
-        width:335px;
+        width:90%;
         height:47px;
         color:white;
         background:#00AE66;
         line-height:47px;
-        border-radius:10px;
+        border-radius:5px;
         margin:0 auto;
         margin-top:25px;
         /*opacity: 0.4;*/
@@ -276,6 +280,9 @@
         opacity:0.4;
         pointer-events: none;
         cursor: default;
+    }
+    .none{
+        display:none
     }
     .return{
         background:#F8F8F8;
@@ -396,6 +403,6 @@
         width:75%;
         color:#333333;
         font-size:14px;
-        text-align:right
+        text-align:left
     }
 </style>

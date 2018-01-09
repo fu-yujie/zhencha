@@ -204,7 +204,7 @@
                 obj.CashAccount=this.$parent.form.CashAccount;
                 obj.CashAccountName=this.$parent.form.CashAccountName;
                 obj.CashAccountCode=this.$parent.form.CashAccountCode;
-                obj.PasswordId=100;
+                obj.PasswordId=0;
                 obj.CardType=this.$parent.form1.CardType;
                 obj.InsuredRelation=this.$parent.form1.InsuredRelation;
                 obj.Mobile=this.$parent.form1.Mobile;

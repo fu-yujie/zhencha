@@ -4,7 +4,8 @@
     <div class="success">
         <img src="../../static/img/success.png" alt="" class="successImg">
         <div class="successText">激活成功</div>
-        <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构</div>
+        <div class="successPrompt">社保卡已激活成功，请您在定点医疗机构
+            就医时尽快修改社保卡密码</div>
         <div class="return" @click="back">返回医保大厅</div>
     </div>
     </div>
@@ -60,10 +61,10 @@
     }
     .return{
         height:47px;
-        width:335px;
+        width:90%;
         background: #00AE66;
         border: 2px solid rgba(5,5,5,0.08);
-        border-radius: 10px;
+        border-radius: 5px;
         color:white;
         line-height:47px;
         margin:0 auto;

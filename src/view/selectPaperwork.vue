@@ -7,17 +7,17 @@
         <div class="form">
             <div class="paperwork">
                 <div><label for="paperwork">证件类型</label></div>
-                <input type="text" @click="selectPaperwork" id="paperwork" placeholder="选择证件类型"  maxlength=""  v-model="paperwork" @keyup="change()">
+                <input type="text" readonly @click="selectPaperwork" id="paperwork" placeholder="选择证件类型"  maxlength=""  v-model="paperwork" @keyup="change()">
                 <img src="../../static/img/Chevron.png" alt="" @click="selectPaperwork" class="right_arrow">
             </div>
                <div class="relation">
                    <div><label for="relation">与参保人关系</label></div>
-                   <input type="text" @click="selectRelation" id="relation" placeholder="选择您与参保人的关系"  maxlength=""  v-model="relation" @keyup="change()">
+                   <input type="text" readonly @click="selectRelation" id="relation" placeholder="选择您与参保人的关系"  maxlength=""  v-model="relation" @keyup="change()">
                     <img src="../../static/img/Chevron.png" alt="" @click="selectRelation" class="right_arrow">
                </div>
             <div class="phoneNum">
                  <div><label for="phoneNum">手机号码</label></div>
-                 <input type="text" id="phoneNum" placeholder="填写参保人/监护人手机号码" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  maxlength="11" v-model="phoneNum" @keyup="change()">
+                 <input type="number" id="phoneNum" placeholder="填写参保人/监护人手机号码" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  maxlength="11" v-model="phoneNum" @keyup="change()">
             </div>
             <div class="verificationCode">
                  <div><label for="verificationCode">验证码</label></div>
@@ -57,6 +57,7 @@
                   verificationCode:'',
                 isActive:false,
                 paperWorkType:'',
+                relationType:'',
                 //form:'',
                   actions1:[
                       {
@@ -68,16 +69,16 @@
                   ] ,
                 actions2:[
                     {
-                        name:'',method:this.relation1
+                        name:'',type:'',method:this.relation1
                     },
                     {
-                        name:'',method:this.relation2
+                        name:'',type:'',method:this.relation2
                     },
                     {
-                        name:'',method:this.relation3
+                        name:'',type:'',method:this.relation3
                     },
                     {
-                        name:'',method:this.relation4
+                        name:'',type:'',method:this.relation4
                     }
                 ]
             }
@@ -99,6 +100,7 @@
                     var _this=this;
 
                     item.name=res.data.Data.ConfigItems[3][index].ConfigName;
+                    item.type=res.data.Data.ConfigItems[3][index].ConfigNumber;
 
                 })
             })
@@ -130,16 +132,20 @@
                this.sheetVisible2=true
             },
              relation1: function(){
-                    this.relation=this.actions2[0].name
+                    this.relation=this.actions2[0].name;
+                 this.relationType=this.actions2[0].type
              },
              relation2: function(){
-                    this.relation=this.actions2[1].name
+                    this.relation=this.actions2[1].name;
+                 this.relationType=this.actions2[1].type
              },
             relation3: function(){
-                   this.relation=this.actions2[2].name
+                   this.relation=this.actions2[2].name;
+                this.relationType=this.actions2[2].type
             } ,
             relation4: function(){
-                   this.relation=this.actions2[3].name
+                   this.relation=this.actions2[3].name;
+                this.relationType=this.actions2[3].type
             } ,
             next:function(){
                 var _this=this;
@@ -152,8 +158,8 @@
                 }
                var data={};
                 data.Mobile=this.phoneNum;
-                data.InsuredRelation=this.relation;
-                data.CardType=this.paperwork;
+                data.InsuredRelation=this.relationType;
+                data.CardType=this.paperWorkType;
                 this.$parent.form1=data;
                 console.log(44444);
                 console.log(this.$parent.form1)
@@ -252,24 +258,31 @@ var _this=this
           border:0;
          height:43px;
          font-size:16px;
-         width:220px;
+         width:70%;
     }
      .form>div{
          border-bottom:1px solid #E5E5E5;
          margin-left:15px;
          text-align:left;
+         font-size:0
      }
     .form div div{
           display:inline-block;
-        width:100px;
+        width:30%;
+        position:relative;
+        font-size:16px;
+    }
+    #app .verificationCode{
+        margin-left:0;
+        padding-left:15px;
     }
     .paperwork,.relation{
           position:relative;
     }
     .send{
         padding:0 2px;
-           position:absolute;
-            width:62px;
+           position:absolute!important;
+            width:105px !important;
            right:0;
             text-align:center ;
              border-left:1px solid #E5E5E5;
@@ -287,14 +300,15 @@ var _this=this
           }
 
     .next{
-         width:335px;
+         width:90%;
         height:47px;
         color:white;
         background:#00AE66;
         line-height:47px;
-        border-radius:10px;
+        border-radius:5px;
          margin:0 auto;
          margin-top:25px;
+        margin-bottom:15px;
          opacity: 0.4;
         }
     .next1{
