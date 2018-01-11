@@ -179,21 +179,25 @@
                 isActive:false,
                 isActive1:false,
                 idcard:'',
-                account:''
+                account:'',
+                id:''
 
             }
         },
         created:function () {
             var _this=this
-           /* this.$parent.backRouter='/?tab=2'*/
-            var id=_this.$route.params.ID;
-            console.log(id)
-            getHistoryDetail({ID:id}).then(function(res){
+
+
+            _this.id=_this.$route.params.ID;
+            var idCode=_this.id
+            console.log(idCode)
+            getHistoryDetail({ID:idCode}).then(function(res){
                 console.log(3333);
                 console.log(res);
                 _this.content=res.data.Data;
-               _this.idcard=_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2")
-                _this.account=_this.content.CashAccount.replace(/(\d{6})\d{9}(\d{4})/, "$1*******$2")
+               _this.idcard=(_this.content.IdentityCard.length==18)?_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2"):_this.content.IdentityCard.replace(/(\d{6})\d{5}(\d{4})/, "$1*******$2")
+                //_this.account=_this.content.CashAccount.replace(/(\d{6})\d{9}(\d{4})/, "$1*******$2");
+                _this.account=new Array(_this.content.CashAccount.length-4).join('*')+_this.content.CashAccount.substr(-4)
                /* if(res.data.Data.StatusValue==0){
                     var data=res.data.Data.CreateTime;
                     var d=new Date(data);
@@ -217,7 +221,36 @@
                 window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
             },
             reupload:function(){
-                this.$router.push('/selectPaperwork')
+                var _this=this;
+                getHistoryDetail({ID:this.id}).then(function(res){
+
+                    console.log(3333);
+                    console.log(res);
+                    var data = {};
+                    /*var b=new Base64();*/
+                    data.RealName = res.data.Data.RealName;
+                    data.IdentityCard = res.data.Data.IdentityCard;
+                    data.SinCard = res.data.Data.SINCardId;
+                    /*data.SinPwd =b.encode( _this.pwd_invisible || _this.pwd_visible);*/
+                    data.SinPwd =res.data.Data.SINCardPsd;
+                    data.SinSid = res.data.Data.SINCardSid;
+                    data.CashAccount = res.data.Data.CashAccount;
+                    data.CashAccountName = res.data.Data.CashAccountName;
+                    data.CashAccountCode = res.data.Data.CashAccountCode;
+                    data.PasswordId = 0;
+                    _this.$parent.form = data;
+                    console.log(44444)
+                    console.log(_this.$parent.form)
+                    if(res.data.Data.StatusValue==0||res.data.Data.StatusValue==3){
+                        return false
+                    }else{
+                        _this.$router.push('/selectPaperwork');
+                        _this.$parent.code='';
+                        _this.$parent.isShowImg=res.data.Data.IsShowAllImg
+                    }
+
+                })
+
             },
             bind:function(){
                 var _this=this;

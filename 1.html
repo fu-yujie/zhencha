@@ -23,19 +23,29 @@
     <img src="" alt="">
     <input type="text" placeholder="请填写内容" readonly>
 </div>
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://sellpow-html.oss-cn-beijing.aliyuncs.com/public/js/aes.js"></script>
 <script>
-/*var img=document.getElementsByClassName('img');
-img.onclick=function(){
-    img.toggleClass('img1')
-}
-img.toggleClass('img1')*/
-/*function img(){
-    $('.img').toggleClass('img1')
-}*/
-$('.img').click(function(){
-    $('.img').toggleClass('img1')
-})
+    /*var img=document.getElementsByClassName('img');
+    img.onclick=function(){
+        img.toggleClass('img1')
+    }
+    img.toggleClass('img1')*/
+    /*function img(){
+        $('.img').toggleClass('img1')
+    }*/
+
+    var key = CryptoJS.enc.Utf8.parse("8NONwyJtHesysWpM");
+
+    var plaintText = 'ABCDEFGH'; // 明文
+
+    var encryptedData = CryptoJS.AES.encrypt(plaintText, key, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    console.log("加密前："+plaintText);
+    console.log("加密后："+encryptedData);
 </script>
 </body>
+
 </html>

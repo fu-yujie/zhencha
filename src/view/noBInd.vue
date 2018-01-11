@@ -36,7 +36,7 @@
                     spinnerType:'fading-circle'
                 });
                 var obj={};
-                obj.RealName=this.$parent.form.RealName;;
+                obj.RealName=this.$parent.form.RealName;
                 obj.IdentityCard=this.$parent.form.IdentityCard;
                 obj.SinCardId=this.$parent.form.SinCard;
                 obj.SinCardPwd=this.$parent.form.SinPwd;
@@ -96,7 +96,7 @@
 
     }
     .successPrompt{
-        width:266px;
+        width:90%;
         color:#666666;
         opacity: 0.77;
         font-size:14px;

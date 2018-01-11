@@ -9,12 +9,15 @@ import VueResource from 'vue-resource'
 import vueutil from './util/vueutil.js'
 import store from './store'
 import 'mint-ui/lib/style.css'
+/*import VueWechatTitle from 'vue-wechat-title'*/
+
 
 //阻止vue在启动时生成生产提示
 Vue.config.productionTip = false
 Vue.use(VueResource);
 Vue.use(MintUI);
 Vue.use(vueutil);
+/*Vue.use(VueWechatTitle)*/
 
 /* eslint-disable no-new */
 new Vue({

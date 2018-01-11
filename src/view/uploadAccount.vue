@@ -11,7 +11,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile" ref="avatarInput">
                 <img :src="image1" alt="" class="img">-->
-                <upload @upimg="upimg1" style="display:inline-block"></upload>
+                <div style="display:flex;justify-content: space-between">
+                <upload @upimg="upimg1" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                     <img src="../../static/img/account_example1.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge1">
@@ -20,7 +21,7 @@
                     </div>
 
                 </div>
-
+                </div>
             </li>
             <li class="image2">
                 <div class="title">2.参保人本人户籍单页照片</div>
@@ -29,7 +30,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile1" ref="avatarInput1">
                 <img :src="image2" alt="" class="img">-->
-                <upload @upimg="upimg2" style="display:inline-block"></upload>
+                <div style="display:flex;justify-content: space-between">
+                <upload @upimg="upimg2" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                     <img src="../../static/img/account_example2.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge2">
@@ -37,6 +39,7 @@
                         <div>示例</div>
                     </div>
 
+                </div>
                 </div>
             </li>
             <li class="image3">
@@ -46,7 +49,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile2" ref="avatarInput2">
                 <img :src="image3" alt="" class="img">-->
-                <upload @upimg="upimg3" style="display:inline-block"></upload>
+                <div style="display:flex;justify-content: space-between">
+                <upload @upimg="upimg3" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                     <img src="../../static/img/account_example3.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge3">
@@ -55,15 +59,17 @@
                     </div>
 
                 </div>
+                </div>
             </li>
-            <li class="image4">
+            <li class="image4" v-if="isShow">
                 <div class="title">4.参保人所属监护人户籍单页照片</div>
                 <!--<div class="cover" v-if="image4.length==0">
                     <img src="../../static/img/upload.png" alt=""><div>点此上传</div>
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile3" ref="avatarInput3">
                 <img :src="image4" alt="" class="img">-->
-                <upload @upimg="upimg4" style="display:inline-block" ></upload>
+                <div style="display:flex;justify-content: space-between">
+                <upload @upimg="upimg4" style="display:inline-block;width:48%" ></upload>
                 <div class="example">
                     <img src="../../static/img/account_example4.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge4">
@@ -71,6 +77,7 @@
                         <div>示例</div>
                     </div>
 
+                </div>
                 </div>
             </li>
         </ul>
@@ -119,7 +126,7 @@
 
 <script>
     import {getConfig,activation} from "../api/index";
-    import { Indicator } from 'mint-ui';
+    import { Indicator,MessageBox } from 'mint-ui';
     import {openFile} from '../util/core'
     import upload from '../components/uploadImg'
     export default {
@@ -147,11 +154,23 @@
                 img3:'',
                 img4:'',
                 isActive:false,
-                isActive1:true
+                isActive1:true,
+                isShow:''
             }
         },
         created:function(){
+              /*this.isShow=this.$parent.code==-1018||this.$parent.isShowImg*/
+            if(this.$parent.code==-1018){
+                  this.isShow=true;
+            }else{
+                  /*return false*/
+            }
 
+            if(this.$parent.isShowImg){
+                this.isShow=true;
+            }else{
+                return false
+            }
 
         },
         watch:{
@@ -162,9 +181,16 @@
         },
         methods:{
             a:function(){
+                if(this.isShow){
                 if(this.img1.length!==0&&this.img2.length!==0&&this.img3.length!==0&&this.img4.length!==0){
                     this.isActive=true;
                     this.isActive1=false
+                }
+                }else{
+                    if(this.img1.length!==0&&this.img2.length!==0&&this.img3.length!==0){
+                        this.isActive=true;
+                        this.isActive1=false
+                    }
                 }
             },
             upimg1(data) {
@@ -200,6 +226,10 @@ this.popupVisible2=true
             },
             submitForm:function(){
                 var _this=this;
+                Indicator.open({
+                    text:'申请提交中，请稍等...',
+                    spinnerType: 'fading-circle'
+                });
                 var obj={};
                 obj.RealName=this.$parent.form.RealName;
                 obj.IdentityCard=this.$parent.form.IdentityCard;
@@ -219,21 +249,29 @@ this.popupVisible2=true
                 obj.SINCardJHRHJDYImg=this.img4
 
                 activation(obj).then(function (res) {
+                    Indicator.close();
                     console.log(777);
                     console.log(res);
+                    if(res.data.IsSuccess){
+
+                    }else{
+                        MessageBox({
+                            title: '温馨提示',
+                            message: res.data.Message,
+                            //position: 'bottom',
+                            /* showCancelButton: true*/
+                        });
+                    }
                     if(res.data.IsSuccess){
                         _this.$router.push('/activeSuccess')
                     }else{
 
                     }
-                    /*if(_this.img1.length!==0&&_this.img2.length!==0&&_this.img3.length!==0&&_this.img4.length!==0){
 
-                    } else{
-                        return false
-                    }*/
 
 
                 }).catch(function (err) {
+                    Indicator.close();
                     console.log(err);
                 })
             }
@@ -255,23 +293,34 @@ this.popupVisible2=true
 
     }
     .idcard_example{
-        width:165px;
+        width:100%;
+        height:114px;
 
     }
 
     .example{
         display:inline-block;
-        position:absolute;
-        margin-left:10px;
-        right:15px
+        position:relative;
+        /* margin-left:10px;
+         right:15px*/
+        width:48%;
+        height:114px;
+
     }
     .mask{
+        width:100%;
+        /* box-sizing: border-box;*/
         position:absolute;
         top:0;
         background:rgba(0,0,0,0.40);
         /*height:114px;
         width:165px;*/
-        padding:29px 66px
+        /* padding:20px 66px*/
+        height:100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
     }
     .mask div{
@@ -322,7 +371,7 @@ this.popupVisible2=true
     }
     .submit{
         height:47px;
-        width:335px;
+        width:90%;
         background: #00AE66;
         border: 1px solid rgba(5,5,5,0.08);
         border-radius: 5px;

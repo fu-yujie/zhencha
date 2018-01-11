@@ -27,6 +27,8 @@ export default {
         a:100,
         form:'',
         form1:'',
+        code:'',
+        isShowImg:'',
         backRouter:'/',
       showLoading: false,
       titlename: {
@@ -117,7 +119,38 @@ body {
   min-width: 320px;
     height:100%;
 }
+input:disabled{
+    color: #333!important;
+    font-size: 14px;
+    -webkit-text-fill-color:#333;
+    -webkit-opacity:1;
+    opacity: 1;
+}
 
+input::-webkit-input-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
+input:-ms-input-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
+textarea::-webkit-input-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
+textarea:-ms-input-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
+input:-moz-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
+input::-moz-placeholder {
+    color: #999 !important;
+    -webkit-text-fill-color:#999!important;
+}
 body,
 h1,
 h2,

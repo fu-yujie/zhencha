@@ -52,7 +52,7 @@
 
     }
     .successPrompt{
-        width:266px;
+        width:90%;
         color:#666666;
         opacity: 0.77;
         font-size:14px;

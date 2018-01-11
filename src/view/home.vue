@@ -8,8 +8,8 @@
 
 
         <!-- tab-container -->
-        <mt-tab-container v-model="selected" swipeable>
-            <mt-tab-container-item id="1">
+        <mt-tab-container v-model="activesel" >
+            <mt-tab-container-item id="1" v-model="selected">
                 <div class="warning">
                     <img src="../../static/img/warning.png" alt="">
                     <div>为快速激活，减少审核步骤，推荐您使用待激活社保卡的申请或缴费账户进行激活</div>
@@ -73,9 +73,9 @@
                     <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
                     <div class="bank">
                         <div><label for="bank">开户行</label></div>
-                        <input type="text" readonly @click="selectBank" style="background:white" id="bank"
+                        <div class="inputBox" @click="selectBank"><input type="text" disabled  style="background:white" id="bank"
                                placeholder="请选择社保卡金融账户开户行" class="required" maxlength="" value="" v-model="bank"
-                               @keyup="change()">
+                               @keyup="change()"></div>
                         <img src="../../static/img/Chevron.png" alt="" @click="selectBank" class="right_arrow">
                     </div>
                     <div class="account">
@@ -115,7 +115,7 @@
                 </div>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
-                <ul class="historyCell" v-if="list.length">
+                <ul class="historyCell" v-if="isShow">
                     <li v-for="item in list" @click.prevent="detail(item.ID,item.StatusValue)">
                         <div class="top">
                             <div class="num">处理进度</div>
@@ -130,7 +130,7 @@
 
                     </li>
                 </ul>
-                <div v-if="!list.length" class="historyNone">
+                <div v-if="!isShow" class="historyNone">
                     <img src="../../static/img/history_none.png" alt="">
                     <div>未找到历史激活记录</div>
                 </div>
@@ -160,8 +160,8 @@
             v-model="popupVisible"
             popup-transition="popup-fade"
             position="bottom">
-           <div style="display:inline-block;border-bottom:1px solid #E5E5E5;width:50%;font-size:16px;height:30px;line-height:30px" @click="close">取消</div>
-            <div style="display:inline-block;border-bottom:1px solid #E5E5E5;width:50%;font-size:16px;height:30px;line-height:30px" @click="close">确定</div>
+           <div class="cancel" style="" @click="close">取消</div>
+            <div class="cancel" style="" @click="close">确定</div>
             <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
         </mt-popup>
        <!-- <div style="position:fixed; bottom:0; background:white" v-if="popupVisible">取消</div>-->
@@ -176,7 +176,7 @@
 
 <script>
     import Bus from '../util/bus'
-    import {Toast, MessageBox} from 'mint-ui'
+    import {Toast, MessageBox,Indicator} from 'mint-ui'
     /*import header from '../../src/components/header'*/
     import {activation, getHistoryList, getCardInfo, getConfig} from '../api/index'
     import config from '../api/config'
@@ -186,13 +186,17 @@
         data() {
             return {
                 list: [],
+                isShow:'',
                 slots: [
                     {
                         flex: 1,
                         values: [],
                         value1: [],
+                        value:'',
+                        defaultIndex:1,
                         className: 'slot1',
-                        textAlign: 'center'
+                        textAlign: 'center',
+
                     }
                 ],
                 popupVisible: false,
@@ -216,10 +220,14 @@
                 AccountCode: '',
                 isBinding: '',
                 showMsgbox1: '',
-                judgeName:false,
+                isFirstSelect:true,
+
+
+                activesel: '1',
+                /*judgeName:false,
                 judgeIdcard:false,
                 judgePass:false,
-                judgeAccount:false,
+                judgeAccount:false,*/
 
             }
         },
@@ -241,21 +249,43 @@
             })
             /* alert(this.$parent.a)*/
         },
+        /*watch: {
+
+        },*/
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                if(from.name == 'success'||from.name == 'activeSuccess') {
+
+                    vm.selected = '2';
+                    vm.active = '2';
+                    // vm.$store.commit('changeFlag', false);
+                   /* vm.RembursementList()*/
+                }
+            })
+        },
+
         created: function () {
             var _this = this;
+            /*_this.userName='1111111111111111';
+            _this.userName=_this.userName.substr(-5)+new Array(_this.userName.length-9).join('*')+_this.userName.substr(-4)*/
             getHistoryList({passwordId: 0}).then(function (res) {
                 //var _this=this;
                 console.log(111)
                 console.log(res)
                 console.log(res.data.Data.SINCardActiveRecordList)
-                _this.list = res.data.Data.SINCardActiveRecordList
+                _this.list = res.data.Data.SINCardActiveRecordList;
+                if(_this.list.length==0){
+                    _this.isShow=false;
+                }else{
+                    _this.isShow=true;
+                }
             })
             getCardInfo({passwordId: 0}).then(function (res) {
                 console.log(333);
                 console.log(res);
-                _this.isBinding = res.data.Data.SINCardIsBinding
+                _this.isBinding = res.data.Data.SINCardIsBinding;
                 if (res.data.IsSuccess) {
-                    if (res.data.Data.SINCardIsBinding) {
+                    if (res.data.Data.IsBackFillData) {
                         _this.userName = res.data.Data.RealName;
                         _this.idCard = res.data.Data.IdentityCard;
                         _this.cardNum = res.data.Data.SINCardId;
@@ -305,8 +335,20 @@
             pwd_invisible: 'd',
             pwd_visible: 'd',
             sid: 'e',
-            account: 'f'
-        },
+            account: 'f',
+
+            selected: function(val, oldval) {
+                this.activesel = val;
+                switch (val) {
+                    case '1':
+
+                        break;
+                    case '2':
+
+                        break;
+                    }
+                }
+            },
         methods: {
             a: function () {
                 if (this.userName.length !== 0) {
@@ -353,21 +395,21 @@
                 this.popupVisible=false
             },
             checkName: function () {
-                var name = this.userName;
+                /*var name = this.userName;
                 if (name.length >= 10) {
                     Toast({
                         message: '您输入的姓名不规范，请重新输入',
                         position: 'bottom',
                         duration: 2000
                     });
-                   /* return false;*/
+                   /!* return false;*!/
                 }else{
                     this.judgeName=true
-                }
+                }*/
             },
             checkIdcard: function () {
                 //身份证验证
-                var c = this.idCard;
+               /* var c = this.idCard;
                 var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
                 if (reg.test(c) === false) {
                     Toast({
@@ -375,13 +417,13 @@
                         position: 'bottom',
                         duration: 2000
                     });
-                   /* return false;*/
+                   /!* return false;*!/
                 }else{
                     this.judgeIdcard=true
-                }
+                }*/
             },
             checkPass: function () {
-                var pass = this.pwd_visible || this.pwd_invisible;
+               /* var pass = this.pwd_visible || this.pwd_invisible;
                 var reg = /^\d+$/;
                 if (reg.test(pass) === false || pass.length !== 6) {
                     Toast({
@@ -389,14 +431,14 @@
                         position: 'bottom',
                         duration: 2000
                     });
-                    /*return false*/
+                    /!*return false*!/
                 }else{
                     this.judgePass=true
                 }
-
+*/
             },
             checkAccount: function () {
-                var account = this.account;
+                /*var account = this.account;
                 var first = account.substr(0, 1);
                 if (account.length >= 16 && account.length <= 19 && first !== '0') {
                     this.judgeAccount=true
@@ -407,7 +449,7 @@
                         duration: 2000
                     });
                     return false
-                }
+                }*/
             },
             clear1: function () {
                 /* console.log($('.clear').sibling())*/
@@ -443,6 +485,7 @@
                 if (values[0] > values[1]) {
                     picker.setSlotValue(1, values[0]);
                 }
+
                 this.bank = values[0];
 
                 var len = this.slots[0].values.length;
@@ -530,12 +573,85 @@
                     return false
                 }
 
+                var name = this.userName;
+                if (name.length >= 10) {
+                    /*Toast({
+                        message: '您输入的姓名不规范，请重新输入',
+                        position: 'bottom',
+                        duration: 2000
+                    });*/
+                    MessageBox({
+                        title: '温馨提示',
+                        message: '您输入的姓名不规范，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                     return false;
+                }
+                var c = this.idCard;
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if (reg.test(c) === false) {
+                   /* Toast({
+                        message: '身份证输入不合法',
+                        position: 'bottom',
+                        duration: 2000
+                    });*/
+                    MessageBox({
+                        title: '温馨提示',
+                        message: '身份证输入不合法',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                     return false;
+                }
+            //验证密码
+                var pass = this.pwd_visible || this.pwd_invisible;
+                var reg1 = /^\d+$/;
+                if (reg1.test(pass) === false || pass.length !== 6) {
+                    /*Toast({
+                        message: '社保卡密码为6位数字，请重新输入',
+                        position: 'bottom',
+                        duration: 2000
+                    });*/
+                    MessageBox({
+                        title: '温馨提示',
+                        message: '社保卡密码为6位数字，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                    return false
+                }
 
+                //验证金融账户
+                var account = this.account;
+                var first = account.substr(0, 1);
+                if (account.length >= 16 && account.length <= 19 && first !== '0') {
+
+                } else {
+                    /*Toast({
+                        message: '您输入的社保卡金融账户不规范，请重新输入',
+                        position: 'bottom',
+                        duration: 2000
+                    });*/
+                    MessageBox({
+                        title: '温馨提示',
+                        message: '您输入的收款账户不规范，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                    return false
+                }
+                Indicator.open({
+                    text:'激活中，请稍等...',
+                    spinnerType: 'fading-circle'
+                });
                 var data = {};
+                /*var b=new Base64();*/
                 data.RealName = _this.userName;
                 data.IdentityCard = _this.idCard;
                 data.SinCard = _this.cardNum;
-                data.SinPwd = _this.pwd_invisible || _this.pwd_visible;
+                /*data.SinPwd =b.encode( _this.pwd_invisible || _this.pwd_visible);*/
+                data.SinPwd =_this.pwd_invisible || _this.pwd_visible;
                 data.SinSid = _this.sid;
                 data.CashAccount = _this.account;
                 data.CashAccountName = _this.bank;
@@ -544,18 +660,28 @@
                 this.$parent.form = data;
                 console.log(444444);
                 console.log(this.$parent.form);
-                if(_this.judgeName&&_this.judgeIdcard&&_this.judgePass&&_this.judgeAccount) {
+               /* if(_this.judgeName&&_this.judgeIdcard&&_this.judgePass&&_this.judgeAccount) {*/
                     //console.log(_this.userName)
                     activation(data).then(function (res) {
                         /*console.log(2222)*/
                         console.log(res);
+                        Indicator.close();
+                        if(res.data.IsSuccess){
 
-                        MessageBox({
-                            title: '温馨提示',
-                            message: res.data.Message,
-                            //position: 'bottom',
-                            /* showCancelButton: true*/
-                        });
+                        }else{
+                            MessageBox({
+                                title: '温馨提示',
+                                message: res.data.Message,
+                                //position: 'bottom',
+                                /* showCancelButton: true*/
+                            });
+                        }
+
+                        if(res.data.Code == -1018){
+                            _this.$router.push('/selectPaperwork');
+                            _this.$parent.code = res.data.Code;
+                            _this.$parent.isShowImg=''
+                        }
 
                         if (res.data.Code == -1008) {
                             _this.$router.push('/selectPaperwork')
@@ -570,7 +696,7 @@
 
 
                     });
-                }
+
                 Bus.$emit('getTarget', data);
 
 
@@ -609,6 +735,8 @@
         display: inline-block;
     }
 
+
+
     .selectBank {
         background: white
     }
@@ -616,7 +744,15 @@
     #2 {
         height: 100%
     }
-
+.cancel{
+    display:inline-block;
+    border-bottom:1px solid #E5E5E5;
+    width:50%;
+    font-size:16px;
+    height:35px;
+    line-height:35px;
+    color:#00AE66
+}
     .warning {
         background: #FFF7EB;
         height: 53px;
@@ -641,6 +777,12 @@
     }
 
     //form表单
+    #app .inputBox{
+        width:75%
+    }
+    #app .inputBox input{
+        width:100%
+    }
     .form {
         height: 323px;
         background: white;
@@ -649,8 +791,9 @@
     .form input {
         border: 0;
         height: 43px;
-        font-size: 16px;
+        font-size: 14px;
         width: 75%;
+        color:#333333
     }
 
     .clear {
@@ -674,7 +817,8 @@
     .form div div {
         display: inline-block;
         width: 25%;
-        font-size: 16px;
+        font-size: 14px;
+        color:#333333
     }
 
     .form .card, .form .sid, .form .account {
@@ -747,7 +891,7 @@
 
     .historyNone {
         height: 100%;
-        background: white;
+       /* background: white;*/
     }
 
     .historyNone div {
@@ -851,12 +995,12 @@
         border-left: 1px solid #E5E5E5;
         height: 44px;
         line-height: 44px;
-        color: #00AE66
+        color: #00AE66 !important;
     }
 
     .cardNum {
-        width: 272px;
-        height: 173px;
+        width: 100%;
+        /*height: 173px;*/
     }
 
     .activation {

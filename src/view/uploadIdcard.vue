@@ -11,7 +11,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile" ref="avatarInput">
                 <img :src="image1" alt="" class="img">-->
-                <upload @upimg="upimg1" style="display:inline-block"></upload>
+                <div style="display:flex;justify-content: space-between">
+                <upload @upimg="upimg1" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                 <img src="../../static/img/idcard_example1.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge1">
@@ -19,6 +20,7 @@
                         <div>示例</div>
                     </div>
 
+                </div>
                 </div>
             </li>
             <li class="image2">
@@ -28,7 +30,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile1" ref="avatarInput1">
                 <img :src="image2" alt="" class="img">-->
-                <upload @upimg="upimg2" style="display:inline-block"></upload>
+                <div>
+                <upload @upimg="upimg2" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                     <img src="../../static/img/idcard_example2.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge2">
@@ -36,6 +39,7 @@
                         <div>示例</div>
                     </div>
 
+                </div>
                 </div>
             </li>
             <li class="image3">
@@ -45,7 +49,8 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile2" ref="avatarInput2">
                 <img :src="image3" alt="" class="img">-->
-                <upload @upimg="upimg3" style="display:inline-block" ></upload>
+                <div>
+                <upload @upimg="upimg3" style="display:inline-block;width:48%;" ></upload>
                 <div class="example">
                 <img src="../../static/img/account_example3.png" alt="" class="idcard_example">
                     <div class="mask" @click="click_enlarge3">
@@ -53,6 +58,7 @@
                         <div>示例</div>
                     </div>
 
+                </div>
                 </div>
             </li>
         </ul>
@@ -99,7 +105,7 @@
 <script>
     import Bus from '../util/bus'
     import upload from '../components/uploadImg'
-    import { Indicator } from 'mint-ui';
+    import { Indicator,MessageBox } from 'mint-ui';
     import {getConfig,activation} from "../api/index";
     /*import {openFile} from '../util/core'*/
     export default {
@@ -192,6 +198,10 @@
             },
             submitForm:function(){
                 var _this=this;
+                Indicator.open({
+                    text:'申请提交中，请稍等...',
+                    spinnerType: 'fading-circle'
+                });
                 /*console.log('dddd');
                 console.log(this.$parent.form);
                 console.log(this.$parent.form1);*/
@@ -213,6 +223,17 @@
                 obj.IdentityBMImg=this.img3;
 
                 activation(obj).then(function (res) {
+                    Indicator.close();
+                    if(res.data.IsSuccess){
+
+                    }else{
+                        MessageBox({
+                            title: '温馨提示',
+                            message: res.data.Message,
+                            //position: 'bottom',
+                            /* showCancelButton: true*/
+                        });
+                    }
             console.log(777);
             console.log(res);
                     if(res.data.IsSuccess){
@@ -223,6 +244,7 @@
 
 
          }).catch(function (err) {
+                    Indicator.close();
            console.log(err);
          })
             }
@@ -274,23 +296,34 @@
 
     }
     .idcard_example{
-        width:165px;
+        width:100%;
+        height:114px;
 
     }
 
     .example{
         display:inline-block;
-        position:absolute;
-        margin-left:10px;
-        right:15px
+        position:relative;
+       /* margin-left:10px;
+        right:15px*/
+        width:48%;
+        height:114px;
+
     }
     .mask{
+        width:100%;
+       /* box-sizing: border-box;*/
         position:absolute;
         top:0;
         background:rgba(0,0,0,0.40);
         /*height:114px;
         width:165px;*/
-        padding:29px 66px
+       /* padding:20px 66px*/
+        height:100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
     }
     .mask div{
@@ -341,7 +374,7 @@
     }
 .submit{
     height:47px;
-    width:335px;
+    width:90%;
     background: #00AE66;
     border: 1px solid rgba(5,5,5,0.08);
     border-radius: 5px;

@@ -25,7 +25,7 @@
 
         methods:{
             history:function(){
-                this.$router.push('/'+'?tab=2')
+                this.$router.push('/')
             },
             back:function(){
                 window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'

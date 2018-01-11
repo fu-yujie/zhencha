@@ -9,7 +9,7 @@
     <img :src="src" alt="" ref="img">
   </div>
 
-  <input type="file" ref="file"  v-on:change="upload()" hidden>
+  <input type="file" ref="file" name="file" accept="image/*"   v-on:change="upload()" hidden >
 </div>
 </template>
 <script>
@@ -161,7 +161,7 @@
 }
 .img-box{
  /* margin:0 auto;*/
-  width:165px;
+  width:100%;
   height:114px;
   overflow: hidden;
 }

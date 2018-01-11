@@ -5,14 +5,14 @@
             <div>当前登录账号与待激活社保卡的申请/缴费账号不符，为保证社保卡账户安全，激活前需要您上传相关证件照片进行审核，感谢您的理解与配合！</div>
         </div>
         <div class="form">
-            <div class="paperwork">
+            <div class="paperwork" >
                 <div><label for="paperwork">证件类型</label></div>
-                <input type="text" readonly @click="selectPaperwork" id="paperwork" placeholder="选择证件类型"  maxlength=""  v-model="paperwork" @keyup="change()">
+                <div class="inputBox" @click="selectPaperwork"><input type="text" disabled style="background:white"  id="paperwork" placeholder="选择证件类型"  maxlength=""  v-model="paperwork" @keyup="change()"></div>
                 <img src="../../static/img/Chevron.png" alt="" @click="selectPaperwork" class="right_arrow">
             </div>
-               <div class="relation">
+               <div class="relation" >
                    <div><label for="relation">与参保人关系</label></div>
-                   <input type="text" readonly @click="selectRelation" id="relation" placeholder="选择您与参保人的关系"  maxlength=""  v-model="relation" @keyup="change()">
+                   <div class="inputBox" @click="selectRelation"><input type="text" disabled style="background:white"  id="relation" placeholder="选择您与参保人的关系"  maxlength=""  v-model="relation" @keyup="change()"></div>
                     <img src="../../static/img/Chevron.png" alt="" @click="selectRelation" class="right_arrow">
                </div>
             <div class="phoneNum">
@@ -187,6 +187,7 @@ var _this=this
                        console.log(res)
                     if(res.data.IsSuccess){
                         Toast({
+                            iconClass: 'mintui mintui-success',
                             message: '验证码发送成功',
                             position: 'bottom',
                             duration: 2000
@@ -245,7 +246,7 @@ var _this=this
         margin-bottom:19px;
     }
     .warning div{
-        width:309px;
+        width:100%;
         margin:0 auto;
         text-align:left;
         font-size:14px;
@@ -257,8 +258,9 @@ var _this=this
     .form input{
           border:0;
          height:43px;
-         font-size:16px;
+         font-size:14px;
          width:70%;
+        color:#333333
     }
      .form>div{
          border-bottom:1px solid #E5E5E5;
@@ -267,10 +269,17 @@ var _this=this
          font-size:0
      }
     .form div div{
-          display:inline-block;
+        color:#333333;
+       display:inline-block;
         width:30%;
         position:relative;
-        font-size:16px;
+        font-size:14px;
+    }
+   #app .inputBox{
+        width:70%
+    }
+    #app .inputBox input{
+        width:100%
     }
     #app .verificationCode{
         margin-left:0;
@@ -288,7 +297,7 @@ var _this=this
              border-left:1px solid #E5E5E5;
              height:44px;
              line-height:44px;
-             color:#00AE66
+             color:#00AE66!important;
     }
      .right_arrow{
           height:13px;

@@ -6,12 +6,16 @@
     height:100%
 }
 .mint-popup-bottom{
-    width:100%;
-    font-size:0
+    width:100% !important;
+    font-size:0;
+    border-radius:0 !important;
 }
+
 .mint-popup{
-    height:173px;
+   /* height:173px;*/
     border-radius:10px;
+    width:80%;
+    font-size: 0;
 }
 .mint-cell{
     min-height:44px;
@@ -58,9 +62,12 @@
     font-size: 14px !important;
     color: #666666 !important;
     margin: 0;
-    text-align: left !important;
+    text-align: center !important;
     width: 242px !important;
     line-height: 20px !important;
+}
+.picker-items{
+    top:-20px !important;
 }
 .mint-msgbox{
     width:280px !important;
