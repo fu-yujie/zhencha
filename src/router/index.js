@@ -20,57 +20,69 @@ export default new Router({
     {//首页
           path: '/',
           name: 'home',
-          component: home
+          component: home,
+        meta:{title:'居民社保卡激活'}
       },
       {//激活成功已绑卡
           path: '/alreadyBind',
           name: 'alreadyBind',
-          component: alreadyBind
+          component: alreadyBind,
+          meta:{title:'居民社保卡激活'}
       },
       {//激活成功未绑卡
           path: '/noBind',
           name: 'noBind',
-          component: noBind
+          component: noBind,
+meta:{title:'居民社保卡激活'}
       },
       {//选择证件类型
           path: '/selectPaperwork',
           name: 'selectPaperwork',
-          component: selectPaperwork
+          meta:{title:'居民社保卡激活'},
+          component: selectPaperwork,
+
       },
       {//上传身份证
           path: '/uploadIdcard',
           name: 'uploadIdcard',
-          component: uploadIdcard
+          component: uploadIdcard,
+          meta:{title:'居民社保卡激活'}
       },
       {//激活申请提交成功
           path: '/activeSuccess',
           name: 'activeSuccess',
-          component: activeSuccess
+          component: activeSuccess,
+          meta:{title:'居民社保卡激活'}
       },
       {//审核中
           path: '/underReview',
           name: 'underReview',
-          component: underReview
+          component: underReview,
+          meta:{title:'居民社保卡激活'}
       },
       {//审核未通过
           path: '/notPass',
           name: 'notPass',
-          component: notPass
+          component: notPass,
+          meta:{title:'居民社保卡激活'}
       },
       {//激活成功
           path: '/success/:ID',
           name: 'success',
-          component: success
+          component: success,
+          meta:{title:'居民社保卡激活'}
       },
       {//激活失败
           path: '/fail',
           name: 'fail',
-          component: fail
+          component: fail,
+          meta:{title:'居民社保卡激活'}
       },
       {//上传户口本
           path: '/uploadAccount',
           name: 'uploadAccount',
-          component: uploadAccount
+          component: uploadAccount,
+          meta:{title:'居民社保卡激活'}
       }
   ]
 })

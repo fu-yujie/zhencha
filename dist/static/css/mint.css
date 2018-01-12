@@ -5,15 +5,17 @@
 .mint-tab-container-wrap{
     height:100%
 }
-.mint-popup-bottom{
+#app .mint-popup-bottom{
     width:100% !important;
     font-size:0;
     border-radius:0 !important;
+    background:white !important;
 }
 
 .mint-popup{
    /* height:173px;*/
-    border-radius:10px;
+    /*border-radius:10px;*/
+    background:transparent !important;
     width:80%;
     font-size: 0;
 }

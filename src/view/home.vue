@@ -1,5 +1,10 @@
 <template>
-    <div class="home">
+    <div class="home" >
+        <div style="z-index: 100;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #E5E5E5;" v-if="isShowHome"></div>
         <!--<my-header></my-header>-->
         <mt-navbar v-model="selected">
             <mt-tab-item id="1">社保卡激活</mt-tab-item>
@@ -8,11 +13,11 @@
 
 
         <!-- tab-container -->
-        <mt-tab-container v-model="activesel" >
+        <mt-tab-container v-model="activesel">
             <mt-tab-container-item id="1" v-model="selected">
                 <div class="warning">
                     <img src="../../static/img/warning.png" alt="">
-                    <div>为快速激活，减少审核步骤，推荐您使用待激活社保卡的申请或缴费账户进行激活</div>
+                    <div>激活社保卡时的登录手机号：推荐使用此参保人18年医疗保险缴费时预留的手机号或在线申领社保卡时登录的手机号</div>
                 </div>
                 <!--<div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName"  @keyup="change()"></mt-field>
                     <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard"  @keyup="change()"></mt-field>
@@ -124,7 +129,7 @@
                         <div class="under">
                             <div class="name"><span>参保人</span>{{item.RealName}}</div>
                             <div class="idCard"><span>社保卡号</span>{{item.SINCardId}}</div>
-                            <div class="data"><span>社会保障卡</span>{{item.IdentityCard}}</div>
+                            <div class="data"><span>社会保障号</span>{{item.IdentityCard.length==18?item.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2"):item.IdentityCard.replace(/(\d{6})\d{5}(\d{4})/, "$1*******$2")}}</div>
                         </div>
                         <div class="detail" @click.prevent="detail(item.ID,item.StatusValue)">查看详情</div>
 
@@ -186,7 +191,8 @@
         data() {
             return {
                 list: [],
-                isShow:'',
+                isShowHome:true,
+                isShow:true,
                 slots: [
                     {
                         flex: 1,
@@ -255,9 +261,11 @@
         beforeRouteEnter (to, from, next) {
             next(vm => {
                 if(from.name == 'success'||from.name == 'activeSuccess') {
+                    setTimeout(() => {
+                        vm.selected = '2';
+                        vm.active = '2';
+                    })
 
-                    vm.selected = '2';
-                    vm.active = '2';
                     // vm.$store.commit('changeFlag', false);
                    /* vm.RembursementList()*/
                 }
@@ -265,25 +273,20 @@
         },
 
         created: function () {
+
             var _this = this;
-            /*_this.userName='1111111111111111';
-            _this.userName=_this.userName.substr(-5)+new Array(_this.userName.length-9).join('*')+_this.userName.substr(-4)*/
-            getHistoryList({passwordId: 0}).then(function (res) {
-                //var _this=this;
-                console.log(111)
-                console.log(res)
-                console.log(res.data.Data.SINCardActiveRecordList)
-                _this.list = res.data.Data.SINCardActiveRecordList;
-                if(_this.list.length==0){
-                    _this.isShow=false;
-                }else{
-                    _this.isShow=true;
-                }
-            })
             getCardInfo({passwordId: 0}).then(function (res) {
+                _this.isShowHome=false
+                if (!window.localStorage.getItem('box')) {
+                    window.localStorage.setItem('box', 111)
+                    _this.showMsgbox()
+                }
                 console.log(333);
                 console.log(res);
                 _this.isBinding = res.data.Data.SINCardIsBinding;
+                /*if(res.data.Code==0){
+
+                }*/
                 if (res.data.IsSuccess) {
                     if (res.data.Data.IsBackFillData) {
                         _this.userName = res.data.Data.RealName;
@@ -293,6 +296,22 @@
                     }
                 }
             })
+            /*_this.userName='1111111111111111';
+            _this.userName=_this.userName.substr(-5)+new Array(_this.userName.length-9).join('*')+_this.userName.substr(-4)*/
+            getHistoryList({passwordId: 0}).then(function (res) {
+                //var _this=this;
+
+                console.log(111)
+                console.log(res)
+                console.log(res.data.Data.SINCardActiveRecordList)
+               _this.list = res.data.Data.SINCardActiveRecordList;
+                if(_this.list.length==0){
+                    _this.isShow=false;
+                }else{
+                    _this.isShow=true;
+                }
+            })
+
 
             /* this.slots.forEach(function(item,index){
                  console.log(item.name);*/
@@ -321,10 +340,7 @@
             /* })*/
 
 
-            if (!window.localStorage.getItem('box')) {
-                window.localStorage.setItem('box', 111)
-                this.showMsgbox()
-            }
+
 
 
         },
@@ -591,14 +607,10 @@
                 var c = this.idCard;
                 var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
                 if (reg.test(c) === false) {
-                   /* Toast({
-                        message: '身份证输入不合法',
-                        position: 'bottom',
-                        duration: 2000
-                    });*/
+
                     MessageBox({
                         title: '温馨提示',
-                        message: '身份证输入不合法',
+                        message: '您输入的身份证号不规范，请重新输入',
                         //position: 'bottom',
                         /* showCancelButton: true*/
                     });
@@ -608,11 +620,7 @@
                 var pass = this.pwd_visible || this.pwd_invisible;
                 var reg1 = /^\d+$/;
                 if (reg1.test(pass) === false || pass.length !== 6) {
-                    /*Toast({
-                        message: '社保卡密码为6位数字，请重新输入',
-                        position: 'bottom',
-                        duration: 2000
-                    });*/
+
                     MessageBox({
                         title: '温馨提示',
                         message: '社保卡密码为6位数字，请重新输入',
@@ -759,13 +767,14 @@
         padding: 10px 10px 10px 15px;
         text-align: left;
         display: flex;
+        align-items: center;
     }
 
     .warning img {
         height: 13px;
         width: 13px;
         vertical-align: top;
-        margin-top: 4px;
+
     }
 
     .warning div {
@@ -882,7 +891,8 @@
 
     .home {
         background: #E5E5E5;
-        height: 100%
+        position:relative;
+        /*height: 100%*/
     }
 
     .pwd_visible, .pwd_invisible {

@@ -30,7 +30,7 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile1" ref="avatarInput1">
                 <img :src="image2" alt="" class="img">-->
-                <div>
+                <div style="display:flex;justify-content: space-between">
                 <upload @upimg="upimg2" style="display:inline-block;width:48%;"></upload>
                 <div class="example">
                     <img src="../../static/img/idcard_example2.png" alt="" class="idcard_example">
@@ -49,7 +49,7 @@
                 </div>
                 <input type="file" accept="image/*" class="file1" v-on:change="inputFile2" ref="avatarInput2">
                 <img :src="image3" alt="" class="img">-->
-                <div>
+                <div style="display:flex;justify-content: space-between">
                 <upload @upimg="upimg3" style="display:inline-block;width:48%;" ></upload>
                 <div class="example">
                 <img src="../../static/img/account_example3.png" alt="" class="idcard_example">

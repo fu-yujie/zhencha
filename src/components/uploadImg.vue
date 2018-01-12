@@ -60,6 +60,9 @@
           var _this=this;
 
           if(this.$refs.file.files.length==0){
+              setTimeout(()=>{
+                  Indicator.close();
+              },100)
             return;
           }
             let files = this.$refs.file.files;

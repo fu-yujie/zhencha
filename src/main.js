@@ -10,7 +10,9 @@ import vueutil from './util/vueutil.js'
 import store from './store'
 import 'mint-ui/lib/style.css'
 /*import VueWechatTitle from 'vue-wechat-title'*/
+import VueWechatTitle from 'vue-wechat-title'
 
+Vue.use(VueWechatTitle)
 
 //阻止vue在启动时生成生产提示
 Vue.config.productionTip = false

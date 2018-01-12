@@ -3,13 +3,13 @@
       <!--<web-header :routera="backRouter"></web-header>-->
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
-      <router-view></router-view>
+      <router-view v-wechat-title="$route.meta.title"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
-import router from './router'
+import router from './router/index'
 import loading from 'components/loading'
 import util from './util/util.js'
 import api from './model/api.js'
@@ -39,9 +39,12 @@ export default {
     beforeCreate(){
 
         getCardInfo({passwordId:0}).then(function(res){
-            /*console.log(res)*/
+            if(res.data.Code==-1000){
+                window.location = config.getPassPortUrl + 'm/Account/NewLogin?returnUrl=' + encodeURIComponent(window.location.href )
+            }
         })
             .catch(function(err){
+                console.log(err)
                 window.location = config.getPassPortUrl + 'm/Account/NewLogin?returnUrl=' + encodeURIComponent(window.location.href )
             });
 
@@ -49,7 +52,9 @@ export default {
   created() {
     //拦截路由
     router.beforeEach((to, from, next) => {
-
+        if (to.meta.title) {
+            document.title = to.meta.title
+        }
       next();
 
       //初始化滚动事件监听

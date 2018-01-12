@@ -3,6 +3,12 @@ let base='http://devlfybcardjh.zhiscity.com'
 let devt='http://testpassport.zhiscity.com/'
 let devt1='http://testwebapi.zhiscity.com'
 
+//正式环境
+/*let base='https://lfybcardjh.zhiscity.com'
+let devt='https://passport.zhiscity.com/'
+let devt1='https://webapi.zhiscity.com'*/
+
+
 export default {
     //点击立即激活
     activation:`${base}/sincardactive/fire`,
