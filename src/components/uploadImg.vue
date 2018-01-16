@@ -169,7 +169,7 @@
   overflow: hidden;
 }
 .add-img:hover{
-  border:1px dashed #1e90ff;
+ /* border:1px dashed #1e90ff;*/
 }
 .add-img i{
   font-size: 73px;

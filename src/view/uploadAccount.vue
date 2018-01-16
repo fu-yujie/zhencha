@@ -105,19 +105,19 @@
          </mt-actionsheet>-->
         <mt-popup
             v-model="popupVisible1">
-            <img src="../../static/img/account_exampleEn1.png" alt="" class="enlarge">
+            <img src="../../static/img/account_exampleEn1.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
         <mt-popup
             v-model="popupVisible2">
-            <img src="../../static/img/account_exampleEn2.png" alt="" class="enlarge" >
+            <img src="../../static/img/account_exampleEn2.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
         <mt-popup
             v-model="popupVisible3">
-            <img src="../../static/img/account_exampleEn3.png" alt="" class="enlarge" >
+            <img src="../../static/img/account_exampleEn3.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
         <mt-popup
             v-model="popupVisible4">
-            <img src="../../static/img/account_exampleEn4.png" alt="" class="enlarge" >
+            <img src="../../static/img/account_exampleEn4.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
     </div>
     <!-- <input type="file" v-show="false" id="file">-->
@@ -180,6 +180,11 @@
             img4:'a'
         },
         methods:{
+            clickNone:function(){
+                this.popupVisible1=false;
+                this.popupVisible2=false;
+                this.popupVisible3=false;
+            },
             a:function(){
                 if(this.isShow){
                 if(this.img1.length!==0&&this.img2.length!==0&&this.img3.length!==0&&this.img4.length!==0){
@@ -253,7 +258,7 @@ this.popupVisible2=true
                     console.log(777);
                     console.log(res);
                     if(res.data.IsSuccess){
-
+                        _this.$router.push('/activeSuccess')
                     }else{
                         MessageBox({
                             title: '温馨提示',
@@ -262,11 +267,11 @@ this.popupVisible2=true
                             /* showCancelButton: true*/
                         });
                     }
-                    if(res.data.IsSuccess){
-                        _this.$router.push('/activeSuccess')
+                    /*if(res.data.IsSuccess){
+
                     }else{
 
-                    }
+                    }*/
 
 
 
@@ -331,7 +336,7 @@ this.popupVisible2=true
         width:26px;
     }
     .enlarge{
-        width:320px;
+        width:100%;
     }
     .file1{
         background:transparent;
@@ -355,6 +360,7 @@ this.popupVisible2=true
     .title{
         text-align:left;
         margin-bottom:12px;
+        color:#333333
     }
     .cover{
         /*height:114px;*/

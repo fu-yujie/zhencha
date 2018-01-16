@@ -87,15 +87,15 @@
         </mt-actionsheet>-->
         <mt-popup
             v-model="popupVisible1">
-            <img src="../../static/img/idcard_exampleEn1.png" alt="" class="enlarge">
+            <img src="../../static/img/idcard_exampleEn1.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
         <mt-popup
             v-model="popupVisible2">
-            <img src="../../static/img/idcard_exampleEn2.png" alt="" class="enlarge" >
+            <img src="../../static/img/idcard_exampleEn2.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
         <mt-popup
             v-model="popupVisible3">
-            <img src="../../static/img/account_exampleEn3.png" alt="" class="enlarge" >
+            <img src="../../static/img/account_exampleEn3.png" alt="" class="enlarge" @click="clickNone">
         </mt-popup>
     </div>
         <!-- <input type="file" v-show="false" id="file">-->
@@ -166,6 +166,11 @@
             img3:'a',
         },
         methods:{
+            clickNone:function(){
+                this.popupVisible1=false;
+                this.popupVisible2=false;
+                this.popupVisible3=false;
+            },
             a:function(){
                 if(this.img1.length!==0&&this.img2.length!==0&&this.img3.length!==0){
                     this.isActive=true;
@@ -225,7 +230,7 @@
                 activation(obj).then(function (res) {
                     Indicator.close();
                     if(res.data.IsSuccess){
-
+                        _this.$router.push('/activeSuccess')
                     }else{
                         MessageBox({
                             title: '温馨提示',
@@ -236,11 +241,7 @@
                     }
             console.log(777);
             console.log(res);
-                    if(res.data.IsSuccess){
-                        _this.$router.push('/activeSuccess')
-                    }else{
 
-                    }
 
 
          }).catch(function (err) {
@@ -334,7 +335,7 @@
         width:26px;
     }
     .enlarge{
-        width:320px;
+        width:100%;
     }
 .file1{
     background:transparent;
@@ -358,6 +359,7 @@
     .title{
         text-align:left;
         margin-bottom:12px;
+        color:#333333;
     }
     .cover{
         /*height:114px;*/

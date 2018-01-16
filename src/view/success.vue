@@ -195,7 +195,8 @@
                 console.log(3333);
                 console.log(res);
                 _this.content=res.data.Data;
-               _this.idcard=(_this.content.IdentityCard.length==18)?_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2"):_this.content.IdentityCard.replace(/(\d{6})\d{5}(\d{4})/, "$1*******$2")
+                _this.idcard=_this.content.IdentityCard.slice(0,6)+new Array(_this.content.IdentityCard.length-10).join('*')+_this.content.IdentityCard.substr(-4)
+               //_this.idcard=(_this.content.IdentityCard.length==18)?_this.content.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2"):_this.content.IdentityCard.replace(/(\d{6})\d{5}(\d{4})/, "$1*******$2")
                 //_this.account=_this.content.CashAccount.replace(/(\d{6})\d{9}(\d{4})/, "$1*******$2");
                 _this.account=new Array(_this.content.CashAccount.length-4).join('*')+_this.content.CashAccount.substr(-4)
                /* if(res.data.Data.StatusValue==0){
