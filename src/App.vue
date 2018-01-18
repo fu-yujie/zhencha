@@ -50,6 +50,7 @@ export default {
 
     },
   created() {
+
     //拦截路由
     router.beforeEach((to, from, next) => {
         if (to.meta.title) {

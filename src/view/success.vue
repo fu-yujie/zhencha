@@ -219,7 +219,7 @@
         },
         methods:{
             returnHome:function(){
-                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
             },
             reupload:function(){
                 var _this=this;

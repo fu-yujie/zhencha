@@ -1,11 +1,11 @@
-let base='http://devlfybcardjh.zhiscity.com'
+/*let base='http://devlfybcardjh.zhiscity.com'
 let devt='http://testpassport.zhiscity.com/'
-let devt1='http://testwebapi.zhiscity.com'
+let devt1='http://testwebapi.zhiscity.com'*/
 
 //正式环境
-/*let base='https://lfybcardjh.zhiscity.com'
+let base='https://lfybcardjh.zhiscity.com'
 let devt='https://passport.zhiscity.com/'
-let devt1='https://webapi.zhiscity.com'*/
+let devt1='https://webapi.zhiscity.com'
 
 
 export default {
@@ -18,5 +18,6 @@ getCardInfo:`${base}/sincard/info`,
     getConfig:`${base}/sincardactive/config`,
     getinfoCode:`${base}/message/sendsmsforuservalidation`,
     checkCode:`${base}/message/validationsms`,
-    cardBind:`${base}/sincard/bind`
+    cardBind:`${base}/sincard/bind`,
+    getValidation:`${base}/validation/cashaccount`
 }

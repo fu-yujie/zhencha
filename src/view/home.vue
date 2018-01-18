@@ -33,7 +33,7 @@
                         <div class="userName">
                             <div><label for="userName">姓名</label></div>
                             <input type="text" placeholder="请输入姓名" id="userName" ref="userName" v-model="userName"
-                                   @keyup="change()" @blur="checkName" class="required">
+                                   @keyup="change()" class="required">
                             <img src="../../static/img/clear.png" alt="" class="clear clearName" @click="clear1"
                                  style=""
                                  v-if="userName">
@@ -41,7 +41,7 @@
                         <div class="idCard">
                             <div><label for="idCard">身份证号</label></div>
                             <input type="text" id="idCard" placeholder="请输入身份证号" class="required" maxlength="18"
-                                   v-model="idCard" @blur="checkIdcard" @keyup="change()">
+                                   v-model="idCard"  @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearid" @click="clear2"
                                  v-if="idCard">
                         </div>
@@ -57,7 +57,7 @@
                             <div><label for="pwd_invisible">社保卡密码</label></div>
                             <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required"
                                    maxlength="6"
-                                   @blur="checkPass" v-model="pwd_invisible" @keyup="change()">
+                                    v-model="pwd_invisible" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
                                  v-if="pwd_invisible" style="right:41px">
                             <img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt=""
@@ -66,7 +66,7 @@
                         <div :class="{pwd_visible:isActive2}" class="password">
                             <div><label for="pwd_visible">社保卡密码</label></div>
                             <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" maxlength="6"
-                                   @blur="checkPass" v-model="pwd_visible">
+                                   v-model="pwd_visible">
                             <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
                                  v-if="pwd_visible" style="right:41px">
                             <img class="visibility_off" src="../../static/img/ic_visibility.png" alt=""
@@ -95,15 +95,22 @@
                         </div>
                         <div class="account">
                             <div><label for="account">收款账户</label></div>
-                            <input type="text" pattern="[0-9]*" id="account" placeholder="请输入社保卡金融账户卡号" class="required"
-                                   @blur="checkAccount"
+                            <input ref="input" type="number" id="account" placeholder="请输入社保卡金融账户卡号" class="required"
+                                   @focus="checkAccount"
                                    maxlength="" v-model="account" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearaccount" v-if="account"
                                  @click="clear6" style="right:70px">
                             <div class="example" @click="example3">示例</div>
                         </div>
+
                     </div>
 
+                    <div class="description">
+                        <div style="display:flex;align-items: center">
+                        <img src="../../static/img/copy.png" alt="">
+                        <div>开户行及收款账户影响您的报销是否到账，请仔细核对</div>
+                        </div>
+                    </div>
                     <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
                     <div class="prompt">
                         <div class="title">温馨提示</div>
@@ -310,8 +317,11 @@
             v-model="popupVisible"
             popup-transition="popup-fade"
             position="bottom">
-            <div class="cancel" style="" @click="close">取消</div>
-            <div class="cancel" style="" @click="close">确定</div>
+            <div class="head" style="height:40px;display:flex;justify-content: space-between;background:#FBF9FE;border-bottom:1px solid #DFDFDF;">
+            <div class="cancel" style="margin-left:15px;" @click="close">取消</div>
+            <div class="cancel" style="color:#333333">请选择金融账户开户行</div>
+            <div class="cancel" style="margin-right:15px;" @click="close">确定</div>
+            </div>
             <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
         </mt-popup>
         <!-- <div style="position:fixed; bottom:0; background:white" v-if="popupVisible">取消</div>-->
@@ -329,7 +339,7 @@
     import {Toast, MessageBox, Indicator} from 'mint-ui'
     import BScroll from 'better-scroll'
     /*import header from '../../src/components/header'*/
-    import {activation, getHistoryList, getCardInfo, getConfig} from '../api/index'
+    import {activation, getHistoryList, getCardInfo, getConfig,getValidation} from '../api/index'
     import config from '../api/config'
 
     export default {
@@ -376,16 +386,17 @@
 
 
                 activesel: '1',
-                /*judgeName:false,
-                judgeIdcard:false,
-                judgePass:false,
-                judgeAccount:false,*/
 
             }
         },
         mounted: function () {
             var _this = this;
             $('input').focus(function () {
+                /*setTimeout(function(){
+                    _this.$refs.input.scrollIntoView(true)
+                    _this.$refs.input.scrollIntoViewIfNeeded()
+                },300);*/
+
                 setTimeout(() => {
                     $(this).siblings('.clear').addClass('b')
                     $(this).siblings('.clear').removeClass('a')
@@ -423,8 +434,6 @@
                     });
                 })
 
-                /*_this.$refs.page2.style.height=height+'px';*/
-
                 if (_this.list.length == 0) {
                     _this.isShow = false;
                 } else {
@@ -446,9 +455,6 @@
                         $('#page1').addClass('active')
                         $('#page2').removeClass('active')
                     })
-
-                    // vm.$store.commit('changeFlag', false);
-                    /* vm.RembursementList()*/
                 }
             })
         },
@@ -617,8 +623,17 @@
 
             },
             checkAccount: function () {
-                
+                $('.description').addClass('description1')
+               /* setTimeout(function(){
+                    $('.home').scrollTop(200)
+                },200)*/
+
             },
+            /*checkAccount1:function(){
+                setTimeout(function(){
+                    $('.home').scrollTop(200)
+                },200)
+            },*/
             clear1: function () {
                 /* console.log($('.clear').sibling())*/
                 this.userName = ''
@@ -666,38 +681,6 @@
                 }
 
             },
-            /* bank1:function(){
-                 this.bank=this.actions[0].name;
-                 this.AccountCode=this.actions[0].CashAccountCode;
-             },
-             bank2:function(){
-                 this.bank=this.actions[1].name;
-                this.AccountCode=this.actions[1].CashAccountCode
-             },
-             bank3:function(){
-                 this.bank=this.actions[2].name
-                 this.AccountCode=this.actions[2].CashAccountCode
-             },
-             bank4:function(){
-                 this.bank=this.actions[3].name
-                 this.AccountCode=this.actions[3].CashAccountCode
-
-             },
-             bank5:function(){
-                 this.bank=this.actions[4].name
-                 this.AccountCode=this.actions[4].CashAccountCode
-
-             },
-             bank6:function(){
-                 this.bank=this.actions[5].name
-                 this.AccountCode=this.actions[5].CashAccountCode
-
-             },
-             bank7:function(){
-                 this.bank=this.actions[6].name
-                 this.AccountCode=this.actions[6].CashAccountCode
-
-             },*/
             example1: function () {
                 this.popupVisible1 = true;
             },
@@ -730,81 +713,8 @@
                 this.$router.push({name: 'success', params: {ID: id}})
 
             },
-            activation: function (event) {
-                var _this = this;
-
-                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
-
-                } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
-
-                } else {
-                    return false
-                }
-
-                var name = this.userName;
-                if (name.length >= 10) {
-                    /*Toast({
-                        message: '您输入的姓名不规范，请重新输入',
-                        position: 'bottom',
-                        duration: 2000
-                    });*/
-                    MessageBox({
-                        title: '温馨提示',
-                        message: '您输入的姓名不规范，请重新输入',
-                        //position: 'bottom',
-                        /* showCancelButton: true*/
-                    });
-                    return false;
-                }
-                var c = this.idCard;
-                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-                if (reg.test(c) === false) {
-
-                    MessageBox({
-                        title: '温馨提示',
-                        message: '您输入的身份证号不规范，请重新输入',
-                        //position: 'bottom',
-                        /* showCancelButton: true*/
-                    });
-                    return false;
-                }
-                //验证密码
-                var pass = this.pwd_visible || this.pwd_invisible;
-                var reg1 = /^\d+$/;
-                if (reg1.test(pass) === false || pass.length !== 6) {
-
-                    MessageBox({
-                        title: '温馨提示',
-                        message: '社保卡密码为6位数字，请重新输入',
-                        //position: 'bottom',
-                        /* showCancelButton: true*/
-                    });
-                    return false
-                }
-
-                //验证金融账户
-                var account = this.account;
-                var first = account.substr(0, 1);
-                if (reg1.test(account) && account.length >= 16 && account.length <= 19 && first !== '0') {
-
-                } else {
-                    /*Toast({
-                        message: '您输入的社保卡金融账户不规范，请重新输入',
-                        position: 'bottom',
-                        duration: 2000
-                    });*/
-                    MessageBox({
-                        title: '温馨提示',
-                        message: '您输入的收款账户不规范，请重新输入',
-                        //position: 'bottom',
-                        /* showCancelButton: true*/
-                    });
-                    return false
-                }
-                Indicator.open({
-                    text: '激活中，请稍等...',
-                    spinnerType: 'fading-circle'
-                });
+            getData(){
+                var _this=this;
                 var data = {};
                 /*var b=new Base64();*/
                 data.RealName = _this.userName;
@@ -820,8 +730,6 @@
                 this.$parent.form = data;
                 console.log(444444);
                 console.log(this.$parent.form);
-                /* if(_this.judgeName&&_this.judgeIdcard&&_this.judgePass&&_this.judgeAccount) {*/
-                //console.log(_this.userName)
                 activation(data).then(function (res) {
                     /*console.log(2222)*/
                     console.log(res);
@@ -856,10 +764,174 @@
 
 
                 });
+            },
+            activation: function (event) {
+                var _this = this;
+                $('input').blur();
+                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
 
-                Bus.$emit('getTarget', data);
+                } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
+
+                } else {
+                    return false
+                }
+
+                var name = this.userName;
+                if (name.length >= 10) {
+                    /*Toast({
+                        message: '您输入的姓名不规范，请重新输入',
+                        position: 'bottom',
+                        duration: 2000
+                    });*/
+                    MessageBox({
+                        closeOnClickModal:false,
+                        title: '温馨提示',
+                        message: '您输入的姓名不规范，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                    return false;
+                }
+                var c = this.idCard;
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if (reg.test(c) === false) {
+
+                    MessageBox({
+                        closeOnClickModal:false,
+                        title: '温馨提示',
+                        message: '您输入的身份证号不规范，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                    return false;
+                }
+                //验证密码
+                var pass = this.pwd_visible || this.pwd_invisible;
+                var reg1 = /^\d+$/;
+                if (reg1.test(pass) === false || pass.length !== 6) {
+
+                    MessageBox({
+                        closeOnClickModal:false,
+                        title: '温馨提示',
+                        message: '社保卡密码为6位数字，请重新输入',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
+                    return false
+                }
+
+                //验证金融账户
+                var account = this.account;
+                var first = account.substr(0, 1);
+                if (reg1.test(account) && account.length >= 16 && account.length <= 19 && first !== '0') {
+
+                } else {
+
+                    MessageBox({
+                        closeOnClickModal:false,
+                        title: '温馨提示',
+                        message: '您输入的收款账户不规范，请重新输入',
+                    });
+                    return false
+                }
 
 
+                Indicator.open({
+                    text: '激活中，请稍等...',
+                    spinnerType: 'fading-circle'
+                });
+
+
+                getValidation({
+                    CashAccountName: _this.bank,
+                    CashAccountCode: _this.AccountCode,
+                    CashAccount: _this.account
+                }).then(function (res) {
+                    console.log(666);
+                    console.log(res)
+                    if (res.data.IsSuccess) {
+                        /* MessageBox.confirm({
+                            message:res.body.Message,
+                            title});*/
+                        _this.getData()
+                    } else {
+                        MessageBox.confirm('', {
+                            closeOnClickModal:false,
+                            message: res.data.Message,
+                            title: '温馨提示',
+                            confirmButtonText: '重新输入',
+                            cancelButtonText: '确认提交'
+                        }).then(action => {
+                            Indicator.close()
+                           /* if (action == 'confirm') {
+                                console.log(555)
+
+                            }*/
+                        }).catch(err => {
+                            _this.getData()
+                            }
+                        )
+                    }
+                })
+
+
+                var data = {};
+                /*var b=new Base64();*/
+                data.RealName = _this.userName;
+                data.IdentityCard = _this.idCard;
+                data.SinCard = _this.cardNum;
+                /*data.SinPwd =b.encode( _this.pwd_invisible || _this.pwd_visible);*/
+                data.SinPwd = _this.pwd_invisible || _this.pwd_visible;
+                data.SinSid = _this.sid;
+                data.CashAccount = _this.account;
+                data.CashAccountName = _this.bank;
+                data.CashAccountCode = _this.AccountCode;
+                data.PasswordId = 0;
+                this.$parent.form = data;
+                console.log(444444);
+                console.log(this.$parent.form);
+               /* if (_this.judgeName && _this.judgeIdcard && _this.judgePass && _this.judgeAccount) {
+                    //console.log(_this.userName)
+                    this.getData(data)
+                    /!*activation(data).then(function (res) {
+                    /!*console.log(2222)*!/
+                    console.log(res);
+                    Indicator.close();
+                    if (res.data.IsSuccess) {
+
+                    } else {
+                        MessageBox({
+                            title: '温馨提示',
+                            message: res.data.Message,
+                            //position: 'bottom',
+                            /!* showCancelButton: true*!/
+                        });
+                    }
+
+                    if (res.data.Code == -1018) {
+                        _this.$router.push('/selectPaperwork');
+                        _this.$parent.code = res.data.Code;
+                        _this.$parent.isShowImg = ''
+                    }
+
+                    if (res.data.Code == -1008) {
+                        _this.$router.push('/selectPaperwork')
+                    }
+                    if (res.data.IsSuccess) {
+                        if (_this.isBinding) {
+                            _this.$router.push('/alreadyBind')
+                        } else {
+                            _this.$router.push('/noBind')
+                        }
+                    }
+
+
+                });*!/
+
+                    Bus.$emit('getTarget', data);
+
+
+                }*/
             },
             change: function () {
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
@@ -898,6 +970,12 @@
         width: 100%;
         z-index: 100;
         border-bottom: 1px solid #E5E5E5
+    }
+    .description{
+        display:none;
+    }
+    #app .description1{
+        display:block;
     }
 
     .tab1, .tab2 {
@@ -955,14 +1033,18 @@
     }*/
     .cancel {
         display: inline-block;
-        border-bottom: 1px solid #E5E5E5;
-        width: 50%;
+       /* border-bottom: 1px solid #E5E5E5;*/
+        /*width: 50%;*/
         font-size: 16px;
-        height: 35px;
-        line-height: 35px;
+        height: 40px;
+        line-height: 40px;
         color: #00AE66
     }
-
+.description{
+    /*display: flex;
+    align-items: center;*/
+   padding:10px 14px 0;
+}
     .warning {
         background: #FFF7EB;
         /* height: 53px;*/
@@ -972,19 +1054,22 @@
         align-items: center;
     }
 
-    .warning img {
+    .warning img ,.description img{
         height: 13px;
         width: 13px;
         vertical-align: top;
 
     }
 
-    .warning div {
+    .warning div,.description div {
         display: inline-block;
         font-size: 12px;
         margin-left: 6px;
         text-align: left;
         color: #FBB640
+    }
+    .description div{
+        color:#FF0000
     }
 
     //form表单
@@ -1225,7 +1310,7 @@
         line-height: 47px;
         border-radius: 5px;
         margin: 0 auto;
-        margin-top: 25px;
+        margin-top: 17px;
         opacity: 0.4;
     }
 

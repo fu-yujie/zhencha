@@ -26,7 +26,7 @@
         },
         methods:{
             back:function(){
-                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
             }
         }
     }

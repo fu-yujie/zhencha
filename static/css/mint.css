@@ -68,8 +68,28 @@
     width: 242px !important;
     line-height: 20px !important;
 }
+.mint-msgbox-cancel{
+    font-size:18px !important;
+}
 .picker-items{
     top:-20px !important;
+    font-size:14px !important;
+
+}
+.picker-center-highlight{
+   /* height:40px !important;
+    line-height:40px !important;*/
+}
+.picker-item{
+    font-size:14px;
+
+}
+.picker-item.picker-selected{
+    color:#0BB16D !important;
+    font-size:18px !important;
+}
+.picker-center-highlight:before, .picker-center-highlight:after{
+    background-color:#0AB16C !important;
 }
 .mint-msgbox{
     width:280px !important;

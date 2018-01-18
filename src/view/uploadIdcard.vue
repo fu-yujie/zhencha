@@ -178,15 +178,15 @@
                 }
             },
             upimg1(data) {
-              console.log(data);
+             /* console.log(data);*/
               this.img1=data
             },
             upimg2(data) {
-                console.log(data);
+                /*console.log(data);*/
                 this.img2=data
             },
             upimg3(data) {
-                console.log(data);
+                /*console.log(data);*/
                 this.img3=data
             },
             show:function(){
@@ -246,7 +246,12 @@
 
          }).catch(function (err) {
                     Indicator.close();
-           console.log(err);
+                    MessageBox({
+                        title: '温馨提示',
+                        message: '网络异常，请稍后重试',
+                        //position: 'bottom',
+                        /* showCancelButton: true*/
+                    });
          })
             }
             /*inputFile:function(){
