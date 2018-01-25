@@ -163,6 +163,7 @@
 
         <div class="again" v-if="content.StatusValue==2" @click="reupload">重新上传证件照片</div>
         <div class="bind" v-if="content.StatusValue==3" @click="bind" :class="{grey:isActive,none:isActive1}" ref="text">绑定社保卡</div>
+      <!--  <div class="modify" :class="{modify1:content.StatusValue==2||content.StatusValue==3}">修改社保卡金融账户</div>-->
         <div class="return" v-if="content.StatusValue==3" @click="returnHome">返回医保大厅</div>
     </div>
 </template>
@@ -186,7 +187,7 @@
         },
         created:function () {
             var _this=this
-
+            _this.$parent.status=''
 
             _this.id=_this.$route.params.ID;
             var idCode=_this.id
@@ -219,7 +220,9 @@
         },
         methods:{
             returnHome:function(){
-                window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
+                //window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
+                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                //window.location='http://qalfybwx.zhiscity.com/Basic/Special/Index'
             },
             reupload:function(){
                 var _this=this;
@@ -240,12 +243,26 @@
                     data.CashAccountCode = res.data.Data.CashAccountCode;
                     data.PasswordId = 0;
                     _this.$parent.form = data;
+                    /*_this.$parent.form2 = data;*/
+                    _this.$parent.status=res.data.Data.StatusValue
                     console.log(44444)
                     console.log(_this.$parent.form)
-                    if(res.data.Data.StatusValue==0||res.data.Data.StatusValue==3){
-                        return false
+                    if(res.data.Data.StatusValue==0){
+                        MessageBox({
+                            title: '温馨提示',
+                            message:'社保卡审核中，请耐心等待'
+                            //position: 'bottom',
+                            /* showCancelButton: true*/
+                        });
+                    }else if(res.data.Data.StatusValue==3){
+                        MessageBox({
+                            title: '温馨提示',
+                            message:'社保卡已激活，请勿重复操作'
+                            //position: 'bottom',
+                            /* showCancelButton: true*/
+                        });
                     }else{
-                        _this.$router.push('/selectPaperwork');
+                        _this.$router.push('/?isBack=1');
                         _this.$parent.code='';
                         _this.$parent.isShowImg=res.data.Data.IsShowAllImg
                     }
@@ -296,7 +313,7 @@
     .top{
         background:white;
     }
-    .again,.bind,.return{
+    .again,.bind,.return,.modify{
         width:90%;
         height:47px;
         color:white;
@@ -306,6 +323,11 @@
         margin:0 auto;
         margin-top:25px;
         /*opacity: 0.4;*/
+    }
+    #app .modify1{
+        color:#333333;
+        background:white;
+        margin-top:16px;
     }
     .again{
         margin-bottom:18px;

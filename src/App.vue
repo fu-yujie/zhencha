@@ -27,8 +27,10 @@ export default {
         a:100,
         form:'',
         form1:'',
+        form2:'',
         code:'',
         isShowImg:'',
+        status:'',
         backRouter:'/',
       showLoading: false,
       titlename: {
@@ -126,6 +128,7 @@ body {
     height:100%;
 }
 input:disabled{
+    background:white;
     color: #333!important;
     font-size: 14px;
     -webkit-text-fill-color:#333;

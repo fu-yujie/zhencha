@@ -26,7 +26,9 @@
         },
         methods:{
             back:function(){
-                window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
+                //window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
+                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                //window.location='http://qalfybwx.zhiscity.com/Basic/Special/Index'
             }
         }
     }

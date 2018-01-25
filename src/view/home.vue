@@ -41,7 +41,7 @@
                         <div class="idCard">
                             <div><label for="idCard">身份证号</label></div>
                             <input type="text" id="idCard" placeholder="请输入身份证号" class="required" maxlength="18"
-                                   v-model="idCard"  @keyup="change()">
+                                   v-model="idCard" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearid" @click="clear2"
                                  v-if="idCard">
                         </div>
@@ -57,7 +57,7 @@
                             <div><label for="pwd_invisible">社保卡密码</label></div>
                             <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required"
                                    maxlength="6"
-                                    v-model="pwd_invisible" @keyup="change()">
+                                   v-model="pwd_invisible" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
                                  v-if="pwd_invisible" style="right:41px">
                             <img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt=""
@@ -107,8 +107,8 @@
 
                     <div class="description">
                         <div style="display:flex;align-items: center">
-                        <img src="../../static/img/copy.png" alt="">
-                        <div>开户行及收款账户影响您的报销是否到账，请仔细核对</div>
+                            <img src="../../static/img/copy.png" alt="">
+                            <div>开户行及收款账户影响您的报销是否到账，请仔细核对</div>
                         </div>
                     </div>
                     <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
@@ -317,10 +317,11 @@
             v-model="popupVisible"
             popup-transition="popup-fade"
             position="bottom">
-            <div class="head" style="height:40px;display:flex;justify-content: space-between;background:#FBF9FE;border-bottom:1px solid #DFDFDF;">
-            <div class="cancel" style="margin-left:15px;" @click="close">取消</div>
-            <div class="cancel" style="color:#333333">请选择金融账户开户行</div>
-            <div class="cancel" style="margin-right:15px;" @click="close">确定</div>
+            <div class="head"
+                 style="height:40px;display:flex;justify-content: space-between;background:#FBF9FE;border-bottom:1px solid #DFDFDF;">
+                <div class="cancel" style="margin-left:15px;" @click="close">取消</div>
+                <div class="cancel" style="color:#333333">请选择金融账户开户行</div>
+                <div class="cancel" style="margin-right:15px;" @click="close">确定</div>
             </div>
             <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
         </mt-popup>
@@ -339,7 +340,7 @@
     import {Toast, MessageBox, Indicator} from 'mint-ui'
     import BScroll from 'better-scroll'
     /*import header from '../../src/components/header'*/
-    import {activation, getHistoryList, getCardInfo, getConfig,getValidation} from '../api/index'
+    import {activation, getHistoryList, getCardInfo, getConfig, getValidation} from '../api/index'
     import config from '../api/config'
 
     export default {
@@ -383,27 +384,24 @@
                 isBinding: '',
                 showMsgbox1: '',
                 isFirstSelect: true,
-
-
                 activesel: '1',
-
+                status: ''
             }
         },
         mounted: function () {
             var _this = this;
+
+
+            /* alert(this.$parent.status)*/
             $('input').focus(function () {
                 /*setTimeout(function(){
                     _this.$refs.input.scrollIntoView(true)
                     _this.$refs.input.scrollIntoViewIfNeeded()
                 },300);*/
-
                 setTimeout(() => {
                     $(this).siblings('.clear').addClass('b')
                     $(this).siblings('.clear').removeClass('a')
                 })
-                //$(this).siblings('.clear').style.display='block'
-
-
             });
             $('input').blur(function () {
                 setTimeout(() => {
@@ -411,12 +409,12 @@
                     $(this).siblings('.clear').addClass('a')
                 })
             })
-            new BScroll("#page1", {
-                deceleration: 0.001,
-                bounce: true,
-                swipeTime: 10,
-                click: true,
-            });
+            /* new BScroll("#page1", {
+                 deceleration: 0.001,
+                 bounce: true,
+                 swipeTime: 10,
+                 click: true,
+             });*/
             /* alert(this.$parent.a)*/
 
             getHistoryList({passwordId: 0}).then(function (res) {
@@ -441,32 +439,54 @@
                 }
             })
         },
-        /*watch: {
-
-        },*/
         beforeRouteEnter(to, from, next) {
             next(vm => {
                 if (from.name == 'success' || from.name == 'activeSuccess') {
-                    setTimeout(() => {
-                        /*vm.selected = '2';
-                        vm.active = '2';*/
-                        $('.tab1').removeClass('selected')
-                        $('.tab2').addClass('selected')
-                        $('#page1').addClass('active')
-                        $('#page2').removeClass('active')
-                    })
+                    if (vm.status == 2) {
+                        setTimeout(() => {
+                            $('.tab2').removeClass('selected')
+                            $('.tab1').addClass('selected')
+                            $('#page2').addClass('active')
+                            $('#page1').removeClass('active')
+                        })
+                    } else {
+                        setTimeout(() => {
+                            /*  alert(111)*/
+                            /*vm.selected = '2';
+                            vm.active = '2';*/
+                            $('.tab1').removeClass('selected')
+                            $('.tab2').addClass('selected')
+                            $('#page1').addClass('active')
+                            $('#page2').removeClass('active')
+                        })
+                    }
+
+
                 }
+
             })
+
         },
 
         created: function () {
             var _this = this;
-            /*var height=document.body.clientHeight;
-            /!*_this.$refs.page2.style.height=height+'px';*!/
-            if(height<600){
-                $('#page2').addClass('.page2')
-            }*/
-
+            this.status = this.$parent.status;
+            if (this.$parent.status == 2) {
+                console.log(111);
+                console.log(this.$parent.form2)
+                console.log(444)
+                _this.userName = this.$parent.form.RealName;
+                _this.idCard = this.$parent.form.IdentityCard;
+                _this.cardNum = this.$parent.form.SinCard;
+                _this.sid = this.$parent.form.SinSid;
+                _this.bank = this.$parent.form.CashAccountName;
+                _this.account = this.$parent.form.CashAccount;
+                $('#userName').attr("disabled", true)
+                $('#idCard').attr("disabled", true)
+                $('#cardNum').attr("disabled", true)
+                $('#sid').attr("disabled", true)
+            }
+            //社保卡信息
             getCardInfo({passwordId: 0}).then(function (res) {
                 _this.isShowHome = false
                 if (!window.localStorage.getItem('box')) {
@@ -476,18 +496,20 @@
                 console.log(333);
                 console.log(res);
                 _this.isBinding = res.data.Data.SINCardIsBinding;
-                /*if(res.data.Code==0){
 
-                }*/
                 if (res.data.IsSuccess) {
                     if (res.data.Data.IsBackFillData) {
-                        _this.userName = res.data.Data.RealName;
-                        _this.idCard = res.data.Data.IdentityCard;
-                        _this.cardNum = res.data.Data.SINCardId;
-                        _this.sid = res.data.Data.SINCardSid;
-                    }
+                        if(!_this.$route.query.isBack){
+                            _this.userName = res.data.Data.RealName;
+                            _this.idCard = res.data.Data.IdentityCard;
+                            _this.cardNum = res.data.Data.SINCardId;
+                            _this.sid = res.data.Data.SINCardSid;
+                        }
+
+                }
                 }
             })
+
 
 
             /* this.slots.forEach(function(item,index){
@@ -617,46 +639,31 @@
             },
             checkIdcard: function () {
                 //身份证验证
-
             },
             checkPass: function () {
 
             },
             checkAccount: function () {
                 $('.description').addClass('description1')
-               /* setTimeout(function(){
-                    $('.home').scrollTop(200)
-                },200)*/
-
             },
-            /*checkAccount1:function(){
-                setTimeout(function(){
-                    $('.home').scrollTop(200)
-                },200)
-            },*/
+
             clear1: function () {
-                /* console.log($('.clear').sibling())*/
                 this.userName = ''
             },
             clear2: function () {
-                /* console.log($('.clear').sibling())*/
                 this.idCard = ''
             },
             clear3: function () {
-                /* console.log($('.clear').sibling())*/
                 this.cardNum = ''
             },
             clear4: function () {
-                /* console.log($('.clear').sibling())*/
                 this.pwd_invisible = ''
                 this.pwd_visible = ''
             },
             clear5: function () {
-                /* console.log($('.clear').sibling())*/
                 this.sid = ''
             },
             clear6: function () {
-                /* console.log($('.clear').sibling())*/
                 this.account = ''
             },
             showMsgbox() {
@@ -713,8 +720,8 @@
                 this.$router.push({name: 'success', params: {ID: id}})
 
             },
-            getData(){
-                var _this=this;
+            getData() {
+                var _this = this;
                 var data = {};
                 /*var b=new Base64();*/
                 data.RealName = _this.userName;
@@ -778,13 +785,9 @@
 
                 var name = this.userName;
                 if (name.length >= 10) {
-                    /*Toast({
-                        message: '您输入的姓名不规范，请重新输入',
-                        position: 'bottom',
-                        duration: 2000
-                    });*/
+
                     MessageBox({
-                        closeOnClickModal:false,
+                        closeOnClickModal: false,
                         title: '温馨提示',
                         message: '您输入的姓名不规范，请重新输入',
                         //position: 'bottom',
@@ -797,7 +800,7 @@
                 if (reg.test(c) === false) {
 
                     MessageBox({
-                        closeOnClickModal:false,
+                        closeOnClickModal: false,
                         title: '温馨提示',
                         message: '您输入的身份证号不规范，请重新输入',
                         //position: 'bottom',
@@ -811,7 +814,7 @@
                 if (reg1.test(pass) === false || pass.length !== 6) {
 
                     MessageBox({
-                        closeOnClickModal:false,
+                        closeOnClickModal: false,
                         title: '温馨提示',
                         message: '社保卡密码为6位数字，请重新输入',
                         //position: 'bottom',
@@ -828,7 +831,7 @@
                 } else {
 
                     MessageBox({
-                        closeOnClickModal:false,
+                        closeOnClickModal: false,
                         title: '温馨提示',
                         message: '您输入的收款账户不规范，请重新输入',
                     });
@@ -856,19 +859,15 @@
                         _this.getData()
                     } else {
                         MessageBox.confirm('', {
-                            closeOnClickModal:false,
+                            closeOnClickModal: false,
                             message: res.data.Message,
                             title: '温馨提示',
                             confirmButtonText: '重新输入',
                             cancelButtonText: '确认提交'
                         }).then(action => {
                             Indicator.close()
-                           /* if (action == 'confirm') {
-                                console.log(555)
-
-                            }*/
                         }).catch(err => {
-                            _this.getData()
+                                _this.getData()
                             }
                         )
                     }
@@ -890,48 +889,48 @@
                 this.$parent.form = data;
                 console.log(444444);
                 console.log(this.$parent.form);
-               /* if (_this.judgeName && _this.judgeIdcard && _this.judgePass && _this.judgeAccount) {
-                    //console.log(_this.userName)
-                    this.getData(data)
-                    /!*activation(data).then(function (res) {
-                    /!*console.log(2222)*!/
-                    console.log(res);
-                    Indicator.close();
-                    if (res.data.IsSuccess) {
+                /* if (_this.judgeName && _this.judgeIdcard && _this.judgePass && _this.judgeAccount) {
+                     //console.log(_this.userName)
+                     this.getData(data)
+                     /!*activation(data).then(function (res) {
+                     /!*console.log(2222)*!/
+                     console.log(res);
+                     Indicator.close();
+                     if (res.data.IsSuccess) {
 
-                    } else {
-                        MessageBox({
-                            title: '温馨提示',
-                            message: res.data.Message,
-                            //position: 'bottom',
-                            /!* showCancelButton: true*!/
-                        });
-                    }
+                     } else {
+                         MessageBox({
+                             title: '温馨提示',
+                             message: res.data.Message,
+                             //position: 'bottom',
+                             /!* showCancelButton: true*!/
+                         });
+                     }
 
-                    if (res.data.Code == -1018) {
-                        _this.$router.push('/selectPaperwork');
-                        _this.$parent.code = res.data.Code;
-                        _this.$parent.isShowImg = ''
-                    }
+                     if (res.data.Code == -1018) {
+                         _this.$router.push('/selectPaperwork');
+                         _this.$parent.code = res.data.Code;
+                         _this.$parent.isShowImg = ''
+                     }
 
-                    if (res.data.Code == -1008) {
-                        _this.$router.push('/selectPaperwork')
-                    }
-                    if (res.data.IsSuccess) {
-                        if (_this.isBinding) {
-                            _this.$router.push('/alreadyBind')
-                        } else {
-                            _this.$router.push('/noBind')
-                        }
-                    }
-
-
-                });*!/
-
-                    Bus.$emit('getTarget', data);
+                     if (res.data.Code == -1008) {
+                         _this.$router.push('/selectPaperwork')
+                     }
+                     if (res.data.IsSuccess) {
+                         if (_this.isBinding) {
+                             _this.$router.push('/alreadyBind')
+                         } else {
+                             _this.$router.push('/noBind')
+                         }
+                     }
 
 
-                }*/
+                 });*!/
+
+                     Bus.$emit('getTarget', data);
+
+
+                 }*/
             },
             change: function () {
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
@@ -971,11 +970,13 @@
         z-index: 100;
         border-bottom: 1px solid #E5E5E5
     }
-    .description{
-        display:none;
+
+    .description {
+        display: none;
     }
-    #app .description1{
-        display:block;
+
+    #app .description1 {
+        display: block;
     }
 
     .tab1, .tab2 {
@@ -1012,12 +1013,12 @@
     }
 
     #page2 {
-
         height: 100%;
     }
 
     .page2 {
         height: 100%;
+        overflow: hidden;
     }
 
     /* #app .page3{
@@ -1025,7 +1026,7 @@
      }*/
     .home {
         height: 100%;
-        overflow: hidden;
+        /* overflow: hidden;*/
     }
 
     /*#2 {
@@ -1033,18 +1034,20 @@
     }*/
     .cancel {
         display: inline-block;
-       /* border-bottom: 1px solid #E5E5E5;*/
+        /* border-bottom: 1px solid #E5E5E5;*/
         /*width: 50%;*/
         font-size: 16px;
         height: 40px;
         line-height: 40px;
         color: #00AE66
     }
-.description{
-    /*display: flex;
-    align-items: center;*/
-   padding:10px 14px 0;
-}
+
+    .description {
+        /*display: flex;
+        align-items: center;*/
+        padding: 10px 14px 0;
+    }
+
     .warning {
         background: #FFF7EB;
         /* height: 53px;*/
@@ -1054,22 +1057,23 @@
         align-items: center;
     }
 
-    .warning img ,.description img{
+    .warning img, .description img {
         height: 13px;
         width: 13px;
         vertical-align: top;
 
     }
 
-    .warning div,.description div {
+    .warning div, .description div {
         display: inline-block;
         font-size: 12px;
         margin-left: 6px;
         text-align: left;
         color: #FBB640
     }
-    .description div{
-        color:#FF0000
+
+    .description div {
+        color: #FF0000
     }
 
     //form表单

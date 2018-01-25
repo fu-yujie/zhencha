@@ -11,6 +11,7 @@ import notPass from '@/view/notPass'//审核未通过
 import success from '@/view/success'//激活成功
 import fail from '@/view/fail'//激活失败
 import uploadAccount from '@/view/uploadAccount'
+import modify from '@/view/modify'
 
 Vue.use(Router)
 
@@ -83,6 +84,12 @@ meta:{title:'居民社保卡激活'}
           name: 'uploadAccount',
           component: uploadAccount,
           meta:{title:'居民社保卡激活'}
+      },
+      {//上传户口本
+          path: '/modify',
+          name: 'modify',
+          component: modify,
+          meta:{title:'社保卡金融账户修改'}
       }
   ]
 })

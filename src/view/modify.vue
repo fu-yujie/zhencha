@@ -1,195 +1,17 @@
 <template>
     <div class="home">
-        <div style="z-index: 100;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #E5E5E5;" v-if="isShowHome"></div>
-        <!--<my-header></my-header>-->
-        <!--<mt-navbar v-model="selected">
-            <mt-tab-item id="1">社保卡激活</mt-tab-item>
-            <mt-tab-item id="2">历史激活记录</mt-tab-item>
-        </mt-navbar>-->
-
-        <div class="headline">
-            <div class="tab1 selected" @click="tab1">社保卡激活</div>
-            <div class="tab2" @click="tab2">历史激活记录</div>
-        </div>
-        <div style="height:100%">
-            <div id="page1">
-                <div style="padding-top:40px;">
-                    <div class="warning">
-                        <img src="../../static/img/warning.png" alt="">
-                        <div>激活社保卡时的登录手机号：推荐使用此参保人2018年度城乡居民医保缴费时的登录/预留手机号或在廊坊医保微信平台申领社保卡时预留的手机号。</div>
-                    </div>
-                    <!--<div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName"  @keyup="change()"></mt-field>
-                        <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard"  @keyup="change()"></mt-field>
-                        <mt-field label="社保卡号" placeholder="请输入社保卡号" type="text" v-model="cardNum" @keyup="change()"><div class="example" @click="example1" >示例</div></mt-field>
-                        <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="password"  :class="{pwd_invisible:isActive1}" v-model="pwd_invisible" @keyup="change()"><img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt="" @click="input_visible"></mt-field>
-                        <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="text" :class="{pwd_visible:isActive2}" v-model="pwd_visible"><img class="visibility_off" src="../../static/img/ic_visibility.png" alt="" @click="input_invisible"></mt-field>
-                        <mt-field label="社保卡SID" placeholder="请输入社保卡SID" type="text"  v-model="sid" @keyup="change()"><div class="example" @click="example2">示例</div></mt-field>
-                    </div>-->
-                    <div class="form">
-                        <div class="userName">
-                            <div><label for="userName">姓名</label></div>
-                            <input type="text" placeholder="请输入姓名" id="userName" ref="userName" v-model="userName"
-                                   @keyup="change()" @blur="checkName" class="required">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearName" @click="clear1"
-                                 style=""
-                                 v-if="userName">
-                        </div>
-                        <div class="idCard">
-                            <div><label for="idCard">身份证号</label></div>
-                            <input type="text" id="idCard" placeholder="请输入身份证号" class="required" maxlength="18"
-                                   v-model="idCard" @blur="checkIdcard" @keyup="change()">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearid" @click="clear2"
-                                 v-if="idCard">
-                        </div>
-                        <div class="card">
-                            <div><label for="cardNum">社保卡号</label></div>
-                            <input type="text" id="cardNum" placeholder="请输入社保卡号" class="required" maxlength="9"
-                                   v-model="cardNum" @keyup="change()">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearnum" @click="clear3"
-                                 v-if="cardNum" style="right:70px">
-                            <div class="example" @click="example1">示例</div>
-                        </div>
-                        <div class="password" :class="{pwd_invisible:isActive1}">
-                            <div><label for="pwd_invisible">社保卡密码</label></div>
-                            <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required"
-                                   maxlength="6"
-                                   @blur="checkPass" v-model="pwd_invisible" @keyup="change()">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
-                                 v-if="pwd_invisible" style="right:41px">
-                            <img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt=""
-                                 @click="input_visible">
-                        </div>
-                        <div :class="{pwd_visible:isActive2}" class="password">
-                            <div><label for="pwd_visible">社保卡密码</label></div>
-                            <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" maxlength="6"
-                                   @blur="checkPass" v-model="pwd_visible">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
-                                 v-if="pwd_visible" style="right:41px">
-                            <img class="visibility_off" src="../../static/img/ic_visibility.png" alt=""
-                                 @click="input_invisible">
-                        </div>
-                        <div class="sid">
-                            <div><label for="sid">社保卡SID</label></div>
-                            <input type="text" id="sid" placeholder="请输入社保卡SID" class="required" maxlength=""
-                                   v-model="sid"
-                                   @keyup="change()">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearsid" v-if="sid"
-                                 @click="clear5"
-                                 style="right:70px">
-                            <div class="example" @click="example2">示例</div>
-                        </div>
-                        <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
-                        <div class="bank">
-                            <div><label for="bank">开户行</label></div>
-                            <div class="inputBox" @click="selectBank"><input type="text" disabled
-                                                                             style="background:white" id="bank"
-                                                                             placeholder="请选择社保卡金融账户开户行"
-                                                                             class="required" maxlength="" value=""
-                                                                             v-model="bank"
-                                                                             @keyup="change()"></div>
-                            <img src="../../static/img/Chevron.png" alt="" @click="selectBank" class="right_arrow">
-                        </div>
-                        <div class="account">
-                            <div><label for="account">收款账户</label></div>
-                            <input type="number" id="account" placeholder="请输入社保卡金融账户卡号" class="required"
-                                   @focus="checkAccount"
-                                   maxlength="" v-model="account" @keyup="change()">
-                            <img src="../../static/img/clear.png" alt="" class="clear clearaccount" v-if="account"
-                                 @click="clear6" style="right:70px">
-                            <div class="example" @click="example3">示例</div>
-                        </div>
-
-                    </div>
-
-                    <div class="description">
-                        <div style="display:flex;align-items: center">
-                            <img src="../../static/img/copy.png" alt="">
-                            <div>开户行及收款账户影响您的报销是否到账，请务必仔细核对</div>
-                        </div>
-                    </div>
-                    <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
-                    <div class="prompt">
-                        <div class="title">温馨提示</div>
-                        <ul>
-                            <li>
-                                <img src="../../static/img/Group1.png" alt="">
-                                <div>社保卡线上激活功能目前只支持<strong style="color:#333333">城乡居民</strong>医保参保用户，<strong
-                                    style="color:#333333">城镇职工</strong>参保用户请持卡至医保定点医疗机构、定点药店进行激活。
-
-                                </div>
-                            </li>
-                            <li>
-                                <img src="../../static/img/Group2.png" alt="">
-                                <div>社保卡初始密码为：123456，为了您的账户安全，请您在医保定点医疗机构就诊时修改密码。</div>
-                            </li>
-                            <li>
-                                <img src="../../static/img/Group3.png" alt="">
-                                <div>社保卡金融账户是您后期医疗费用报销时的收款账户，请您在填写时仔细核对。</div>
-                            </li>
-                            <li>
-                                <img src="../../static/img/Group4.png" alt="">
-                                <div>如您在社保卡激活过程中有任何疑问或问题，请及时联系客服人员，客服电话：0316-5900201。</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="active page2" id="page2">
-                <ul class="historyCell" v-if="isShow" style="padding-top:40px;">
-                    <li v-for="item in list" @click.prevent="detail(item.ID,item.StatusValue)">
-                        <div class="top">
-                            <div class="num">处理进度</div>
-                            <div class="status">{{item.StatusName}}</div>
-                        </div>
-                        <div class="under">
-                            <div class="name"><span>参保人</span>{{item.RealName}}</div>
-                            <div class="idCard"><span>社保卡号</span>{{item.SINCardId}}</div>
-                            <div class="data"><span>社会保障号</span>{{item.IdentityCard.slice(0,6)+new
-                                Array(item.IdentityCard.length-10).join('*')+item.IdentityCard.substr(-4)}}
-                            </div>
-                        </div>
-                        <div class="detail" @click.prevent="detail(item.ID,item.StatusValue)">查看详情</div>
-
-                    </li>
-                </ul>
-                <div v-if="!isShow" class="historyNone">
-                    <img src="../../static/img/history_none.png" alt="">
-                    <div>未找到历史激活记录</div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- tab-container -->
-        <!--<mt-tab-container v-model="activesel">
-            <mt-tab-container-item id="1" v-model="selected">
-                <div class="warning">
-                    <img src="../../static/img/warning.png" alt="">
-                    <div>激活社保卡时的登录手机号：推荐使用此参保人18年医疗保险缴费时预留的手机号或在线申领社保卡时登录的手机号</div>
-                </div>
-                &lt;!&ndash;<div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName"  @keyup="change()"></mt-field>
-                    <mt-field label="身份证号" placeholder="请输入身份证号" type="text" v-model="idCard"  @keyup="change()"></mt-field>
-                    <mt-field label="社保卡号" placeholder="请输入社保卡号" type="text" v-model="cardNum" @keyup="change()"><div class="example" @click="example1" >示例</div></mt-field>
-                    <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="password"  :class="{pwd_invisible:isActive1}" v-model="pwd_invisible" @keyup="change()"><img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt="" @click="input_visible"></mt-field>
-                    <mt-field label="社保卡密码" placeholder="请输入社保卡密码" type="text" :class="{pwd_visible:isActive2}" v-model="pwd_visible"><img class="visibility_off" src="../../static/img/ic_visibility.png" alt="" @click="input_invisible"></mt-field>
-                    <mt-field label="社保卡SID" placeholder="请输入社保卡SID" type="text"  v-model="sid" @keyup="change()"><div class="example" @click="example2">示例</div></mt-field>
-                </div>&ndash;&gt;
                 <div class="form">
                     <div class="userName">
                         <div><label for="userName">姓名</label></div>
                         <input type="text" placeholder="请输入姓名" id="userName" ref="userName" v-model="userName"
-                               @keyup="change()" @blur="checkName" class="required">
+                               @keyup="change()"  class="required">
                         <img src="../../static/img/clear.png" alt="" class="clear clearName" @click="clear1" style=""
                              v-if="userName">
                     </div>
                     <div class="idCard">
                         <div><label for="idCard">身份证号</label></div>
                         <input type="text" id="idCard" placeholder="请输入身份证号" class="required" maxlength="18"
-                               v-model="idCard" @blur="checkIdcard" @keyup="change()">
+                               v-model="idCard"  @keyup="change()">
                         <img src="../../static/img/clear.png" alt="" class="clear clearid" @click="clear2"
                              v-if="idCard">
                     </div>
@@ -201,32 +23,6 @@
                              v-if="cardNum" style="right:70px">
                         <div class="example" @click="example1">示例</div>
                     </div>
-                    <div class="password" :class="{pwd_invisible:isActive1}">
-                        <div><label for="pwd_invisible">社保卡密码</label></div>
-                        <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required" maxlength="6"
-                               @blur="checkPass" v-model="pwd_invisible" @keyup="change()">
-                        <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
-                             v-if="pwd_invisible" style="right:41px">
-                        <img class="visibility_off" src="../../static/img/ic_visibility_off.png" alt=""
-                             @click="input_visible">
-                    </div>
-                    <div :class="{pwd_visible:isActive2}" class="password">
-                        <div><label for="pwd_visible">社保卡密码</label></div>
-                        <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" maxlength="6"
-                               @blur="checkPass" v-model="pwd_visible">
-                        <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
-                             v-if="pwd_visible" style="right:41px">
-                        <img class="visibility_off" src="../../static/img/ic_visibility.png" alt=""
-                             @click="input_invisible">
-                    </div>
-                    <div class="sid">
-                        <div><label for="sid">社保卡SID</label></div>
-                        <input type="text" id="sid" placeholder="请输入社保卡SID" class="required" maxlength="" v-model="sid"
-                               @keyup="change()">
-                        <img src="../../static/img/clear.png" alt="" class="clear clearsid" v-if="sid" @click="clear5"
-                             style="right:70px">
-                        <div class="example" @click="example2">示例</div>
-                    </div>
                     <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
                     <div class="bank">
                         <div><label for="bank">开户行</label></div>
@@ -237,7 +33,7 @@
                     </div>
                     <div class="account">
                         <div><label for="account">收款账户</label></div>
-                        <input type="text" id="account" placeholder="请输入社保卡金融账户卡号" class="required" @blur="checkAccount"
+                        <input type="text" id="account" placeholder="请输入社保卡金融账户卡号" class="required" @focus="checkAccount"
                                maxlength="" v-model="account" @keyup="change()">
                         <img src="../../static/img/clear.png" alt="" class="clear clearaccount" v-if="account"
                              @click="clear6" style="right:70px">
@@ -245,54 +41,30 @@
                     </div>
 
                 </div>
-                <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
+        <div class="description">
+            <div style="display:flex;align-items: center">
+                <img src="../../static/img/copy.png" alt="">
+                <div>开户行及收款账户影响您的报销是否到账，请仔细核对</div>
+            </div>
+        </div>
+                <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即修改</div>
                 <div class="prompt">
                     <div class="title">温馨提示</div>
                     <ul>
                         <li>
                             <img src="../../static/img/Group1.png" alt="">
-                            <div>社保卡线上激活功能目前只支持<strong style="color:#333333">城乡居民</strong>医保参保用户，<strong
-                                style="color:#333333">城镇职工</strong>参保用户请持卡至医保定点医疗机构、定点药店进行激活。
-
+                            <div>开户行及收款账户影响您的报销是否到账，请务必仔细核对。
                             </div>
                         </li>
                         <li>
                             <img src="../../static/img/Group2.png" alt="">
-                            <div>社保卡初始密码为：123456，为了您的账户安全，请您在医保定点医疗机构就诊时修改密码。</div>
-                        </li>
-                        <li>
-                            <img src="../../static/img/Group3.png" alt="">
-                            <div>社保卡金融账户是您后期医疗费用报销时的收款账户，请您在填写时仔细核对。</div>
-                        </li>
-                        <li>
-                            <img src="../../static/img/Group4.png" alt="">
-                            <div>如您在社保卡激活过程中有任何疑问或问题，请及时联系客服人员，客服电话：0316-5900201。</div>
+                            <div>如您在社保卡金融账户修改过程中有任何疑问或问题，请及时联系客服人员，客服电话：0316-5900201。</div>
                         </li>
                     </ul>
                 </div>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="2">
-                <ul class="historyCell" v-if="isShow">
-                    <li v-for="item in list" @click.prevent="detail(item.ID,item.StatusValue)">
-                        <div class="top">
-                            <div class="num">处理进度</div>
-                            <div class="status">{{item.StatusName}}</div>
-                        </div>
-                        <div class="under">
-                            <div class="name"><span>参保人</span>{{item.RealName}}</div>
-                            <div class="idCard"><span>社保卡号</span>{{item.SINCardId}}</div>
-                            <div class="data"><span>社会保障号</span>{{item.IdentityCard.length==18?item.IdentityCard.replace(/(\d{6})\d{8}(\d{4})/, "$1*******$2"):item.IdentityCard.replace(/(\d{6})\d{5}(\d{4})/, "$1*******$2")}}</div>
-                        </div>
-                        <div class="detail" @click.prevent="detail(item.ID,item.StatusValue)">查看详情</div>
 
-                    </li>
-                </ul>
-                <div v-if="!isShow" class="historyNone">
-                    <img src="../../static/img/history_none.png" alt="">
-                    <div>未找到历史激活记录</div>
-                </div>
-            </mt-tab-container-item>
-        </mt-tab-container>-->
+
+
 
         <mt-popup
             v-model="popupVisible1">
@@ -410,37 +182,8 @@
                     $(this).siblings('.clear').addClass('a')
                 })
             })
-            new BScroll("#page1", {
-                deceleration: 0.001,
-                bounce: true,
-                swipeTime: 10,
-                click: true,
-            });
             /* alert(this.$parent.a)*/
 
-            getHistoryList({passwordId: 0}).then(function (res) {
-                console.log(111)
-                console.log(res)
-                console.log(res.data.Data.SINCardActiveRecordList)
-                _this.list = res.data.Data.SINCardActiveRecordList;
-                console.log(BScroll)
-                _this.$nextTick(() => {
-                    new BScroll("#page2", {
-                        deceleration: 0.001,
-                        bounce: true,
-                        swipeTime: 10,
-                        click: true,
-                    });
-                })
-
-                /*_this.$refs.page2.style.height=height+'px';*/
-
-                if (_this.list.length == 0) {
-                    _this.isShow = false;
-                } else {
-                    _this.isShow = true;
-                }
-            })
         },
         /*watch: {
 
@@ -524,9 +267,7 @@
             userName: 'a',
             idCard: 'b',
             cardNum: 'c',
-            pwd_invisible: 'd',
-            pwd_visible: 'd',
-            sid: 'e',
+
             account: 'f',
 
             selected: function (val, oldval) {
@@ -560,20 +301,6 @@
                     /* $('.clearnum').show()*/
                     $('.clearnum').removeClass('a')
                     $('.clearnum').addClass('b')
-                }
-            },
-            d: function () {
-                if (this.pwd_visible.length !== 0 || this.pwd_invisible.length !== 0) {
-                    /* $('.clearpass').show()*/
-                    $('.clearpass').removeClass('a')
-                    $('.clearpass').addClass('b')
-                }
-            },
-            e: function () {
-                if (this.sid.length !== 0) {
-                    /* $('.clearsid').show()*/
-                    $('.clearsid').removeClass('a')
-                    $('.clearsid').addClass('b')
                 }
             },
             f: function () {
@@ -616,16 +343,7 @@
             close: function () {
                 this.popupVisible = false
             },
-            checkName: function () {
 
-            },
-            checkIdcard: function () {
-                //身份证验证
-
-            },
-            checkPass: function () {
-
-            },
             checkAccount: function () {
                 $('.description').addClass('description1')
             },
@@ -676,38 +394,7 @@
                 }
 
             },
-            /* bank1:function(){
-                 this.bank=this.actions[0].name;
-                 this.AccountCode=this.actions[0].CashAccountCode;
-             },
-             bank2:function(){
-                 this.bank=this.actions[1].name;
-                this.AccountCode=this.actions[1].CashAccountCode
-             },
-             bank3:function(){
-                 this.bank=this.actions[2].name
-                 this.AccountCode=this.actions[2].CashAccountCode
-             },
-             bank4:function(){
-                 this.bank=this.actions[3].name
-                 this.AccountCode=this.actions[3].CashAccountCode
 
-             },
-             bank5:function(){
-                 this.bank=this.actions[4].name
-                 this.AccountCode=this.actions[4].CashAccountCode
-
-             },
-             bank6:function(){
-                 this.bank=this.actions[5].name
-                 this.AccountCode=this.actions[5].CashAccountCode
-
-             },
-             bank7:function(){
-                 this.bank=this.actions[6].name
-                 this.AccountCode=this.actions[6].CashAccountCode
-
-             },*/
             example1: function () {
                 this.popupVisible1 = true;
             },
@@ -743,11 +430,9 @@
             activation: function (event) {
                 var _this = this;
 
-                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
+                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0&& this.bank.length !== 0 && this.account.length !== 0) {
 
-                } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
-
-                } else {
+                }  else {
                     return false
                 }
 
@@ -872,9 +557,7 @@
 
             },
             change: function () {
-                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
-                    this.isActive3 = true;
-                } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
+                if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
                     this.isActive3 = true;
                 }
                 else {
@@ -962,8 +645,8 @@
         !* height:520px;*!
      }*/
     .home {
-        height: 100%;
-        overflow: hidden;
+        /*height: 100%;*/
+        /*overflow: hidden;*/
     }
 
     /*#2 {
@@ -1020,8 +703,9 @@
     }
 
     .form {
-        height: 323px;
+        /*height: 323px;*/
         background: white;
+        margin-top:15px;
     }
 
     .form input {
@@ -1218,7 +902,7 @@
     }
 
     .form {
-        height: 323px;
+       /* height: 323px;*/
     }
 
     .form .visibility_off {

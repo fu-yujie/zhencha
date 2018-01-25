@@ -1,11 +1,18 @@
-/*let base='http://devlfybcardjh.zhiscity.com'
+let base='http://devlfybcardjh.zhiscity.com'
 let devt='http://testpassport.zhiscity.com/'
-let devt1='http://testwebapi.zhiscity.com'*/
+let devt1='http://testwebapi.zhiscity.com'
 
+
+
+/*let base='http://qalfybcardjh.zhiscity.com'
+let devt='http://qapassport.zhiscity.com/'
+let devt1='http://qawebapi.zhiscity.com'*/
 //正式环境
+/*
 let base='https://lfybcardjh.zhiscity.com'
 let devt='https://passport.zhiscity.com/'
 let devt1='https://webapi.zhiscity.com'
+*/
 
 
 export default {
