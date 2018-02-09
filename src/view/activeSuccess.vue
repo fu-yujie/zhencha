@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    import config from 'src/api/config'
     /*import header from '../../src/components/header'*/
     export default {
         /* components:{
@@ -28,8 +29,9 @@
                 this.$router.push('/')
             },
             back:function(){
+                window.location=config.backHome
                 //window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
-                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                //window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
                 //window.location='http://qalfybwx.zhiscity.com/Basic/Special/Index'
             }
         }

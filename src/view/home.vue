@@ -66,7 +66,7 @@
                         <div :class="{pwd_visible:isActive2}" class="password">
                             <div><label for="pwd_visible">社保卡密码</label></div>
                             <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" maxlength="6"
-                                   v-model="pwd_visible">
+                                   v-model="pwd_visible" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
                                  v-if="pwd_visible" style="right:41px">
                             <img class="visibility_off" src="../../static/img/ic_visibility.png" alt=""
@@ -84,18 +84,18 @@
                         </div>
                         <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
                         <div class="bank">
-                            <div><label for="bank">开户行</label></div>
+                            <div><label for="bank">社保卡开户行</label></div>
                             <div class="inputBox" @click="selectBank"><input type="text" disabled
                                                                              style="background:white" id="bank"
-                                                                             placeholder="请选择社保卡金融账户开户行"
+                                                                             placeholder="请选择社保卡开户行"
                                                                              class="required" maxlength="" value=""
                                                                              v-model="bank"
                                                                              @keyup="change()"></div>
                             <img src="../../static/img/Chevron.png" alt="" @click="selectBank" class="right_arrow">
                         </div>
                         <div class="account">
-                            <div><label for="account">收款账户</label></div>
-                            <input ref="input" type="number" id="account" placeholder="请输入社保卡金融账户卡号" class="required"
+                            <div><label for="account">社保卡银行账号</label></div>
+                            <input ref="input" type="number" id="account" placeholder="请输入社保卡银行账号" class="required"
                                    @focus="checkAccount"
                                    maxlength="" v-model="account" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearaccount" v-if="account"
@@ -108,10 +108,10 @@
                     <div class="description">
                         <div style="display:flex;align-items: center">
                             <img src="../../static/img/copy.png" alt="">
-                            <div>开户行及收款账户影响您的报销是否到账，请仔细核对</div>
+                            <div>社保卡开户行及银行账号直接影响报销款及社保待遇发放，请务必准确填写</div>
                         </div>
                     </div>
-                    <div class="activation" @click="activation($event)" :class="{activation1:isActive3}">立即激活</div>
+                    <div class="activation" @click="activationClick($event)" :class="{activation1:isActive3}">立即激活</div>
                     <div class="prompt">
                         <div class="title">温馨提示</div>
                         <ul>
@@ -128,7 +128,7 @@
                             </li>
                             <li>
                                 <img src="../../static/img/Group3.png" alt="">
-                                <div>社保卡金融账户是您后期医疗费用报销时的收款账户，请您在填写时仔细核对。</div>
+                                <div>社保卡开户行及银行账号直接影响报销款及社保待遇发放，请务必准确填写。</div>
                             </li>
                             <li>
                                 <img src="../../static/img/Group4.png" alt="">
@@ -320,7 +320,7 @@
             <div class="head"
                  style="height:40px;display:flex;justify-content: space-between;background:#FBF9FE;border-bottom:1px solid #DFDFDF;">
                 <div class="cancel" style="margin-left:15px;" @click="close">取消</div>
-                <div class="cancel" style="color:#333333">请选择金融账户开户行</div>
+                <div class="cancel" style="color:#333333">请选择社保卡开户行</div>
                 <div class="cancel" style="margin-right:15px;" @click="close">确定</div>
             </div>
             <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
@@ -390,7 +390,22 @@
         },
         mounted: function () {
             var _this = this;
-
+            this.status = this.$parent.status;
+            if (this.$parent.status == 2) {
+                console.log(111);
+                console.log(this.$parent.form2)
+                console.log(444);
+                _this.userName = this.$parent.form.RealName;
+                _this.idCard = this.$parent.form.IdentityCard;
+                _this.cardNum = this.$parent.form.SinCard;
+                _this.sid = this.$parent.form.SinSid;
+                _this.bank = this.$parent.form.CashAccountName;
+                _this.account = this.$parent.form.CashAccount;
+                $('#userName').attr("disabled", true)
+                $('#idCard').attr("disabled", true)
+                $('#cardNum').attr("disabled", true)
+                $('#sid').attr("disabled", true)
+            }
 
             /* alert(this.$parent.status)*/
             $('input').focus(function () {
@@ -441,7 +456,7 @@
         },
         beforeRouteEnter(to, from, next) {
             next(vm => {
-                if (from.name == 'success' || from.name == 'activeSuccess') {
+                if (from.name == 'success') {
                     if (vm.status == 2) {
                         setTimeout(() => {
                             $('.tab2').removeClass('selected')
@@ -462,6 +477,11 @@
                     }
 
 
+                }else if(from.name == 'activeSuccess'){
+                    $('.tab1').removeClass('selected')
+                    $('.tab2').addClass('selected')
+                    $('#page1').addClass('active')
+                    $('#page2').removeClass('active')
                 }
 
             })
@@ -470,22 +490,6 @@
 
         created: function () {
             var _this = this;
-            this.status = this.$parent.status;
-            if (this.$parent.status == 2) {
-                console.log(111);
-                console.log(this.$parent.form2)
-                console.log(444)
-                _this.userName = this.$parent.form.RealName;
-                _this.idCard = this.$parent.form.IdentityCard;
-                _this.cardNum = this.$parent.form.SinCard;
-                _this.sid = this.$parent.form.SinSid;
-                _this.bank = this.$parent.form.CashAccountName;
-                _this.account = this.$parent.form.CashAccount;
-                $('#userName').attr("disabled", true)
-                $('#idCard').attr("disabled", true)
-                $('#cardNum').attr("disabled", true)
-                $('#sid').attr("disabled", true)
-            }
             //社保卡信息
             getCardInfo({passwordId: 0}).then(function (res) {
                 _this.isShowHome = false
@@ -500,20 +504,20 @@
                 if (res.data.IsSuccess) {
                     if (res.data.Data.IsBackFillData) {
                         if(!_this.$route.query.isBack){
+                           /* _this.onValuesChange()*/
                             _this.userName = res.data.Data.RealName;
                             _this.idCard = res.data.Data.IdentityCard;
                             _this.cardNum = res.data.Data.SINCardId;
                             _this.sid = res.data.Data.SINCardSid;
                         }
 
+
+
                 }
                 }
             })
 
 
-
-            /* this.slots.forEach(function(item,index){
-                 console.log(item.name);*/
             getConfig().then(function (res) {
                 /* var _this=this;*/
                 console.log(res);
@@ -523,7 +527,7 @@
                 console.log(name)
                 var i = name.length;
                 var arr = [''];
-                var code = ['']
+                var code = [''];
                 for (var j = 0; j < i; j++) {
                     arr.push(name[j].ConfigName);
                     code.push(name[j].ConfigNumber)
@@ -531,6 +535,14 @@
                 console.log(arr);
                 _this.slots[0].values = arr;
                 _this.slots[0].values1 = code;
+                for(var k=0;k<i;k++){
+                    if(arr[k].indexOf(_this.$parent.form.CashAccountName)>=0){
+                        _this.AccountCode=code[k];
+                        /*alert(_this.$parent.form.CashAccountCode);*/
+                        console.log(232323);
+                        console.log(_this.AccountCode)
+                    }
+                }
                 console.log(7777);
                 console.log(_this.slots[0].values1)
             })
@@ -649,22 +661,28 @@
 
             clear1: function () {
                 this.userName = ''
+                this.change()
             },
             clear2: function () {
                 this.idCard = ''
+                this.change()
             },
             clear3: function () {
                 this.cardNum = ''
+                this.change()
             },
             clear4: function () {
                 this.pwd_invisible = ''
                 this.pwd_visible = ''
+                this.change()
             },
             clear5: function () {
                 this.sid = ''
+                this.change()
             },
             clear6: function () {
                 this.account = ''
+                this.change()
             },
             showMsgbox() {
                 var _this = this;
@@ -737,9 +755,52 @@
                 this.$parent.form = data;
                 console.log(444444);
                 console.log(this.$parent.form);
+               /* $.ajax({
+                    type:'POST',
+                    url:'https://lfybcardjh.zhiscity.com/sincardactive/fire',
+                    data : data,
+                    headers : {
+                        'Content-Type':'application/x-www-form-urlencoded',
+                        'platType': '3'
+                    },
+                    success:function(res){
+                        alert(JSON.stringify(res));
+                        alert(11)
+                        Indicator.close();
+                        if (res.data.IsSuccess) {
+
+                        } else {
+                            MessageBox({
+                                title: '温馨提示',
+                                message: res.data.Message,
+                            });
+                        }
+
+                        if (res.data.Code == -1018) {
+                            _this.$router.push('/selectPaperwork');
+                            _this.$parent.code = res.data.Code;
+                            _this.$parent.isShowImg = ''
+                        }
+
+                        if (res.data.Code == -1008) {
+                            _this.$router.push('/selectPaperwork')
+                        }
+                        if (res.data.IsSuccess) {
+                            if (_this.isBinding) {
+                                _this.$router.push('/alreadyBind')
+                            } else {
+                                _this.$router.push('/noBind')
+                            }
+                        }
+                    },
+                    error:function(err){
+                        alert(JSON.stringify(err))
+                        alert(22)
+                    }
+                })*/
                 activation(data).then(function (res) {
-                    /*console.log(2222)*/
                     console.log(res);
+                    /*alert(JSON.stringify(res));*/
                     Indicator.close();
                     if (res.data.IsSuccess) {
 
@@ -747,8 +808,6 @@
                         MessageBox({
                             title: '温馨提示',
                             message: res.data.Message,
-                            //position: 'bottom',
-                            /* showCancelButton: true*/
                         });
                     }
 
@@ -770,10 +829,13 @@
                     }
 
 
-                });
+                }).catch(function(err){
+                    alert(JSON.stringify(err))
+                })
             },
-            activation: function (event) {
+            activationClick: function (event) {
                 var _this = this;
+
                 $('input').blur();
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
 
@@ -790,8 +852,6 @@
                         closeOnClickModal: false,
                         title: '温馨提示',
                         message: '您输入的姓名不规范，请重新输入',
-                        //position: 'bottom',
-                        /* showCancelButton: true*/
                     });
                     return false;
                 }
@@ -833,7 +893,7 @@
                     MessageBox({
                         closeOnClickModal: false,
                         title: '温馨提示',
-                        message: '您输入的收款账户不规范，请重新输入',
+                        message: '您输入的社保卡银行账号不规范，请重新输入',
                     });
                     return false
                 }
@@ -851,7 +911,7 @@
                     CashAccount: _this.account
                 }).then(function (res) {
                     console.log(666);
-                    console.log(res)
+                    console.log(res);
                     if (res.data.IsSuccess) {
                         /* MessageBox.confirm({
                             message:res.body.Message,
@@ -872,6 +932,9 @@
                         )
                     }
                 })
+
+
+
 
 
                 var data = {};
@@ -931,8 +994,10 @@
 
 
                  }*/
+
             },
             change: function () {
+                /*alert(this.pwd_visible)*/
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
                     this.isActive3 = true;
                 } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
@@ -1078,7 +1143,7 @@
 
     //form表单
     #app .inputBox {
-        width: 75%
+        width: 67%
     }
 
     #app .inputBox input {
@@ -1094,7 +1159,7 @@
         border: 0;
         height: 43px;
         font-size: 14px;
-        width: 75%;
+        width:67%;
         color: #333333
     }
 
@@ -1118,7 +1183,7 @@
 
     .form div div {
         display: inline-block;
-        width: 25%;
+        width:33%;
         font-size: 14px;
         color: #333333
     }

@@ -203,6 +203,34 @@
             },
             submitForm:function(){
                 var _this=this;
+                getConfig().then(function (res) {
+                    /* var _this=this;*/
+                    console.log(res);
+                    console.log(res.data.Data.ConfigItems[2])
+                    var name = res.data.Data.ConfigItems[2];
+                    console.log(888);
+                    console.log(name)
+                    var i = name.length;
+                    var arr = [''];
+                    var code = [''];
+                    for (var j = 0; j < i; j++) {
+                        arr.push(name[j].ConfigName);
+                        code.push(name[j].ConfigNumber)
+                    }
+                    console.log(arr);
+                   /* _this.slots[0].values = arr;
+                    _this.slots[0].values1 = code;*/
+                    for(var k=0;k<i;k++){
+                        if(arr[k].indexOf(_this.$parent.form.CashAccountName)>=0){
+                            _this.$parent.form.CashAccountCode=code[k]
+                            /*alert(_this.$parent.form.CashAccountCode);*/
+                            console.log(232323);
+                            console.log(_this.$parent.form)
+                        }
+                    }
+                    console.log(7777);
+
+                })
                 Indicator.open({
                     text:'申请提交中，请稍等...',
                     spinnerType: 'fading-circle'
@@ -226,7 +254,7 @@
                 obj.IdentityImg=this.img1;
                 obj.IdentityZMImg=this.img2;
                 obj.IdentityBMImg=this.img3;
-
+console.log(obj)
                 activation(obj).then(function (res) {
                     Indicator.close();
                     if(res.data.IsSuccess){

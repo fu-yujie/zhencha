@@ -164,13 +164,14 @@
         <div class="again" v-if="content.StatusValue==2" @click="reupload">重新上传证件照片</div>
         <div class="bind" v-if="content.StatusValue==3" @click="bind" :class="{grey:isActive,none:isActive1}" ref="text">绑定社保卡</div>
       <!--  <div class="modify" :class="{modify1:content.StatusValue==2||content.StatusValue==3}">修改社保卡金融账户</div>-->
-        <div class="return" v-if="content.StatusValue==3" @click="returnHome">返回医保大厅</div>
+        <div class="return" v-if="content.StatusValue==3||content.StatusValue==4||content.StatusValue==0" @click="returnHome">返回医保大厅</div>
     </div>
 </template>
 
 <script>
     import {getHistoryDetail,cardBind} from '../api/index'
     import {Indicator,Toast} from 'mint-ui'
+    import config from 'src/api/config'
     export default {
         name: "under-review",
         data(){
@@ -220,8 +221,8 @@
         },
         methods:{
             returnHome:function(){
-                //window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
-                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                window.location=config.backHome
+                //window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
                 //window.location='http://qalfybwx.zhiscity.com/Basic/Special/Index'
             },
             reupload:function(){

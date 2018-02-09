@@ -15,6 +15,7 @@
     import {Toast} from 'mint-ui'
     import {Indicator} from 'mint-ui'
     import {cardBind} from '../api/index'
+    import config from 'src/api/config'
     /*import header from '../../src/components/header'*/
     export default {
        /* components:{
@@ -66,8 +67,8 @@
                 })
             },
             back:function(){
-               // window.location='https://lfybwx.zhiscity.com/Basic/Special/Index'
-                window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
+                window.location=config.backHome
+                //window.location='http://testlfybwx.zhiscity.com/Basic/Special/Index'
                 //window.location='http://qalfybwx.zhiscity.com/Basic/Special/Index'
             }
         }

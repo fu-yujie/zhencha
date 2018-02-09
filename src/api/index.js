@@ -23,11 +23,15 @@ export const activation=(data)=>{
             'platType': '3'
         },
         body : createPostParams(data),
+        /*timeout:240000*/
     })
     return post;
 
     //return axios.post(config.activation,createPostParams(data))
 };
+/*export const activation=(data)=>{
+    return axios.post(config.activation,createPostParams(data))
+}*/
 //获取历史激活记录
 export const getHistoryList=(data)=>{
     return axios.get(config.getHistoryList,{params:data})
