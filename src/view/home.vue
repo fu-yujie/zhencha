@@ -19,7 +19,7 @@
             <div id="page1">
                 <div style="padding-top:40px;">
                     <div class="warning">
-                        <img src="../../static/img/warning.png" alt="">
+                        <img style="width:13px;" src="../../static/img/warning.png" alt="">
                         <div>激活社保卡时的登录手机号：推荐使用此参保人2018年度城乡居民医保缴费时的登录/预留手机号或在廊坊医保微信平台申领社保卡时预留的手机号。</div>
                     </div>
                     <!--<div class="form"><mt-field label="姓名" placeholder="请输入姓名"   v-model="userName"  @keyup="change()"></mt-field>
@@ -31,7 +31,7 @@
                     </div>-->
                     <div class="form">
                         <div class="userName">
-                            <div><label for="userName">姓名</label></div>
+                            <div>姓名</div>
                             <input type="text" placeholder="请输入姓名" id="userName" ref="userName" v-model="userName"
                                    @keyup="change()" class="required">
                             <img src="../../static/img/clear.png" alt="" class="clear clearName" @click="clear1"
@@ -39,14 +39,14 @@
                                  v-if="userName">
                         </div>
                         <div class="idCard">
-                            <div><label for="idCard">身份证号</label></div>
+                            <div>身份证号</div>
                             <input type="text" id="idCard" placeholder="请输入身份证号" class="required" maxlength="18"
                                    v-model="idCard" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearid" @click="clear2"
                                  v-if="idCard">
                         </div>
                         <div class="card">
-                            <div><label for="cardNum">社保卡号</label></div>
+                            <div>社保卡号</div>
                             <input type="text" id="cardNum" placeholder="请输入社保卡号" class="required" maxlength="9"
                                    v-model="cardNum" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearnum" @click="clear3"
@@ -54,7 +54,7 @@
                             <div class="example" @click="example1">示例</div>
                         </div>
                         <div class="password" :class="{pwd_invisible:isActive1}">
-                            <div><label for="pwd_invisible">社保卡密码</label></div>
+                            <div>社保卡密码</div>
                             <input type="password" id="pwd_invisible" placeholder="请输入社保卡密码" class="required"
                                    maxlength="6"
                                    v-model="pwd_invisible" @keyup="change()">
@@ -64,7 +64,7 @@
                                  @click="input_visible">
                         </div>
                         <div :class="{pwd_visible:isActive2}" class="password">
-                            <div><label for="pwd_visible">社保卡密码</label></div>
+                            <div>社保卡密码</div>
                             <input type="text" id="pwd_visible" placeholder="请输入社保卡密码" class="required" maxlength="6"
                                    v-model="pwd_visible" @keyup="change()">
                             <img src="../../static/img/clear.png" alt="" class="clear clearpass" @click="clear4"
@@ -73,7 +73,7 @@
                                  @click="input_invisible">
                         </div>
                         <div class="sid">
-                            <div><label for="sid">社保卡SID</label></div>
+                            <div>社保卡SID</div>
                             <input type="text" id="sid" placeholder="请输入社保卡SID" class="required" maxlength=""
                                    v-model="sid"
                                    @keyup="change()">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="" style="height:15px;background:#E5E5E5;margin:0"></div>
                         <div class="bank">
-                            <div><label for="bank">社保卡开户行</label></div>
+                            <div>社保卡开户行</div>
                             <div class="inputBox" @click="selectBank"><input type="text" disabled
                                                                              style="background:white" id="bank"
                                                                              placeholder="请选择社保卡开户行"
@@ -94,7 +94,7 @@
                             <img src="../../static/img/Chevron.png" alt="" @click="selectBank" class="right_arrow">
                         </div>
                         <div class="account">
-                            <div><label for="account">社保卡银行账号</label></div>
+                            <div>社保卡银行账号</div>
                             <input ref="input" type="number" id="account" placeholder="请输入社保卡银行账号" class="required"
                                    @focus="checkAccount"
                                    maxlength="" v-model="account" @keyup="change()">
@@ -113,25 +113,28 @@
                     </div>
                     <div class="activation" @click="activationClick($event)" :class="{activation1:isActive3}">立即激活</div>
                     <div class="prompt">
+                        <div class="prompt_title">
                         <div class="title">温馨提示</div>
+                        <div class="helper" @click="helper"><div><img src="../../static/img/help_img.png" alt=""></div>使用帮助</div>
+                        </div>
                         <ul>
                             <li>
-                                <img src="../../static/img/Group1.png" alt="">
+                                <img style="width:14px;" src="../../static/img/Group1.png" alt="">
                                 <div>社保卡线上激活功能目前只支持<strong style="color:#333333">城乡居民</strong>医保参保用户，<strong
                                     style="color:#333333">城镇职工</strong>参保用户请持卡至医保定点医疗机构、定点药店进行激活。
 
                                 </div>
                             </li>
                             <li>
-                                <img src="../../static/img/Group2.png" alt="">
+                                <img style="width:14px;" src="../../static/img/Group2.png" alt="">
                                 <div>社保卡初始密码为：123456，为了您的账户安全，请您在医保定点医疗机构就诊时修改密码。</div>
                             </li>
                             <li>
-                                <img src="../../static/img/Group3.png" alt="">
+                                <img style="width:14px;" src="../../static/img/Group3.png" alt="">
                                 <div>社保卡开户行及银行账号直接影响报销款及社保待遇发放，请务必准确填写。</div>
                             </li>
                             <li>
-                                <img src="../../static/img/Group4.png" alt="">
+                                <img style="width:14px;" src="../../static/img/Group4.png" alt="">
                                 <div>如您在社保卡激活过程中有任何疑问或问题，请及时联系客服人员，客服电话：0316-5900201。</div>
                             </li>
                         </ul>
@@ -325,6 +328,10 @@
             </div>
             <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
         </mt-popup>
+        <mt-actionsheet
+            :actions="actions"
+            v-model="sheetVisible1">
+        </mt-actionsheet>
         <!-- <div style="position:fixed; bottom:0; background:white" v-if="popupVisible">取消</div>-->
         <!--<mt-datetime-picker
             ref="picker"
@@ -347,6 +354,7 @@
 
         data() {
             return {
+                scroll: '',
                 list: [],
                 isShowHome: true,
                 isShow: true,
@@ -362,8 +370,14 @@
 
                     }
                 ],
+                actions:[
+                    {name:'激活操作指南',method:this.guide},
+                    {name:'常见问题',method:this.commonQuestion},
+                    {name:'客服热线：0316-5900201',method:this.call}
+                ],
                 popupVisible: false,
                 sheetVisible: false,
+                sheetVisible1:false,
                 selected: this.$route.query.tab || '1',
                 active: 'tab-container1',
                 popupVisible1: false,
@@ -390,6 +404,8 @@
         },
         mounted: function () {
             var _this = this;
+            //监听页面滚动
+            /*window.addEventListener('scroll', this.menu)*/
             this.status = this.$parent.status;
             if (this.$parent.status == 2) {
                 console.log(111);
@@ -401,6 +417,7 @@
                 _this.sid = this.$parent.form.SinSid;
                 _this.bank = this.$parent.form.CashAccountName;
                 _this.account = this.$parent.form.CashAccount;
+                _this.AccountCode=this.$parent.form.CashAccountCode;
                 $('#userName').attr("disabled", true)
                 $('#idCard').attr("disabled", true)
                 $('#cardNum').attr("disabled", true)
@@ -424,7 +441,7 @@
                     $(this).siblings('.clear').addClass('a')
                 })
             })
-            /* new BScroll("#page1", {
+             /*new BScroll("#page1", {
                  deceleration: 0.001,
                  bounce: true,
                  swipeTime: 10,
@@ -494,7 +511,7 @@
             getCardInfo({passwordId: 0}).then(function (res) {
                 _this.isShowHome = false
                 if (!window.localStorage.getItem('box')) {
-                    window.localStorage.setItem('box', 111)
+                    window.localStorage.setItem('box', 111);
                     _this.showMsgbox()
                 }
                 console.log(333);
@@ -572,6 +589,12 @@
             }
         },
         methods: {
+
+            /*menu() {
+                /!*this.scroll = document.body.scrollTop;
+                console.log(this.scroll)*!/
+                $('input').blur();
+            },*/
             a: function () {
                 if (this.userName.length !== 0) {
                     $('.clearName').removeClass('a')
@@ -619,16 +642,16 @@
                 this.popupVisible3 = false;
             },
             tab1: function () {
-                $('.tab2').removeClass('selected')
+                $('.tab2').removeClass('selected');
                 $('.tab1').addClass('selected');
                 $('#page2').addClass('active')
                 $('#page1').removeClass('active')
-                new BScroll("#page1", {
+                /*new BScroll("#page1", {
                     deceleration: 0.001,
                     bounce: true,
                     swipeTime: 10,
                     click: true,
-                });
+                });*/
             },
             tab2: function () {
                 // $('#2').removeClass('active');
@@ -738,6 +761,25 @@
                 this.$router.push({name: 'success', params: {ID: id}})
 
             },
+            commonQuestion(){
+                window.location=config.cjwt;
+            },
+            helper(){
+                this.sheetVisible1=true
+            },
+            guide(){
+                window.location='http://u4948938.viewer.maka.im/k/NYK3H237'
+            },
+            call(){
+                window.location.href="tel:0316-5900201"
+                /*MessageBox.confirm('',{
+                    title: '温馨提示',
+                    message: '将为您拨打客服热线：0316-5900201',
+                    showCancelButton: true
+                }).then(action => {
+                    window.location.href="tel:0316-5900201"
+                });*/
+            },
             getData() {
                 var _this = this;
                 var data = {};
@@ -830,13 +872,13 @@
 
 
                 }).catch(function(err){
-                    alert(JSON.stringify(err))
+                    alert('请求超时，请稍后重试')
                 })
             },
             activationClick: function (event) {
                 var _this = this;
 
-                $('input').blur();
+                /*$('input').blur();*/
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
 
                 } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
@@ -997,7 +1039,7 @@
 
             },
             change: function () {
-                /*alert(this.pwd_visible)*/
+
                 if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_invisible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
                     this.isActive3 = true;
                 } else if (this.userName.length !== 0 && this.idCard.length !== 0 && this.cardNum.length !== 0 && this.pwd_visible.length !== 0 && this.sid.length !== 0 && this.bank.length !== 0 && this.account.length !== 0) {
@@ -1024,7 +1066,14 @@
     .active {
         display: none
     }
-
+.prompt_title{
+    display:flex;
+    justify-content: space-between;
+}
+.helper{
+    color:#00AE66;
+    display:flex;
+}
     .headline {
         font-size: 0;
         background: white;

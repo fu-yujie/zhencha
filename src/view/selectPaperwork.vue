@@ -182,7 +182,7 @@
                 })
             },
             send:function(){
-var _this=this
+                var _this=this
                 getinfoCode({phone:this.phoneNum,templateCode:'VerificationCode'}).then(function(res){
                        console.log(res)
                     if(res.data.IsSuccess){
